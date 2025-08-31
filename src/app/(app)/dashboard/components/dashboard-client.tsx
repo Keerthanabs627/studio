@@ -74,18 +74,6 @@ export function DashboardClient() {
   }
   
   const dashboardCards = [
-    { href: "/fertilizer-calculator", icon: Calculator, title: t.dashboard.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
-    { href: "/market-prices", icon: LineChart, title: t.dashboard.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
-    { href: "/soil-suitability", icon: Map, title: t.dashboard.soil_suitability.title, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
-    { href: "/crop-doctor", icon: Stethoscope, title: t.dashboard.crop_doctor.title, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
-    { href: "/my-fields", icon: Tractor, title: t.dashboard.my_fields.title, description: t.dashboard.my_fields.description, linkText: t.dashboard.my_fields.button },
-    { href: "/reminders", icon: Bell, title: t.dashboard.reminders.title, description: t.dashboard.reminders.description, linkText: t.dashboard.reminders.button },
-    { href: "/sms-reminders", icon: MessageCircle, title: t.dashboard.sms_reminders.title, description: t.dashboard.sms_reminders.description, linkText: t.dashboard.sms_reminders.button },
-    { href: "/community", icon: Users, title: t.dashboard.community_hub.title, description: t.dashboard.community_hub.description, linkText: t.dashboard.community_hub.button },
-    { href: "/chatbot", icon: Bot, title: t.dashboard.ai_assistant.title, description: t.dashboard.ai_assistant.description, linkText: t.dashboard.ai_assistant.button },
-  ];
-
-  const utilityCards = [
     { 
         icon: Radio, 
         title: t.dashboard.farm_radio.title,
@@ -113,6 +101,18 @@ export function DashboardClient() {
             </div>
         )
     },
+    { href: "/fertilizer-calculator", icon: Calculator, title: t.dashboard.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
+    { href: "/market-prices", icon: LineChart, title: t.dashboard.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
+    { href: "/crop-doctor", icon: Stethoscope, title: t.dashboard.crop_doctor.title, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
+    { href: "/soil-suitability", icon: Map, title: t.dashboard.soil_suitability.title, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
+    { href: "/my-fields", icon: Tractor, title: t.dashboard.my_fields.title, description: t.dashboard.my_fields.description, linkText: t.dashboard.my_fields.button },
+    { href: "/reminders", icon: Bell, title: t.dashboard.reminders.title, description: t.dashboard.reminders.description, linkText: t.dashboard.reminders.button },
+    { href: "/sms-reminders", icon: MessageCircle, title: t.dashboard.sms_reminders.title, description: t.dashboard.sms_reminders.description, linkText: t.dashboard.sms_reminders.button },
+    { href: "/community", icon: Users, title: t.dashboard.community_hub.title, description: t.dashboard.community_hub.description, linkText: t.dashboard.community_hub.button },
+    { href: "/chatbot", icon: Bot, title: t.dashboard.ai_assistant.title, description: t.dashboard.ai_assistant.description, linkText: t.dashboard.ai_assistant.button },
+  ];
+
+  const utilityCards = [
     {
       icon: Sun,
       title: t.dashboard.weather_forecast.title,
@@ -143,7 +143,7 @@ export function DashboardClient() {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-2 mb-8">
+      <div className="space-y-4 mb-8">
         <h1 className="text-3xl font-bold tracking-tight">{t.dashboard.welcome}</h1>
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
@@ -158,11 +158,11 @@ export function DashboardClient() {
                 {card.title}
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4 min-h-32">
+            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4 min-h-28">
                 {typeof card.description === 'string' ? (
                      <>
-                        <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20 h-14 w-14">
-                            <card.icon className="h-8 w-8 text-primary" />
+                        <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20 h-12 w-12">
+                            <card.icon className="h-6 w-6 text-primary" />
                         </div>
                         <p className="text-xs text-muted-foreground h-8">{card.description}</p>
                     </>

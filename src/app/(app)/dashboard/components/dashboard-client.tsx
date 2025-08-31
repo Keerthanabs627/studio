@@ -72,7 +72,7 @@ export function DashboardClient() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {dashboardCards.map((card) => (
           <Card key={card.href}>
             <CardHeader>
@@ -82,7 +82,7 @@ export function DashboardClient() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground mb-4">{card.description}</p>
+              <p className="text-sm text-muted-foreground mb-4 h-20">{card.description}</p>
               <Button asChild variant="outline" size="sm">
                 <Link href={card.href}>
                   {card.linkText} <ArrowRight className="ml-2 h-4 w-4" />

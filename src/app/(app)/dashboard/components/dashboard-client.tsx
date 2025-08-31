@@ -16,6 +16,7 @@ export function DashboardClient() {
   const [isPending, startTransition] = useTransition();
 
   const handleWeatherSearch = () => {
+    if (!location) return;
     startTransition(async () => {
       const result = await getWeather({ location });
       if (result.data) {
@@ -49,7 +50,7 @@ export function DashboardClient() {
               disabled={isPending}
               onKeyDown={(e) => e.key === 'Enter' && handleWeatherSearch()}
             />
-            <Button onClick={handleWeatherSearch} disabled={isPending}>
+            <Button onClick={handleWeatherSearch} disabled={isPending || !location.trim()}>
               {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
               <span className="ml-2 hidden sm:inline">Search</span>
             </Button>

@@ -1,15 +1,37 @@
+"use client";
+
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Bell } from "lucide-react";
+import { Bell, Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function ProfilePage() {
+  const [name, setName] = useState("Rakesh Sharma");
+  const [phone, setPhone] = useState("+91 98765 43210");
+  const [isSaving, setIsSaving] = useState(false);
+  const { toast } = useToast();
+
+  const handleSaveChanges = () => {
+    setIsSaving(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSaving(false);
+      toast({
+        title: "Profile Updated",
+        description: "Your information has been successfully saved.",
+      });
+    }, 1500);
+  };
+
+
   return (
     <div className="max-w-2xl mx-auto space-y-6">
        <div>
-        <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Our Profile</h1>
         <p className="text-muted-foreground">Manage your account settings and personal information.</p>
       </div>
       <Card>
@@ -20,15 +42,18 @@ export default function ProfilePage() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" defaultValue="Rakesh Sharma" />
+            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} disabled={isSaving} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">Phone Number</Label>
-            <Input id="phone" type="tel" defaultValue="+91 98765 43210" />
+            <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={isSaving}/>
           </div>
         </CardContent>
         <CardFooter>
-          <Button>Save Changes</Button>
+          <Button onClick={handleSaveChanges} disabled={isSaving}>
+            {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Save Changes
+          </Button>
         </CardFooter>
       </Card>
       <Card>

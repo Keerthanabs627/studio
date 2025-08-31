@@ -24,7 +24,7 @@ const StagePlanSchema = z.object({
   estimated_cost: z
     .string()
     .describe(
-      'An estimated cost for this stage in local currency (e.g., "₹800 - ₹1000 per acre").'
+      'An estimated cost for this stage in Indian Rupees (e.g., "₹800 - ₹1000 per acre").'
     ),
 });
 
@@ -32,7 +32,7 @@ const FertilizerOutputSchema = z.object({
   plan: z.array(StagePlanSchema).describe('A multi-stage fertilization plan for the crop.'),
   waste_savings_alert: z.object({
     notice: z.string().describe('A specific, actionable notice about how to avoid common fertilizer waste for this crop.'),
-    savings_estimate: z.string().describe('An estimated cost saving in local currency (e.g., "₹1200 per acre").'),
+    savings_estimate: z.string().describe('An estimated cost saving in Indian Rupees (e.g., "₹1200 per acre").'),
   }),
 });
 export type FertilizerOutput = z.infer<typeof FertilizerOutputSchema>;

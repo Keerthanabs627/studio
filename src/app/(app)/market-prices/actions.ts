@@ -18,6 +18,5 @@ const cropPriceData = [
 
 export async function getMarketPrices(): Promise<{ data: {name: string, price: string}[] }> {
   // In a real app, you'd fetch this from a database and translate it.
-  // For now, we return a small subset of the static data.
-  return Promise.resolve({ data: cropPriceData.slice(0, 5) });
+  return Promise.resolve({ data: cropPriceData });
 }

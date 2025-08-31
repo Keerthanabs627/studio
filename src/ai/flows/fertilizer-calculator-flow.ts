@@ -21,6 +21,11 @@ const StagePlanSchema = z.object({
   stage: z.string().describe('The growth stage (e.g., "Planting", "Vegetative").'),
   recommendation: z.string().describe('The specific fertilizer recommendation for this stage.'),
   reasoning: z.string().describe('A brief explanation for why this recommendation is made.'),
+  estimated_cost: z
+    .string()
+    .describe(
+      'An estimated cost for this stage in local currency (e.g., "₹800 - ₹1000 per acre").'
+    ),
 });
 
 const FertilizerOutputSchema = z.object({
@@ -42,7 +47,7 @@ const fertilizerCalculatorPrompt = ai.definePrompt({
   output: {schema: FertilizerOutputSchema},
   prompt: `You are an agricultural expert creating a "Smart Yield Plan" for an Indian farmer. Your goal is to maximize yield while minimizing fertilizer waste.
   
-  Based on the crop name, create a realistic, multi-stage fertilization plan. Assume average soil conditions for that crop in India. The plan should have 2-3 key growth stages. For each stage, provide a recommendation and reasoning.
+  Based on the crop name, create a realistic, multi-stage fertilization plan. Assume average soil conditions for that crop in India. The plan should have 2-3 key growth stages. For each stage, provide a recommendation, reasoning, AND an estimated cost in Indian Rupees (INR).
 
   CRUCIALLY, you must also provide a "Waste Savings Alert". This alert must identify a common fertilizer over-application practice for the given crop and advise the farmer on how to avoid it, including a specific estimated cost saving in Indian Rupees (INR).
 

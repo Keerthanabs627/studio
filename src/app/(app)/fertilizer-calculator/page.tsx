@@ -10,8 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getFertilizerRecommendation } from "./actions";
 import type { FertilizerRecommendation } from "./actions";
-import { Loader2, Zap, AlertTriangle } from "lucide-react";
+import { Loader2, Zap, AlertTriangle, IndianRupee } from "lucide-react";
 import { useI18n } from "@/locales/client";
+import { Separator } from "@/components/ui/separator";
 
 const crops = [
     "Rice", "Wheat", "Maize", "Barley", "Oats", "Sorghum", "Millet", "Rye",
@@ -100,12 +101,18 @@ export default function SmartYieldOptimizerPage() {
                                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
                              </div>
                         ) : results ? (
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 <div className="space-y-4">
                                   {results.plan.map((p, index) => (
-                                    <div key={index} className="p-3 rounded-md bg-background/50">
-                                      <h4 className="font-semibold">{t.fertilizer_calculator.card2.stage} {index + 1}: {p.stage}</h4>
-                                      <p className="text-sm font-medium mt-1">{p.recommendation}</p>
+                                    <div key={index} className="p-4 rounded-lg bg-background/50 border">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h4 className="font-semibold text-md">{t.fertilizer_calculator.card2.stage} {index + 1}: {p.stage}</h4>
+                                            <div className="flex items-center gap-1 text-sm font-semibold text-primary">
+                                                <IndianRupee className="h-4 w-4" />
+                                                <span>{p.estimated_cost}</span>
+                                            </div>
+                                        </div>
+                                      <p className="text-sm font-medium">{p.recommendation}</p>
                                       <p className="text-xs text-muted-foreground mt-1">{p.reasoning}</p>
                                     </div>
                                   ))}
@@ -115,7 +122,7 @@ export default function SmartYieldOptimizerPage() {
                                     <AlertTitle className="text-yellow-400">{t.fertilizer_calculator.card2.waste_alert_title}</AlertTitle>
                                     <AlertDescription>
                                         <p>{results.waste_savings_alert.notice}</p>
-                                        <p className="font-semibold mt-1">{t.fertilizer_calculator.card2.savings_estimate_label} {results.waste_savings_alert.savings_estimate}</p>
+                                        <p className="font-semibold mt-2">{t.fertilizer_calculator.card2.savings_estimate_label} {results.waste_savings_alert.savings_estimate}</p>
                                     </AlertDescription>
                                 </Alert>
                             </div>

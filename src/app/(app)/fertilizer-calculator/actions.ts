@@ -12,6 +12,7 @@ const StagePlanSchema = z.object({
   stage: z.string(),
   recommendation: z.string(),
   reasoning: z.string(),
+  estimated_cost: z.string(),
 });
 
 export type FertilizerRecommendation = {

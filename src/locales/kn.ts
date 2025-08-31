@@ -2,6 +2,7 @@
 export default {
   sidebar: {
     dashboard: 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್',
+    crop_doctor: 'ಬೆಳೆ ವೈದ್ಯ',
     calculator: 'ಕ್ಯಾಲ್ಕುಲೇಟರ್',
     market_prices: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು',
     soil_suitability: 'ಮಣ್ಣಿನ ಸೂಕ್ತತೆ',
@@ -19,6 +20,11 @@ export default {
       title: 'ಹವಾಮಾನ ಮುನ್ಸೂಚನೆ',
       placeholder: 'ನಿಮ್ಮ ಸ್ಥಳವನ್ನು ನಮೂದಿಸಿ',
       button: 'ಹುಡುಕಿ',
+    },
+    crop_doctor: {
+      title: 'ಬೆಳೆ ವೈದ್ಯ',
+      description: 'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವ ಮೂಲಕ ಸಸ್ಯ ರೋಗಗಳನ್ನು ಪತ್ತೆ ಮಾಡಿ.',
+      button: 'ಈಗ ಪತ್ತೆ ಮಾಡಿ'
     },
     fertilizer_calculator: {
       title: 'ಗೊಬ್ಬರ ಕ್ಯಾಲ್ಕುಲೇಟರ್',
@@ -264,4 +270,29 @@ export default {
       sunlight: 'ಸೂರ್ಯನಬೆಳಕು',
     },
   },
+  crop_doctor: {
+    title: 'ಬೆಳೆ ವೈದ್ಯ',
+    description: 'ರೋಗಗಳು ಅಥವಾ ಕೊರತೆಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಲು ಸಸ್ಯದ ಎಲೆಯ ಫೋಟೋವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.',
+    card1: {
+      title: 'ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ',
+      description: "ಆರೋಗ್ಯಕರವಲ್ಲದ ಸಸ್ಯದ ಎಲೆಯ ಚಿತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
+      image_label: "ಸಸ್ಯ ಚಿತ್ರ",
+      button: "ಸಸ್ಯವನ್ನು ವಿಶ್ಲೇಷಿಸಿ"
+    },
+    card2: {
+      title: "ರೋಗನಿರ್ಣಯ ವರದಿ",
+      description_initial: "ನಿಮ್ಮ ರೋಗನಿರ್ಣಯ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.",
+      description_results: "ನಿಮ್ಮ ಸಸ್ಯ ಚಿತ್ರದ ವಿಶ್ಲೇಷಣೆ ಇಲ್ಲಿದೆ.",
+      initial_text: "ಪ್ರಾರಂಭಿಸಲು ಚಿತ್ರವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ.",
+      loading_title: "ಚಿತ್ರವನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...",
+      loading_description: "ನಮ್ಮ AI ನಿಮ್ಮ ಸಸ್ಯವನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದೆ. ಇದಕ್ಕೆ ಸ್ವಲ್ಪ ಸಮಯ লাগಬಹುದು.",
+      not_plant_title: "ಸಸ್ಯವಲ್ಲ",
+      confidence_label: "ವಿಶ್ವಾಸ",
+      recommendations_title: "ಶಿಫಾರಸುಗಳು"
+    },
+    toast: {
+      error_title: "ವಿಶ್ಲೇಷಣೆ ವಿಫಲವಾಗಿದೆ",
+      error_description: "ಚಿತ್ರವನ್ನು ವಿಶ್ಲೇಷಿಸಲು ನಮಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+    }
+  }
 } as const;

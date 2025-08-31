@@ -2,6 +2,7 @@
 export default {
   sidebar: {
     dashboard: 'डैशबोर्ड',
+    crop_doctor: 'फसल डॉक्टर',
     calculator: 'कैलकुलेटर',
     market_prices: 'बाजार मूल्य',
     soil_suitability: 'मिट्टी की उपयुक्तता',
@@ -19,6 +20,11 @@ export default {
       title: 'मौसम पूर्वानुमान',
       placeholder: 'अपना स्थान दर्ज करें',
       button: 'खोजें',
+    },
+    crop_doctor: {
+      title: 'फसल डॉक्टर',
+      description: 'एक तस्वीर अपलोड करके पौधों की बीमारियों का निदान करें।',
+      button: 'अभी निदान करें'
     },
     fertilizer_calculator: {
       title: 'उर्वरक कैलकुलेटर',
@@ -265,4 +271,29 @@ export default {
       sunlight: 'धूप',
     },
   },
+  crop_doctor: {
+    title: 'फसल डॉक्टर',
+    description: 'बीमारियों या कमियों का निदान करने के लिए एक पौधे की पत्ती की तस्वीर अपलोड करें।',
+    card1: {
+      title: 'छवि अपलोड करें',
+      description: "एक अस्वस्थ दिखने वाले पौधे की पत्ती की एक छवि चुनें।",
+      image_label: "पौधे की छवि",
+      button: "पौधे का विश्लेषण करें"
+    },
+    card2: {
+      title: "निदान रिपोर्ट",
+      description_initial: "आपका निदान यहाँ दिखाई देगा।",
+      description_results: "यहाँ आपकी पौधे की छवि का विश्लेषण है।",
+      initial_text: "शुरू करने के लिए एक छवि अपलोड करें।",
+      loading_title: "छवि का विश्लेषण हो रहा है...",
+      loading_description: "हमारा AI आपके पौधे का निरीक्षण कर रहा है। इसमें कुछ समय लग सकता है।",
+      not_plant_title: "यह एक पौधा नहीं है",
+      confidence_label: "आत्मविश्वास",
+      recommendations_title: "सिफारिशें"
+    },
+    toast: {
+      error_title: "विश्लेषण विफल",
+      error_description: "हम छवि का विश्लेषण नहीं कर सके। कृपया पुनः प्रयास करें।"
+    }
+  }
 } as const;

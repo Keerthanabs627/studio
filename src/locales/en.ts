@@ -2,6 +2,7 @@
 export default {
   sidebar: {
     dashboard: 'Dashboard',
+    crop_doctor: 'Crop Doctor',
     calculator: 'Calculator',
     market_prices: 'Market Prices',
     soil_suitability: 'Soil Suitability',
@@ -19,6 +20,11 @@ export default {
       title: 'Weather Forecast',
       placeholder: 'Enter your location',
       button: 'Search',
+    },
+    crop_doctor: {
+      title: 'Crop Doctor',
+      description: 'Diagnose plant diseases by uploading a photo.',
+      button: 'Diagnose Now'
     },
     fertilizer_calculator: {
       title: 'Fertilizer Calculator',
@@ -265,4 +271,29 @@ export default {
       sunlight: 'Sunlight',
     },
   },
+  crop_doctor: {
+    title: 'Crop Doctor',
+    description: 'Upload a photo of a plant leaf to diagnose diseases or deficiencies.',
+    card1: {
+        title: 'Upload Image',
+        description: "Select an image of a plant leaf that appears unhealthy.",
+        image_label: "Plant Image",
+        button: "Analyze Plant"
+    },
+    card2: {
+        title: "Diagnosis Report",
+        description_initial: "Your diagnosis will appear here.",
+        description_results: "Here is the analysis of your plant image.",
+        initial_text: "Upload an image to get started.",
+        loading_title: "Analyzing Image...",
+        loading_description: "Our AI is inspecting your plant. This may take a moment.",
+        not_plant_title: "Not a Plant",
+        confidence_label: "Confidence",
+        recommendations_title: "Recommendations"
+    },
+    toast: {
+        error_title: "Analysis Failed",
+        error_description: "We could not analyze the image. Please try again."
+    }
+  }
 } as const;

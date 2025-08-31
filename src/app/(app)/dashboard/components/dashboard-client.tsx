@@ -4,7 +4,7 @@
 import { useState, useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Calculator, LineChart, Loader2, Search, Users, Map, Tractor, Bell, MessageCircle, Sun } from "lucide-react";
+import { ArrowRight, Bot, Calculator, LineChart, Loader2, Search, Users, Map, Tractor, Bell, MessageCircle, Sun, Stethoscope } from "lucide-react";
 import Link from "next/link";
 import { WeatherForecast } from "./weather-forecast";
 import { Input } from "@/components/ui/input";
@@ -32,6 +32,7 @@ export function DashboardClient() {
   };
   
   const dashboardCards = [
+    { href: "/crop-doctor", icon: Stethoscope, title: t.dashboard.crop_doctor.title, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
     { href: "/fertilizer-calculator", icon: Calculator, title: t.dashboard.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
     { href: "/market-prices", icon: LineChart, title: t.dashboard.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
     { href: "/soil-suitability", icon: Map, title: t.dashboard.soil_suitability.title, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
@@ -71,7 +72,7 @@ export function DashboardClient() {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-2">
+      <div className="space-y-4 mb-8">
         <h1 className="text-3xl font-bold tracking-tight">{t.dashboard.welcome}</h1>
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
@@ -89,8 +90,8 @@ export function DashboardClient() {
             <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4">
                 {typeof card.description === 'string' ? (
                      <>
-                        <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20">
-                            <card.icon className="h-8 w-8 text-primary" />
+                        <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20 h-16 w-16">
+                            <card.icon className="h-10 w-10 text-primary" />
                         </div>
                         <p className="text-xs text-muted-foreground h-8">{card.description}</p>
                     </>

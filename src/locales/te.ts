@@ -2,6 +2,7 @@
 export default {
   sidebar: {
     dashboard: 'డాష్‌బోర్డ్',
+    crop_doctor: 'పంట వైద్యుడు',
     calculator: 'క్యాలిక్యులేటర్',
     market_prices: 'మార్కెట్ ధరలు',
     soil_suitability: 'నేల అనుకూలత',
@@ -19,6 +20,11 @@ export default {
       title: 'వాతావరణ సూచన',
       placeholder: 'మీ స్థానాన్ని నమోదు చేయండి',
       button: 'వెతకండి',
+    },
+    crop_doctor: {
+        title: 'పంట వైద్యుడు',
+        description: 'ఒక ఫోటోను అప్‌లోడ్ చేయడం ద్వారా మొక్కల వ్యాధులను నిర్ధారించండి.',
+        button: 'ఇప్పుడే నిర్ధారించండి'
     },
     fertilizer_calculator: {
       title: 'ఎరువుల క్యాలిక్యులేటర్',
@@ -265,4 +271,29 @@ export default {
       sunlight: 'సూర్యరశ్మి',
     },
   },
+  crop_doctor: {
+    title: 'పంట వైద్యుడు',
+    description: 'వ్యాధులు లేదా లోపాలను నిర్ధారించడానికి ఒక మొక్క ఆకు ఫోటోను అప్‌లోడ్ చేయండి.',
+    card1: {
+      title: 'చిత్రాన్ని అప్‌లోడ్ చేయండి',
+      description: "అనారోగ్యంగా కనిపించే మొక్క ఆకు చిత్రాన్ని ఎంచుకోండి.",
+      image_label: "మొక్క చిత్రం",
+      button: "మొక్కను విశ్లేషించండి"
+    },
+    card2: {
+      title: "రోగ నిర్ధారణ నివేదిక",
+      description_initial: "మీ రోగ నిర్ధారణ ఇక్కడ కనిపిస్తుంది.",
+      description_results: "ఇక్కడ మీ మొక్క చిత్రం యొక్క విశ్లేషణ ఉంది.",
+      initial_text: "ప్రారంభించడానికి ఒక చిత్రాన్ని అప్‌లోడ్ చేయండి.",
+      loading_title: "చిత్రాన్ని విశ్లేషిస్తోంది...",
+      loading_description: "మా AI మీ మొక్కను తనిఖీ చేస్తోంది. దీనికి కొంత సమయం పట్టవచ్చు.",
+      not_plant_title: "మొక్క కాదు",
+      confidence_label: "విశ్వాసం",
+      recommendations_title: "సిఫార్సులు"
+    },
+    toast: {
+      error_title: "విశ్లేషణ విఫలమైంది",
+      error_description: "మేము చిత్రాన్ని విశ్లేషించలేకపోయాము. దయచేసి మళ్లీ ప్రయత్నించండి."
+    }
+  }
 } as const;

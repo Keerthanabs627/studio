@@ -4,7 +4,7 @@
 
 import { usePathname } from 'next/navigation';
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
-import { Bot, Calculator, LayoutDashboard, LineChart, User, Users, Map, Tractor, Bell, MessageCircle } from 'lucide-react';
+import { Bot, Calculator, LayoutDashboard, LineChart, User, Users, Map, Tractor, Bell, MessageCircle, Stethoscope } from 'lucide-react';
 import Link from 'next/link';
 import { useI18n } from '@/locales/client';
 
@@ -14,6 +14,7 @@ export function SidebarNav() {
 
   const navItems = [
     { href: '/dashboard', label: t.sidebar.dashboard, icon: LayoutDashboard },
+    { href: '/crop-doctor', label: t.sidebar.crop_doctor, icon: Stethoscope },
     { href: '/fertilizer-calculator', label: t.sidebar.calculator, icon: Calculator },
     { href: '/market-prices', label: t.sidebar.market_prices, icon: LineChart },
     { href: '/soil-suitability', label: t.sidebar.soil_suitability, icon: Map },

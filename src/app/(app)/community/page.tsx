@@ -44,15 +44,20 @@ const initialPosts: Post[] = [
   },
 ];
 
+// In a real application, this would be a database.
+// For this prototype, we'll use a shared array to make posts visible to everyone during the session.
+const allPosts: Post[] = [...initialPosts];
+
+
 export default function CommunityPage() {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [posts, setPosts] = useState<Post[]>(allPosts);
   const [newPostContent, setNewPostContent] = useState("");
 
   const handlePost = () => {
     if (!newPostContent.trim()) return;
 
     const newPost: Post = {
-      id: posts.length + 1,
+      id: allPosts.length + 1,
       author: "Rakesh Sharma",
       avatar: "https://picsum.photos/40/40?random=0",
       handle: "rakesh_sharma",
@@ -62,7 +67,8 @@ export default function CommunityPage() {
       comments: 0,
     };
 
-    setPosts([newPost, ...posts]);
+    allPosts.unshift(newPost); // Add to the shared array
+    setPosts([...allPosts]); // Update component state to re-render
     setNewPostContent("");
   };
 

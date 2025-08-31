@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, ReactNode, useCallback, useContext } from 'react';
+import { createContext, ReactNode, useCallback, useContext } from 'react';
 import type { Locale } from './config';
 import type { Dictionary } from './dictionaries';
 

@@ -77,7 +77,7 @@ export default function SoilSuitabilityPage() {
                         <Select onValueChange={setSoil} value={soil}>
                             <SelectTrigger id="soil-type">
                                 <SelectValue placeholder={t.soil_suitability.card1.soil_placeholder} />
-                            </SelectTrigger>
+                            </Trigger>
                             <SelectContent>
                                 {soilTypes.map((s) => (
                                     <SelectItem key={s} value={s}>{s}</SelectItem>

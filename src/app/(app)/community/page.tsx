@@ -13,12 +13,14 @@ import { ThumbsUp, MessageSquare, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useI18n } from "@/locales/client";
 import { getPosts, addPost, type Post } from "./actions";
+import { getProfile, type Profile } from "../profile/actions";
 import { useToast } from "@/hooks/use-toast";
 
 
 export default function CommunityPage() {
   const t = useI18n();
   const [posts, setPosts] = useState<Post[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [newPostContent, setNewPostContent] = useState("");
   const [category, setCategory] = useState("Crop");
@@ -28,43 +30,47 @@ export default function CommunityPage() {
   const categories = ["Crop", "Labor", "Equipments", "Feedback", "Q&A"];
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchData = async () => {
       setIsLoading(true);
-      const fetchedPosts = await getPosts();
+      const [fetchedPosts, fetchedProfile] = await Promise.all([
+        getPosts(),
+        getProfile()
+      ]);
       setPosts(fetchedPosts);
+      setProfile(fetchedProfile);
       setIsLoading(false);
     };
-    fetchPosts();
+    fetchData();
   }, []);
 
 
   const handlePost = () => {
-    if (!newPostContent.trim()) return;
+    if (!newPostContent.trim() || !profile) return;
 
     startTransition(async () => {
         try {
             // Optimistically update the UI
-            const newPostOptimistic: Post = {
+            const optimisticPost: Post = {
                 id: Date.now(),
-                author: "Rakesh Sharma",
+                author: profile.name,
                 avatar: "https://picsum.photos/40/40?random=0",
-                handle: "rakesh_sharma",
+                handle: profile.name.toLowerCase().replace(' ', '_'),
                 time: t.community.just_now,
                 likes: 0,
                 comments: 0,
-                content: newPostContent,
+                content: `[${category}] ${newPostContent}`,
                 category: category,
             };
-            setPosts(prevPosts => [newPostOptimistic, ...prevPosts]);
+            setPosts(prevPosts => [optimisticPost, ...prevPosts]);
             setNewPostContent("");
 
             await addPost({
-                content: newPostContent,
+                content: `[${category}] ${newPostContent}`,
                 category: category,
             });
-            // Optionally, you can re-fetch posts to get the "real" version from the server
-            // const fetchedPosts = await getPosts();
-            // setPosts(fetchedPosts);
+            // Re-fetch to confirm from server state
+            const fetchedPosts = await getPosts();
+            setPosts(fetchedPosts);
         } catch (error) {
             toast({
                 variant: 'destructive',
@@ -91,7 +97,7 @@ export default function CommunityPage() {
           <div className="flex gap-4">
             <Avatar>
               <AvatarImage src="https://picsum.photos/40/40?random=0" alt="Your avatar" data-ai-hint="person" />
-              <AvatarFallback>U</AvatarFallback>
+              <AvatarFallback>{profile?.name?.charAt(0) || 'U'}</AvatarFallback>
             </Avatar>
             <div className="w-full space-y-4">
                 <RadioGroup value={category} onValueChange={setCategory} className="flex flex-wrap gap-4">
@@ -138,7 +144,7 @@ export default function CommunityPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                <span className="font-semibold">[{t.community.categories?.[post.category.toLowerCase().replace('&', 'and') as keyof typeof t.community.categories] || post.category}]</span> {post.content}
+                 {post.content}
                 </p>
               {post.image && (
                 <div className="rounded-lg overflow-hidden border">

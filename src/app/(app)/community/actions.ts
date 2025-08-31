@@ -3,6 +3,7 @@
 
 import { posts } from './data';
 import { revalidatePath } from 'next/cache';
+import { getProfile } from '../profile/actions';
 
 export interface Post {
   id: number;
@@ -23,11 +24,13 @@ export async function getPosts(): Promise<Post[]> {
 }
 
 export async function addPost(post: Omit<Post, 'id' | 'likes' | 'comments' | 'time' | 'author' | 'avatar' | 'handle'>) {
+  const profile = await getProfile();
+  
   const newPost: Post = {
     id: posts.length + 1,
-    author: "Rakesh Sharma", // In a real app, this would be the logged-in user
+    author: profile.name, // Use the name from the user's profile
     avatar: "https://picsum.photos/40/40?random=0",
-    handle: "rakesh_sharma",
+    handle: profile.name.toLowerCase().replace(' ', '_'), // Create a handle from the name
     time: "Just now",
     likes: 0,
     comments: 0,

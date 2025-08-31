@@ -7,10 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getFertilizerRecommendation } from "./actions";
 import type { FertilizerRecommendation } from "./actions";
-import { Loader2 } from "lucide-react";
+import { Loader2, Zap, AlertTriangle } from "lucide-react";
 import { useI18n } from "@/locales/client";
 
 const crops = [
@@ -25,7 +25,7 @@ const crops = [
 ];
 
 
-export default function FertilizerCalculatorPage() {
+export default function SmartYieldOptimizerPage() {
     const t = useI18n();
     const [crop, setCrop] = useState<string>("");
     const [area, setArea] = useState<string>("");
@@ -81,7 +81,7 @@ export default function FertilizerCalculatorPage() {
                     </CardContent>
                     <CardFooter>
                         <Button onClick={handleCalculate} disabled={isPending || !crop || !area}>
-                            {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                            {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Zap className="mr-2 h-4 w-4" />}
                             {t.fertilizer_calculator.card1.button}
                         </Button>
                     </CardFooter>
@@ -91,41 +91,37 @@ export default function FertilizerCalculatorPage() {
                     <CardHeader>
                         <CardTitle>{t.fertilizer_calculator.card2.title}</CardTitle>
                         <CardDescription>
-                            {results ? `${t.fertilizer_calculator.card2.description_results_prefix} ${crop}, ${area} ${t.fertilizer_calculator.card2.description_results_suffix}` : t.fertilizer_calculator.card2.description_initial}
+                            {results ? `${t.fertilizer_calculator.card2.description_results_prefix} ${crop}` : t.fertilizer_calculator.card2.description_initial}
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-6">
+                    <CardContent className="space-y-4">
                         {isPending ? (
-                             <div className="flex items-center justify-center h-full">
+                             <div className="flex items-center justify-center h-full min-h-[200px]">
                                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
                              </div>
                         ) : results ? (
-                            <>
-                                <div>
-                                    <h3 className="font-semibold mb-2">{t.fertilizer_calculator.card2.recommendation_title}</h3>
-                                    <div className="flex items-center justify-between p-3 rounded-md bg-background">
-                                        <span>{results.fertilizerRecommendation.name}</span>
-                                        <span className="font-mono font-semibold">₹{results.fertilizerRecommendation.costPerAcre.toLocaleString()} / {t.fertilizer_calculator.card2.acre}</span>
+                            <div className="space-y-6">
+                                <div className="space-y-4">
+                                  {results.plan.map((p, index) => (
+                                    <div key={index} className="p-3 rounded-md bg-background/50">
+                                      <h4 className="font-semibold">{t.fertilizer_calculator.card2.stage} {index + 1}: {p.stage}</h4>
+                                      <p className="text-sm font-medium mt-1">{p.recommendation}</p>
+                                      <p className="text-xs text-muted-foreground mt-1">{p.reasoning}</p>
                                     </div>
+                                  ))}
                                 </div>
-                                <div>
-                                    <h3 className="font-semibold mb-2">{t.fertilizer_calculator.card2.suitability_title}</h3>
-                                    <div className="flex flex-wrap gap-2">
-                                        {results.soilSuitability.map((soil, i) => (
-                                            <Badge key={i} variant={soil.includes("pH") ? "outline" : "secondary"}>{soil}</Badge>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold mb-2">{t.fertilizer_calculator.card2.profit_title}</h3>
-                                    <div className="flex items-center justify-between p-3 rounded-md bg-background">
-                                        <span>{t.fertilizer_calculator.card2.profit_label}</span>
-                                        <span className="font-mono font-semibold text-green-600">~ ₹{results.estimatedProfit.toLocaleString()}</span>
-                                    </div>
-                                </div>
-                            </>
+                                <Alert className="border-yellow-500/50 text-yellow-foreground bg-yellow-500/10">
+                                    <AlertTriangle className="h-4 w-4 !text-yellow-500" />
+                                    <AlertTitle className="text-yellow-400">{t.fertilizer_calculator.card2.waste_alert_title}</AlertTitle>
+                                    <AlertDescription>
+                                        <p>{results.waste_savings_alert.notice}</p>
+                                        <p className="font-semibold mt-1">{t.fertilizer_calculator.card2.savings_estimate_label} {results.waste_savings_alert.savings_estimate}</p>
+                                    </AlertDescription>
+                                </Alert>
+                            </div>
                         ) : (
-                            <div className="text-center text-muted-foreground pt-10">
+                            <div className="text-center text-muted-foreground pt-10 flex flex-col items-center">
+                                <Zap className="w-12 h-12 text-muted-foreground/50 mb-4" />
                                 {t.fertilizer_calculator.card2.initial_text}
                             </div>
                         )}

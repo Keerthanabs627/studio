@@ -138,7 +138,7 @@ export function DashboardClient() {
   }
   ]
 
-  const allCards = [...dashboardCards, ...utilityCards];
+  const allCards = [dashboardCards[0], dashboardCards[3], dashboardCards[2], dashboardCards[1], ...dashboardCards.slice(4), ...utilityCards];
 
 
   return (
@@ -158,7 +158,7 @@ export function DashboardClient() {
                 {card.title}
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4 min-h-28">
+            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4 min-h-[100px]">
                 {typeof card.description === 'string' ? (
                      <>
                         <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20 h-12 w-12">

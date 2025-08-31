@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview A flow to calculate fertilizer recommendations.
+ * @fileOverview A flow to calculate a smart, multi-stage fertilizer plan.
  *
  * - getFertilizerRecommendation - A function that returns fertilizer recommendations.
  * - FertilizerInput - The input type for the getFertilizerRecommendation function.
@@ -17,13 +17,18 @@ const FertilizerInputSchema = z.object({
 });
 export type FertilizerInput = z.infer<typeof FertilizerInputSchema>;
 
+const StagePlanSchema = z.object({
+  stage: z.string().describe('The growth stage (e.g., "Planting", "Vegetative").'),
+  recommendation: z.string().describe('The specific fertilizer recommendation for this stage.'),
+  reasoning: z.string().describe('A brief explanation for why this recommendation is made.'),
+});
+
 const FertilizerOutputSchema = z.object({
-  fertilizerRecommendation: z.object({
-    name: z.string().describe('The name of the recommended fertilizer mix (e.g., "Urea & DAP Mix").'),
-    costPerAcre: z.number().describe('The estimated cost of the fertilizer per acre in Indian Rupees (INR).'),
+  plan: z.array(StagePlanSchema).describe('A multi-stage fertilization plan for the crop.'),
+  waste_savings_alert: z.object({
+    notice: z.string().describe('A specific, actionable notice about how to avoid common fertilizer waste for this crop.'),
+    savings_estimate: z.string().describe('An estimated cost saving in local currency (e.g., "₹1200 per acre").'),
   }),
-  soilSuitability: z.array(z.string()).describe('A list of 2-3 suitable soil types and ideal pH range for the crop (e.g., ["Clayey Loam", "Alluvial", "pH 5.5-7.0"]).'),
-  estimatedProfit: z.number().describe('The estimated total profit per acre in Indian Rupees (INR), assuming average yield and market prices.'),
 });
 export type FertilizerOutput = z.infer<typeof FertilizerOutputSchema>;
 
@@ -35,13 +40,16 @@ const fertilizerCalculatorPrompt = ai.definePrompt({
   name: 'fertilizerCalculatorPrompt',
   input: {schema: FertilizerInputSchema},
   output: {schema: FertilizerOutputSchema},
-  prompt: `You are an agricultural expert providing recommendations for Indian farmers.
-  Based on the crop name provided, generate a realistic fertilizer recommendation, soil suitability, and estimated profit per acre in INR.
+  prompt: `You are an agricultural expert creating a "Smart Yield Plan" for an Indian farmer. Your goal is to maximize yield while minimizing fertilizer waste.
+  
+  Based on the crop name, create a realistic, multi-stage fertilization plan. Assume average soil conditions for that crop in India. The plan should have 2-3 key growth stages. For each stage, provide a recommendation and reasoning.
+
+  CRUCIALLY, you must also provide a "Waste Savings Alert". This alert must identify a common fertilizer over-application practice for the given crop and advise the farmer on how to avoid it, including a specific estimated cost saving in Indian Rupees (INR).
 
   Crop: {{{cropName}}}
   Area: {{{area}}} acres
 
-  Provide a common fertilizer mixture name, a realistic cost per acre, a few suitable soil types with a pH range, and a plausible estimated profit per acre. Ensure the currency is in INR.
+  Generate the structured plan and the waste savings alert.
   `,
 });
 

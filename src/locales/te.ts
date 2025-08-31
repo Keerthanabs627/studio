@@ -3,7 +3,7 @@ export default {
   sidebar: {
     dashboard: 'డాష్‌బోర్డ్',
     crop_doctor: 'పంట వైద్యుడు',
-    calculator: 'క్యాలిక్యులేటర్',
+    fertilizer_calculator: 'స్మార్ట్ దిగుబడి ఆప్టిమైజర్',
     market_prices: 'మార్కెట్ ధరలు',
     soil_suitability: 'నేల అనుకూలత',
     my_fields: 'నా పొలాలు',
@@ -37,9 +37,9 @@ export default {
         button: 'ఇప్పుడే నిర్ధారించండి'
     },
     fertilizer_calculator: {
-      title: 'ఎరువుల క్యాలిక్యులేటర్',
-      description: 'మీ పంటలకు సరైన ఎరువుల వాడకాన్ని లెక్కించండి.',
-      button: 'ఇప్పుడే లెక్కించండి',
+      title: 'స్మార్ట్ దిగుబడి ఆప్టిమైజర్',
+      description: 'దిగుబడిని పెంచడానికి మరియు వ్యర్థాలను తగ్గించడానికి పూర్తి-సీజన్ ప్రణాళికను పొందండి.',
+      button: 'ఇప్పుడే ఆప్టిమైజ్ చేయండి',
     },
     market_prices: {
       title: 'మార్కెట్ ధరలు',
@@ -130,27 +130,24 @@ export default {
     },
   },
   fertilizer_calculator: {
-    title: 'ఎరువుల క్యాలిక్యులేటర్',
-    description: 'మీ ఎరువుల అవసరాలు మరియు సంభావ్య లాభాలను అంచనా వేయండి.',
+    title: 'స్మార్ట్ దిగుబడి ఆప్టిమైజర్',
+    description: 'దిగుబడిని పెంచడానికి మరియు వ్యర్థాలను తగ్గించడానికి ఒక డైనమిక్, బహుళ-దశల ప్రణాళికను పొందండి.',
     card1: {
       title: 'పంట & ప్రాంతం',
       description: 'మీ పంటను ఎంచుకోండి మరియు మీరు నాటుతున్న ప్రాంతాన్ని నమోదు చేయండి.',
       crop_label: 'పంట పేరు',
       crop_placeholder: 'ఒక పంటను ఎంచుకోండి',
       area_label: 'ప్రాంతం (ఎకరాలలో)',
-      button: 'లెక్కించండి',
+      button: 'ప్రణాళికను రూపొందించండి',
     },
     card2: {
-      title: 'ఫలితాలు & సిఫార్సులు',
-      description_initial: 'సిఫార్సులను చూడటానికి పంట మరియు ప్రాంతాన్ని నమోదు చేయండి.',
-      description_results_prefix: 'మీ ఎంపిక ఆధారంగా (',
-      description_results_suffix: ' ఎకరాలు).',
-      initial_text: 'మీ ఫలితాలు ఇక్కడ కనిపిస్తాయి.',
-      recommendation_title: 'సిఫార్సు చేయబడిన ఎరువు',
-      acre: 'ఎకరా',
-      suitability_title: 'నేల అనుకూలత',
-      profit_title: 'అంచనా లాభం',
-      profit_label: 'మొత్తం లాభం / ఎకరా',
+      title: 'మీ స్మార్ట్ దిగుబడి ప్రణాళిక',
+      description_initial: 'మీ పూర్తి-సీజన్ ఎరువుల ప్రణాళిక ఇక్కడ కనిపిస్తుంది.',
+      description_results_prefix: 'కోసం పూర్తి-సీజన్ ప్రణాళిక',
+      initial_text: 'మీ ప్రణాళికను రూపొందించడానికి పంట మరియు ప్రాంతాన్ని నమోదు చేయండి.',
+      stage: 'దశ',
+      waste_alert_title: 'వ్యర్థాల పొదుపు హెచ్చరిక!',
+      savings_estimate_label: 'అంచనా పొదుపు:'
     },
   },
   my_fields: {

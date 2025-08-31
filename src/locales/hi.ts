@@ -3,7 +3,7 @@ export default {
   sidebar: {
     dashboard: 'डैशबोर्ड',
     crop_doctor: 'फसल डॉक्टर',
-    calculator: 'कैलकुलेटर',
+    fertilizer_calculator: 'स्मार्ट यील्ड ऑप्टिमाइज़र',
     market_prices: 'बाजार मूल्य',
     soil_suitability: 'मिट्टी की उपयुक्तता',
     my_fields: 'मेरे खेत',
@@ -37,9 +37,9 @@ export default {
       button: 'अभी निदान करें'
     },
     fertilizer_calculator: {
-      title: 'उर्वरक कैलकुलेटर',
-      description: 'अपनी फसलों के लिए इष्टतम उर्वरक उपयोग की गणना करें।',
-      button: 'अभी गणना करें',
+      title: 'स्मार्ट यील्ड ऑप्टिमाइज़र',
+      description: 'उपज बढ़ाने और कचरे को कम करने के लिए एक पूर्ण-मौसम योजना प्राप्त करें।',
+      button: 'अभी ऑप्टिमाइज़ करें',
     },
     market_prices: {
       title: 'बाजार मूल्य',
@@ -130,27 +130,24 @@ export default {
     },
   },
   fertilizer_calculator: {
-    title: 'उर्वरक कैलकुलेटर',
-    description: 'अपनी उर्वरक जरूरतों और संभावित मुनाफे का अनुमान लगाएं।',
+    title: 'स्मार्ट यील्ड ऑप्टिमाइज़र',
+    description: 'उपज को अधिकतम करने और कचरे को कम करने के लिए एक गतिशील, बहु-चरणीय योजना प्राप्त करें।',
     card1: {
       title: 'फसल और क्षेत्र',
       description: 'अपनी फसल का चयन करें और वह क्षेत्र दर्ज करें जिसे आप लगा रहे हैं।',
       crop_label: 'फसल का नाम',
       crop_placeholder: 'एक फसल चुनें',
       area_label: 'क्षेत्र (एकड़ में)',
-      button: 'गणना करें',
+      button: 'योजना बनाएं',
     },
     card2: {
-      title: 'परिणाम और सिफारिशें',
-      description_initial: 'सिफारिशों को देखने के लिए फसल और क्षेत्र दर्ज करें।',
-      description_results_prefix: 'आपके चयन के आधार पर (',
-      description_results_suffix: ' एकड़)।',
-      initial_text: 'आपके परिणाम यहां दिखाई देंगे।',
-      recommendation_title: 'अनुशंसित उर्वरक',
-      acre: 'एकड़',
-      suitability_title: 'मिट्टी की उपयुक्तता',
-      profit_title: 'अनुमानित लाभ',
-      profit_label: 'कुल लाभ / एकड़',
+      title: 'आपकी स्मार्ट यील्ड योजना',
+      description_initial: 'आपकी पूर्ण-मौसम उर्वरक योजना यहाँ दिखाई देगी।',
+      description_results_prefix: 'के लिए एक पूर्ण-मौसम योजना',
+      initial_text: 'अपनी योजना बनाने के लिए फसल और क्षेत्र दर्ज करें।',
+      stage: 'चरण',
+      waste_alert_title: 'कचरा बचत चेतावनी!',
+      savings_estimate_label: 'अनुमानित बचत:'
     },
   },
   my_fields: {

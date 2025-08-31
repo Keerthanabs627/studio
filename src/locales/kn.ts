@@ -3,7 +3,7 @@ export default {
   sidebar: {
     dashboard: 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್',
     crop_doctor: 'ಬೆಳೆ ವೈದ್ಯ',
-    calculator: 'ಕ್ಯಾಲ್ಕುಲೇಟರ್',
+    fertilizer_calculator: 'ಸ್ಮಾರ್ಟ್ ಇಳುವರಿ ಆಪ್ಟಿಮೈಜರ್',
     market_prices: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು',
     soil_suitability: 'ಮಣ್ಣಿನ ಸೂಕ್ತತೆ',
     my_fields: 'ನನ್ನ ಹೊಲಗಳು',
@@ -37,9 +37,9 @@ export default {
       button: 'ಈಗ ಪತ್ತೆ ಮಾಡಿ'
     },
     fertilizer_calculator: {
-      title: 'ಗೊಬ್ಬರ ಕ್ಯಾಲ್ಕುಲೇಟರ್',
-      description: 'ನಿಮ್ಮ ಬೆಳೆಗಳಿಗೆ ಗರಿಷ್ಠ ಗೊಬ್ಬರ ಬಳಕೆಯನ್ನು ಲೆಕ್ಕಾಚಾರ ಮಾಡಿ.',
-      button: 'ಈಗ ಲೆಕ್ಕಾಚಾರ ಮಾಡಿ',
+      title: 'ಸ್ಮಾರ್ಟ್ ಇಳುವರಿ ಆಪ್ಟಿಮೈಜರ್',
+      description: 'ಇಳುವರಿ ಹೆಚ್ಚಿಸಲು ಮತ್ತು వ్యర్థವನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಪೂರ್ಣ-ಸೀಸನ್ ಯೋಜನೆ ಪಡೆಯಿರಿ.',
+      button: 'ಈಗ ಆಪ್ಟಿಮೈಜ್ ಮಾಡಿ',
     },
     market_prices: {
       title: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು',
@@ -130,27 +130,24 @@ export default {
     },
   },
   fertilizer_calculator: {
-    title: 'ಗೊಬ್ಬರ ಕ್ಯಾಲ್ಕುಲೇಟರ್',
-    description: 'ನಿಮ್ಮ ಗೊಬ್ಬರದ ಅಗತ್ಯತೆಗಳು ಮತ್ತು ಸಂಭಾವ್ಯ ಲಾಭಗಳನ್ನು ಅಂದಾಜು ಮಾಡಿ.',
+    title: 'ಸ್ಮಾರ್ಟ್ ಇಳುವರಿ ಆಪ್ಟಿಮೈಜರ್',
+    description: 'ಇಳುವರಿಯನ್ನು ಹೆಚ್ಚಿಸಲು ಮತ್ತು ವ್ಯర్థವನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಕ್ರಿಯಾತ್ಮಕ, ಬಹು-ಹಂತದ ಯೋಜನೆಯನ್ನು ಪಡೆಯಿರಿ.',
     card1: {
       title: 'ಬೆಳೆ ಮತ್ತು ಪ್ರದೇಶ',
       description: 'ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ ಮತ್ತು ನೀವು ನೆಡುತ್ತಿರುವ ಪ್ರದೇಶವನ್ನು ನಮೂದಿಸಿ.',
       crop_label: 'ಬೆಳೆ ಹೆಸರು',
       crop_placeholder: 'ಬೆಳೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
       area_label: 'ಪ್ರದೇಶ (ಎಕರೆಗಳಲ್ಲಿ)',
-      button: 'ಲೆಕ್ಕಾಚಾರ ಮಾಡಿ',
+      button: 'ಯೋಜನೆಯನ್ನು ರಚಿಸಿ',
     },
     card2: {
-      title: 'ಫಲಿತಾಂಶಗಳು ಮತ್ತು ಶಿಫಾರಸುಗಳು',
-      description_initial: 'ಶಿಫಾರಸುಗಳನ್ನು ನೋಡಲು ಬೆಳೆ ಮತ್ತು ಪ್ರದೇಶವನ್ನು ನಮೂದಿಸಿ.',
-      description_results_prefix: 'ನಿಮ್ಮ ಆಯ್ಕೆಯ ಆಧಾರದ ಮೇಲೆ (',
-      description_results_suffix: ' ಎಕರೆ).',
-      initial_text: 'ನಿಮ್ಮ ಫಲಿತಾಂಶಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.',
-      recommendation_title: 'ಶಿಫಾರಸು ಮಾಡಿದ ಗೊಬ್ಬರ',
-      acre: 'ಎಕರೆ',
-      suitability_title: 'ಮಣ್ಣಿನ ಸೂಕ್ತತೆ',
-      profit_title: 'ಅಂದಾಜು ಲಾಭ',
-      profit_label: 'ಒಟ್ಟು ಲಾಭ / ಎಕರೆ',
+      title: 'ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್ ಇಳುವರಿ ಯೋಜನೆ',
+      description_initial: 'ನಿಮ್ಮ ಪೂರ್ಣ-ಸೀಸನ್ ಗೊಬ್ಬರ ಯೋಜನೆ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.',
+      description_results_prefix: 'ಗಾಗಿ ಪೂರ್ಣ-ಸೀಸನ್ ಯೋಜನೆ',
+      initial_text: 'ನಿಮ್ಮ ಯೋಜನೆಯನ್ನು ರಚಿಸಲು ಬೆಳೆ ಮತ್ತು ಪ್ರದೇಶವನ್ನು ನಮೂದಿಸಿ.',
+      stage: 'ಹಂತ',
+      waste_alert_title: 'వ్యర్థ ಉಳಿತಾಯ ಎಚ್ಚರಿಕೆ!',
+      savings_estimate_label: 'ಅಂದಾಜು ಉಳಿತಾಯ:'
     },
   },
   my_fields: {
@@ -167,7 +164,7 @@ export default {
       stage_placeholder: 'ಉದಾ., ಹೂಬಿಡುವಿಕೆ',
       moisture_label: 'ಮಣ್ಣಿನ ತೇವಾಂಶ (%)',
       ph_label: 'ಮಣ್ಣಿನ ಪಿಎಚ್',
-      npk_label: 'ಎన్‌ಪಿಕೆ ಮಟ್ಟಗಳು (ಕೆಜಿ/ಹೆ)',
+      npk_label: 'ಎನ್‌ಪಿಕೆ ಮಟ್ಟಗಳು (ಕೆಜಿ/ಹೆ)',
       button: 'ಸಲಹೆ ಪಡೆಯಿರಿ',
       save_button: 'ಕ್ಷೇತ್ರವನ್ನು ಉಳಿಸಿ',
     },
@@ -301,7 +298,7 @@ export default {
       recommendations_title: "ಶಿಫಾರಸುಗಳು"
     },
     toast: {
-      error_title: "ವಿಶ್ಲೇಷಣೆ ವಿಫಲವಾಗಿದೆ",
+      error_title: "ವಿಶ್ಲೇಷಣೆ ವಿಫలವಾಗಿದೆ",
       error_description: "ಚಿತ್ರವನ್ನು ವಿಶ್ಲೇಷಿಸಲು ನಮಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
     }
   }

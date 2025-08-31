@@ -3,7 +3,7 @@ export default {
   sidebar: {
     dashboard: 'Dashboard',
     crop_doctor: 'Crop Doctor',
-    calculator: 'Calculator',
+    fertilizer_calculator: 'Smart Yield Optimizer',
     market_prices: 'Market Prices',
     soil_suitability: 'Soil Suitability',
     my_fields: 'My Fields',
@@ -37,9 +37,9 @@ export default {
       button: 'Diagnose Now'
     },
     fertilizer_calculator: {
-      title: 'Fertilizer Calculator',
-      description: 'Calculate optimal fertilizer usage for your crops.',
-      button: 'Calculate Now',
+      title: 'Smart Yield Optimizer',
+      description: 'Get a full-season plan to boost yield and reduce waste.',
+      button: 'Optimize Now',
     },
     market_prices: {
       title: 'Market Prices',
@@ -130,27 +130,24 @@ export default {
     },
   },
   fertilizer_calculator: {
-    title: 'Fertilizer Calculator',
-    description: 'Estimate your fertilizer needs and potential profits.',
+    title: 'Smart Yield Optimizer',
+    description: 'Get a dynamic, multi-stage plan to maximize yield and minimize waste.',
     card1: {
       title: 'Crop & Area',
       description: 'Select your crop and enter the area you are planting.',
       crop_label: 'Crop Name',
       crop_placeholder: 'Select a crop',
       area_label: 'Area (in acres)',
-      button: 'Calculate',
+      button: 'Generate Plan',
     },
     card2: {
-      title: 'Results & Recommendations',
-      description_initial: 'Enter crop and area to see recommendations.',
-      description_results_prefix: 'Based on your selection (',
-      description_results_suffix: ' acres).',
-      initial_text: 'Your results will appear here.',
-      recommendation_title: 'Recommended Fertilizer',
-      acre: 'acre',
-      suitability_title: 'Soil Suitability',
-      profit_title: 'Estimated Profit',
-      profit_label: 'Total Profit / Acre',
+      title: 'Your Smart Yield Plan',
+      description_initial: 'Your full-season fertilization plan will appear here.',
+      description_results_prefix: 'A full-season plan for',
+      initial_text: 'Enter crop and area to generate your plan.',
+      stage: 'Stage',
+      waste_alert_title: 'Waste Savings Alert!',
+      savings_estimate_label: 'Estimated Savings:'
     },
   },
   my_fields: {

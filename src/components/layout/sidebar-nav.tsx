@@ -15,7 +15,7 @@ export function SidebarNav() {
   const navItems = [
     { href: '/dashboard', label: t.sidebar.dashboard, icon: LayoutDashboard },
     { href: '/crop-doctor', label: t.sidebar.crop_doctor, icon: Stethoscope },
-    { href: '/fertilizer-calculator', label: t.sidebar.calculator, icon: Calculator },
+    { href: '/fertilizer-calculator', label: t.sidebar.fertilizer_calculator, icon: Calculator },
     { href: '/market-prices', label: t.sidebar.market_prices, icon: LineChart },
     { href: '/soil-suitability', label: t.sidebar.soil_suitability, icon: Map },
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Tractor },

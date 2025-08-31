@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Bot, Calculator, LineChart, Loader2, Search, Users, Map, Tractor, Bell, MessageCircle, Sun } from "lucide-react";
 import Link from "next/link";
@@ -70,7 +70,7 @@ export function DashboardClient() {
 
 
   return (
-    <div className="grid gap-6">
+    <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">{t.dashboard.welcome}</h1>
         <p className="text-muted-foreground">{t.dashboard.description}</p>
@@ -80,32 +80,32 @@ export function DashboardClient() {
         
         {allCards.map((card, index) => (
           <Card key={index} className="flex flex-col">
-            <CardHeader className="pb-3">
+            <CardHeader className="pb-2">
               <CardTitle className="flex items-center gap-2 text-base">
                 <card.icon className="h-5 w-5 text-primary" />
                 {card.title}
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center">
+            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4">
                 {typeof card.description === 'string' ? (
                      <>
-                        <div className="flex items-center justify-center p-4 rounded-lg bg-secondary/20">
-                            <card.icon className="h-10 w-10 text-primary" />
+                        <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20">
+                            <card.icon className="h-8 w-8 text-primary" />
                         </div>
-                        <p className="text-xs text-muted-foreground h-10">{card.description}</p>
+                        <p className="text-xs text-muted-foreground h-8">{card.description}</p>
                     </>
                 ) : (
                     <div className="w-full">{card.description}</div>
                 )}
             </CardContent>
             {card.href && (
-                <CardContent className="pt-2">
+                <CardFooter className="pt-2">
                 <Button asChild variant="outline" size="sm" className="w-full">
                     <Link href={card.href}>
                     {card.linkText} <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                 </Button>
-                </CardContent>
+                </CardFooter>
             )}
           </Card>
         ))}

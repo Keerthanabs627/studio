@@ -3,7 +3,6 @@
 import { createContext, useState, ReactNode, useCallback } from 'react';
 import type { Locale } from './config';
 import type { Dictionary } from './dictionaries';
-import { getDictionary } from './dictionaries';
 
 interface II18nContext {
   t: Dictionary;
@@ -27,7 +26,9 @@ export function I18nProvider({
 
   const handleSetLocale = useCallback(async (newLocale: Locale) => {
     setLocale(newLocale);
-    const newDict = await getDictionary(newLocale);
+    // Dynamically import the new dictionary on the client
+    const newDictModule = await import(`@/locales/${newLocale}`);
+    const newDict = newDictModule.default;
     setT(newDict);
     document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000;SameSite=Lax`;
   }, []);

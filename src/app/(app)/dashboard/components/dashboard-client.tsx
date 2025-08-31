@@ -2,26 +2,34 @@
 // @ts-nocheck
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Calculator, LineChart, Loader2, Search, Users, Map, Tractor, Bell, MessageCircle, Sun, Stethoscope } from "lucide-react";
+import { ArrowRight, Bot, Calculator, LineChart, Loader2, Search, Users, Map, Tractor, Bell, MessageCircle, Sun, Stethoscope, Radio, Play, Pause } from "lucide-react";
 import Link from "next/link";
 import { WeatherForecast } from "./weather-forecast";
 import { Input } from "@/components/ui/input";
-import { getWeather } from "../actions";
+import { getWeather, getFarmRadioBroadcast } from "../actions";
 import type { WeatherData } from "../actions";
-import { useI18n } from "@/locales/client";
+import { useI18n, useLocale } from "@/locales/client";
+import { useToast } from "@/hooks/use-toast";
 
 export function DashboardClient() {
   const t = useI18n();
+  const { toast } = useToast();
+  const { locale } = useLocale();
   const [location, setLocation] = useState("Belagavi");
   const [weatherData, setWeatherData] = useState<WeatherData[] | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isWeatherPending, startWeatherTransition] = useTransition();
+  const [isRadioPending, startRadioTransition] = useTransition();
+  const [audioDataUri, setAudioDataUri] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
 
   const handleWeatherSearch = () => {
     if (!location) return;
-    startTransition(async () => {
+    startWeatherTransition(async () => {
       const result = await getWeather({ location });
       if (result.data) {
         setWeatherData(result.data);
@@ -31,6 +39,39 @@ export function DashboardClient() {
       }
     });
   };
+
+  const handlePlayRadio = () => {
+    if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      return;
+    }
+
+    if (audioDataUri && audioRef.current) {
+        audioRef.current.play();
+        setIsPlaying(true)
+        return;
+    }
+
+    startRadioTransition(async () => {
+        const result = await getFarmRadioBroadcast({ location, locale });
+        if (result.data) {
+            setAudioDataUri(result.data.audioDataUri);
+            // The audio element will play automatically via the `onLoadedData` event
+        } else {
+            toast({
+                variant: 'destructive',
+                title: t.dashboard.farm_radio.toast.error_title,
+                description: result.error,
+            })
+        }
+    })
+  }
+
+  const onAudioEnded = () => {
+    setIsPlaying(false);
+    setAudioDataUri(null); // Reset to allow fetching a new one
+  }
   
   const dashboardCards = [
     { href: "/fertilizer-calculator", icon: Calculator, title: t.dashboard.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
@@ -44,7 +85,35 @@ export function DashboardClient() {
     { href: "/chatbot", icon: Bot, title: t.dashboard.ai_assistant.title, description: t.dashboard.ai_assistant.description, linkText: t.dashboard.ai_assistant.button },
   ];
 
-  const weatherCard = {
+  const utilityCards = [
+    { 
+        icon: Radio, 
+        title: t.dashboard.farm_radio.title,
+        description: (
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-2">
+                <p className="text-xs text-muted-foreground">{t.dashboard.farm_radio.description}</p>
+                <Button onClick={handlePlayRadio} disabled={isRadioPending} size="sm">
+                    {isRadioPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : isPlaying ? <Pause className="mr-2 h-4 w-4"/> : <Play className="mr-2 h-4 w-4" />}
+                    {isRadioPending ? t.dashboard.farm_radio.loading_button : isPlaying ? t.dashboard.farm_radio.pause_button : t.dashboard.farm_radio.play_button}
+                </Button>
+                {audioDataUri && (
+                    <audio
+                        ref={audioRef}
+                        src={audioDataUri}
+                        onLoadedData={() => {
+                            if (audioRef.current) {
+                                audioRef.current.play();
+                                setIsPlaying(true);
+                            }
+                        }}
+                        onEnded={onAudioEnded}
+                        className="hidden"
+                    />
+                )}
+            </div>
+        )
+    },
+    {
       icon: Sun,
       title: t.dashboard.weather_forecast.title,
       description: (
@@ -55,25 +124,26 @@ export function DashboardClient() {
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder={t.dashboard.weather_forecast.placeholder}
                 className="flex-1"
-                disabled={isPending}
+                disabled={isWeatherPending}
                 onKeyDown={(e) => e.key === 'Enter' && handleWeatherSearch()}
               />
-              <Button onClick={handleWeatherSearch} size="icon" disabled={isPending || !location.trim()}>
-                {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+              <Button onClick={handleWeatherSearch} size="icon" disabled={isWeatherPending || !location.trim()}>
+                {isWeatherPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                 <span className="sr-only">{t.dashboard.weather_forecast.button}</span>
               </Button>
             </div>
-            <WeatherForecast weatherData={weatherData} loading={isPending} />
+            <WeatherForecast weatherData={weatherData} loading={isWeatherPending} />
           </div>
       )
   }
+  ]
 
-  const allCards = [...dashboardCards, weatherCard];
+  const allCards = [...dashboardCards, ...utilityCards];
 
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4 mb-8">
+      <div className="space-y-2 mb-8">
         <h1 className="text-3xl font-bold tracking-tight">{t.dashboard.welcome}</h1>
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
@@ -88,11 +158,11 @@ export function DashboardClient() {
                 {card.title}
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4">
+            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4 min-h-32">
                 {typeof card.description === 'string' ? (
                      <>
-                        <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20 h-16 w-16">
-                            <card.icon className="h-10 w-10 text-primary" />
+                        <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20 h-14 w-14">
+                            <card.icon className="h-8 w-8 text-primary" />
                         </div>
                         <p className="text-xs text-muted-foreground h-8">{card.description}</p>
                     </>

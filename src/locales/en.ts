@@ -21,6 +21,16 @@ export default {
       placeholder: 'Enter your location',
       button: 'Search',
     },
+    farm_radio: {
+        title: 'Farm Radio',
+        description: 'Get a personalized audio briefing for your day.',
+        play_button: 'Play Daily Briefing',
+        pause_button: 'Pause',
+        loading_button: 'Generating...',
+        toast: {
+            error_title: 'Broadcast Failed',
+        }
+    },
     crop_doctor: {
       title: 'Crop Doctor',
       description: 'Diagnose plant diseases by uploading a photo.',

@@ -21,6 +21,16 @@ export default {
       placeholder: 'अपना स्थान दर्ज करें',
       button: 'खोजें',
     },
+    farm_radio: {
+        title: 'फार्म रेडियो',
+        description: 'अपने दिन के लिए एक व्यक्तिगत ऑडियो ब्रीफिंग प्राप्त करें।',
+        play_button: 'दैनिक ब्रीफिंग चलाएं',
+        pause_button: 'रोकें',
+        loading_button: 'उत्पन्न हो रहा है...',
+        toast: {
+            error_title: 'प्रसारण विफल',
+        }
+    },
     crop_doctor: {
       title: 'फसल डॉक्टर',
       description: 'एक तस्वीर अपलोड करके पौधों की बीमारियों का निदान करें।',

@@ -21,6 +21,16 @@ export default {
       placeholder: 'ನಿಮ್ಮ ಸ್ಥಳವನ್ನು ನಮೂದಿಸಿ',
       button: 'ಹುಡುಕಿ',
     },
+    farm_radio: {
+      title: 'ಫಾರ್ಮ್ ರೇಡಿಯೋ',
+      description: 'ನಿಮ್ಮ ದಿನಕ್ಕಾಗಿ ವೈಯಕ್ತಿಕಗೊಳಿಸಿದ ಆಡಿಯೋ ಬ್ರೀಫಿಂಗ್ ಪಡೆಯಿರಿ.',
+      play_button: 'ದೈನಂದಿನ ಬ್ರೀಫಿಂಗ್ ಪ್ಲೇ ಮಾಡಿ',
+      pause_button: 'ವಿರಾಮ',
+      loading_button: 'ರಚಿಸಲಾಗುತ್ತಿದೆ...',
+      toast: {
+        error_title: 'ಪ್ರಸಾರ ವಿಫಲವಾಯಿತು',
+      }
+    },
     crop_doctor: {
       title: 'ಬೆಳೆ ವೈದ್ಯ',
       description: 'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡುವ ಮೂಲಕ ಸಸ್ಯ ರೋಗಗಳನ್ನು ಪತ್ತೆ ಮಾಡಿ.',

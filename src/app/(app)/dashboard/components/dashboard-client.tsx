@@ -46,7 +46,7 @@ export function DashboardClient() {
       icon: Sun,
       title: t.dashboard.weather_forecast.title,
       description: (
-        <div className="space-y-4">
+        <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Input
                 value={location}
@@ -76,30 +76,30 @@ export function DashboardClient() {
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         
         {allCards.map((card, index) => (
           <Card key={index} className="flex flex-col">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-base">
                 <card.icon className="h-5 w-5 text-primary" />
                 {card.title}
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex-grow space-y-4 flex flex-col justify-center items-center">
+            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center">
                 {typeof card.description === 'string' ? (
                      <>
-                        <div className="flex items-center justify-center p-6 rounded-lg bg-secondary/20">
-                            <card.icon className="h-16 w-16 text-primary" />
+                        <div className="flex items-center justify-center p-4 rounded-lg bg-secondary/20">
+                            <card.icon className="h-10 w-10 text-primary" />
                         </div>
-                        <p className="text-sm text-muted-foreground text-center h-12">{card.description}</p>
+                        <p className="text-xs text-muted-foreground h-10">{card.description}</p>
                     </>
                 ) : (
                     <div className="w-full">{card.description}</div>
                 )}
             </CardContent>
             {card.href && (
-                <CardContent>
+                <CardContent className="pt-2">
                 <Button asChild variant="outline" size="sm" className="w-full">
                     <Link href={card.href}>
                     {card.linkText} <ArrowRight className="ml-2 h-4 w-4" />

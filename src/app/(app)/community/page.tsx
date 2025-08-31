@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -5,7 +8,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { ThumbsUp, MessageSquare } from "lucide-react";
 import Image from "next/image";
 
-const posts = [
+interface Post {
+  id: number;
+  author: string;
+  avatar: string;
+  handle: string;
+  time: string;
+  content: string;
+  image?: string;
+  likes: number;
+  comments: number;
+}
+
+const initialPosts: Post[] = [
   {
     id: 1,
     author: "Ravi Kumar",
@@ -30,6 +45,28 @@ const posts = [
 ];
 
 export default function CommunityPage() {
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [newPostContent, setNewPostContent] = useState("");
+
+  const handlePost = () => {
+    if (!newPostContent.trim()) return;
+
+    const newPost: Post = {
+      id: posts.length + 1,
+      author: "Rakesh Sharma",
+      avatar: "https://picsum.photos/40/40?random=0",
+      handle: "rakesh_sharma",
+      time: "Just now",
+      content: newPostContent,
+      likes: 0,
+      comments: 0,
+    };
+
+    setPosts([newPost, ...posts]);
+    setNewPostContent("");
+  };
+
+
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
@@ -45,9 +82,13 @@ export default function CommunityPage() {
               <AvatarFallback>U</AvatarFallback>
             </Avatar>
             <div className="w-full space-y-2">
-              <Textarea placeholder="What's on your mind? Ask a question or share an update..." />
+              <Textarea
+                placeholder="What's on your mind? Ask a question or share an update..."
+                value={newPostContent}
+                onChange={(e) => setNewPostContent(e.target.value)}
+              />
               <div className="flex justify-end">
-                <Button>Post</Button>
+                <Button onClick={handlePost} disabled={!newPostContent.trim()}>Post</Button>
               </div>
             </div>
           </div>

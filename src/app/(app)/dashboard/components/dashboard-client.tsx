@@ -159,26 +159,27 @@ export function DashboardClient() {
 
         {orderedCards.map((card, index) => (
           <Card key={index} className="flex flex-col justify-between hover:shadow-lg transition-shadow duration-300">
-            <CardHeader className="pb-4">
-                <div className="flex items-start justify-between">
-                    <CardTitle className="text-lg font-semibold tracking-tight">{card.title}</CardTitle>
-                    <div className="p-2 bg-primary/10 rounded-full">
-                       <card.icon className="h-5 w-5 text-primary" />
-                    </div>
+             <CardHeader className="pb-4">
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                  <card.icon className="h-6 w-6 text-primary" />
                 </div>
+                <CardTitle className="text-lg font-semibold tracking-tight">{card.title}</CardTitle>
+              </div>
             </CardHeader>
             <CardContent className="flex-grow text-sm text-muted-foreground">
-                {card.isFarmRadio ? card.content : <p className="min-h-[40px]">{card.description}</p>}
+              {card.isFarmRadio ? card.content : <p className="min-h-[40px]">{card.description}</p>}
             </CardContent>
             {card.href && (
-                <CardFooter>
-                  <Button asChild variant="secondary" className="w-full">
-                      <Link href={card.href}>
-                      {card.linkText} <ArrowRight className="ml-2 h-4 w-4" />
-                      </Link>
-                  </Button>
-                </CardFooter>
+              <CardFooter>
+                <Button asChild variant="secondary" className="w-full">
+                  <Link href={card.href}>
+                    {card.linkText} <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardFooter>
             )}
+            {card.isFarmRadio && !card.href && <CardFooter>{card.content}</CardFooter>}
           </Card>
         ))}
       </div>

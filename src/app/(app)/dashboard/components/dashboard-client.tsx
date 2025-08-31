@@ -117,7 +117,7 @@ export function DashboardClient() {
       icon: Sun,
       title: t.dashboard.weather_forecast.title,
       description: (
-        <div className="space-y-2">
+        <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Input
                 value={location}
@@ -154,32 +154,30 @@ export function DashboardClient() {
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
 
         {orderedCards.map((card, index) => (
           <Card key={index} className="flex flex-col justify-between">
-            <CardHeader className="pb-4">
-              <div className="flex items-center justify-center p-3 rounded-full bg-primary/10 h-16 w-16 mb-4">
-                <card.icon className="h-8 w-8 text-primary" />
-              </div>
-              <CardTitle className="text-lg">
-                {card.title}
-              </CardTitle>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                    <card.icon className="h-6 w-6 text-primary" />
+                    <span className="text-lg">{card.title}</span>
+                </CardTitle>
             </CardHeader>
-            <CardContent className="flex-grow text-sm text-muted-foreground">
+            <CardContent className="flex-grow text-sm text-muted-foreground pt-0">
                 {typeof card.description === 'string' ? (
-                     <p className="min-h-[20px]">{card.description}</p>
+                     <p className="min-h-[40px]">{card.description}</p>
                 ) : (
                     <div className="w-full">{card.description}</div>
                 )}
             </CardContent>
             {card.href && (
                 <CardFooter>
-                <Button asChild variant="secondary" className="w-full">
-                    <Link href={card.href}>
-                    {card.linkText} <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                </Button>
+                  <Button asChild variant="secondary" className="w-full">
+                      <Link href={card.href}>
+                      {card.linkText} <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                  </Button>
                 </CardFooter>
             )}
           </Card>

@@ -73,10 +73,10 @@ export function DashboardClient() {
     setAudioDataUri(null); // Reset to allow fetching a new one
   }
   
-  const dashboardCards = [
+  const allCards = [
     { 
         icon: Radio, 
-        title: t.dashboard.farm_radio.title,
+        title: t.sidebar.farm_radio,
         description: (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-2">
                 <p className="text-xs text-muted-foreground">{t.dashboard.farm_radio.description}</p>
@@ -103,7 +103,7 @@ export function DashboardClient() {
     },
     { href: "/fertilizer-calculator", icon: Calculator, title: t.sidebar.fertilizer_calculator, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
     { href: "/market-prices", icon: LineChart, title: t.dashboard.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
-    { href: "/crop-doctor", icon: Stethoscope, title: t.dashboard.crop_doctor.title, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
+    { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
     { href: "/soil-suitability", icon: Map, title: t.dashboard.soil_suitability.title, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
     { href: "/my-fields", icon: Tractor, title: t.dashboard.my_fields.title, description: t.dashboard.my_fields.description, linkText: t.dashboard.my_fields.button },
     { href: "/reminders", icon: Bell, title: t.dashboard.reminders.title, description: t.dashboard.reminders.description, linkText: t.dashboard.reminders.button },
@@ -138,13 +138,13 @@ export function DashboardClient() {
   }
   ]
 
-  const allCards = [
-    dashboardCards[0], 
-    dashboardCards[1], 
-    dashboardCards[2], 
-    dashboardCards[3], 
-    ...dashboardCards.slice(4),
-  ];
+  const orderedCards = [
+    allCards.find(c => c.title === t.sidebar.farm_radio),
+    allCards.find(c => c.title === t.sidebar.fertilizer_calculator),
+    allCards.find(c => c.title === t.dashboard.market_prices.title),
+    allCards.find(c => c.title === t.sidebar.crop_doctor),
+    ...allCards.filter(c => ![t.sidebar.farm_radio, t.sidebar.fertilizer_calculator, t.dashboard.market_prices.title, t.sidebar.crop_doctor].includes(c.title)),
+  ].filter(Boolean);
 
 
   return (
@@ -154,9 +154,9 @@ export function DashboardClient() {
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
 
-        {allCards.map((card, index) => (
+        {orderedCards.map((card, index) => (
           <Card key={index} className="flex flex-col justify-between">
             <CardHeader className="pb-4">
               <div className="flex items-center justify-center p-3 rounded-full bg-primary/10 h-16 w-16 mb-4">
@@ -168,7 +168,7 @@ export function DashboardClient() {
             </CardHeader>
             <CardContent className="flex-grow text-sm text-muted-foreground">
                 {typeof card.description === 'string' ? (
-                     <p className="min-h-[40px]">{card.description}</p>
+                     <p className="min-h-[20px]">{card.description}</p>
                 ) : (
                     <div className="w-full">{card.description}</div>
                 )}
@@ -184,19 +184,20 @@ export function DashboardClient() {
             )}
           </Card>
         ))}
-
+      </div>
+      <div className="grid grid-cols-1">
         {utilityCards.map((card, index) => (
-          <Card key={index} className="md:col-span-2 flex flex-col">
-             <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                    <card.icon className="h-5 w-5 text-primary" />
-                    {card.title}
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
-                {card.description}
-            </CardContent>
-          </Card>
+            <Card key={index} className="col-span-1 md:col-span-2 flex flex-col">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                        <card.icon className="h-5 w-5 text-primary" />
+                        {card.title}
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {card.description}
+                </CardContent>
+            </Card>
         ))}
       </div>
     </div>

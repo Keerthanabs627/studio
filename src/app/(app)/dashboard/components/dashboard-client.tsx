@@ -66,7 +66,7 @@ export function DashboardClient() {
       )
   }
 
-  const allCards = [weatherCard, ...dashboardCards];
+  const allCards = [...dashboardCards, weatherCard];
 
 
   return (

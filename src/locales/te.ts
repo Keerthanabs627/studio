@@ -1,4 +1,5 @@
-{
+
+export default {
   "sidebar": {
     "dashboard": "డాష్‌బోర్డ్",
     "calculator": "క్యాలిక్యులేటర్",

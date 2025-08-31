@@ -23,7 +23,7 @@ export function ChatInterface() {
   const initialMessages: Message[] = [
       {
           role: 'assistant',
-          content: t('chatbot.greeting')
+          content: t.chatbot.greeting
       }
   ]
   const [messages, setMessages] = useState<Message[]>(initialMessages);
@@ -58,14 +58,14 @@ export function ChatInterface() {
       if (result.error) {
         toast({
             variant: "destructive",
-            title: t('chatbot.toast.error_title'),
+            title: t.chatbot.toast.error_title,
             description: result.error,
         });
-        const errorMessage: Message = { role: 'assistant', content: t('chatbot.error_message') };
+        const errorMessage: Message = { role: 'assistant', content: t.chatbot.error_message };
         setMessages((prev) => [...prev, errorMessage]);
 
       } else {
-        const assistantMessage: Message = { role: 'assistant', content: result.answer || t('chatbot.no_answer') };
+        const assistantMessage: Message = { role: 'assistant', content: result.answer || t.chatbot.no_answer };
         setMessages((prev) => [...prev, assistantMessage]);
       }
     });
@@ -117,13 +117,13 @@ export function ChatInterface() {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={t('chatbot.input_placeholder')}
+            placeholder={t.chatbot.input_placeholder}
             className="flex-1"
             disabled={isPending}
           />
           <Button type="submit" size="icon" disabled={isPending || !input.trim()}>
             {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CornerDownLeft className="w-4 h-4" />}
-            <span className="sr-only">{t('chatbot.send_button_sr')}</span>
+            <span className="sr-only">{t.chatbot.send_button_sr}</span>
           </Button>
         </form>
       </CardContent>

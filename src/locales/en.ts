@@ -1,4 +1,5 @@
-{
+
+export default {
   "sidebar": {
     "dashboard": "Dashboard",
     "calculator": "Calculator",

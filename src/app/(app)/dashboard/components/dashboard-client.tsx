@@ -32,40 +32,40 @@ export function DashboardClient() {
   };
 
   const dashboardCards = [
-    { href: "/fertilizer-calculator", icon: Calculator, title: t('dashboard.fertilizer_calculator.title'), description: t('dashboard.fertilizer_calculator.description'), linkText: t('dashboard.fertilizer_calculator.button') },
-    { href: "/market-prices", icon: LineChart, title: t('dashboard.market_prices.title'), description: t('dashboard.market_prices.description'), linkText: t('dashboard.market_prices.button') },
-    { href: "/soil-suitability", icon: Map, title: t('dashboard.soil_suitability.title'), description: t('dashboard.soil_suitability.description'), linkText: t('dashboard.soil_suitability.button') },
-    { href: "/my-fields", icon: Tractor, title: t('dashboard.my_fields.title'), description: t('dashboard.my_fields.description'), linkText: t('dashboard.my_fields.button') },
-    { href: "/reminders", icon: Bell, title: t('dashboard.reminders.title'), description: t('dashboard.reminders.description'), linkText: t('dashboard.reminders.button') },
-    { href: "/sms-reminders", icon: MessageCircle, title: t('dashboard.sms_reminders.title'), description: t('dashboard.sms_reminders.description'), linkText: t('dashboard.sms_reminders.button') },
-    { href: "/community", icon: Users, title: t('dashboard.community_hub.title'), description: t('dashboard.community_hub.description'), linkText: t('dashboard.community_hub.button') },
-    { href: "/chatbot", icon: Bot, title: t('dashboard.ai_assistant.title'), description: t('dashboard.ai_assistant.description'), linkText: t('dashboard.ai_assistant.button') },
+    { href: "/fertilizer-calculator", icon: Calculator, title: t.dashboard.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
+    { href: "/market-prices", icon: LineChart, title: t.dashboard.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
+    { href: "/soil-suitability", icon: Map, title: t.dashboard.soil_suitability.title, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
+    { href: "/my-fields", icon: Tractor, title: t.dashboard.my_fields.title, description: t.dashboard.my_fields.description, linkText: t.dashboard.my_fields.button },
+    { href: "/reminders", icon: Bell, title: t.dashboard.reminders.title, description: t.dashboard.reminders.description, linkText: t.dashboard.reminders.button },
+    { href: "/sms-reminders", icon: MessageCircle, title: t.dashboard.sms_reminders.title, description: t.dashboard.sms_reminders.description, linkText: t.dashboard.sms_reminders.button },
+    { href: "/community", icon: Users, title: t.dashboard.community_hub.title, description: t.dashboard.community_hub.description, linkText: t.dashboard.community_hub.button },
+    { href: "/chatbot", icon: Bot, title: t.dashboard.ai_assistant.title, description: t.dashboard.ai_assistant.description, linkText: t.dashboard.ai_assistant.button },
   ];
 
   return (
     <div className="grid gap-6">
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">{t('dashboard.welcome')}</h1>
-        <p className="text-muted-foreground">{t('dashboard.description')}</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t.dashboard.welcome}</h1>
+        <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>{t('dashboard.weather_forecast.title')}</CardTitle>
+          <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-2">
             <Input
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder={t('dashboard.weather_forecast.placeholder')}
+              placeholder={t.dashboard.weather_forecast.placeholder}
               className="flex-1"
               disabled={isPending}
               onKeyDown={(e) => e.key === 'Enter' && handleWeatherSearch()}
             />
             <Button onClick={handleWeatherSearch} disabled={isPending || !location.trim()}>
               {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
-              <span className="ml-2 hidden sm:inline">{t('dashboard.weather_forecast.button')}</span>
+              <span className="ml-2 hidden sm:inline">{t.dashboard.weather_forecast.button}</span>
             </Button>
           </div>
           <WeatherForecast weatherData={weatherData} loading={isPending} />

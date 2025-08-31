@@ -49,21 +49,21 @@ export default function SoilSuitabilityPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t('soil_suitability.title')}</h1>
-        <p className="text-muted-foreground">{t('soil_suitability.description')}</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t.soil_suitability.title}</h1>
+        <p className="text-muted-foreground">{t.soil_suitability.description}</p>
       </div>
        <div className="grid gap-8 md:grid-cols-2">
             <Card>
                 <CardHeader>
-                    <CardTitle>{t('soil_suitability.card1.title')}</CardTitle>
-                    <CardDescription>{t('soil_suitability.card1.description')}</CardDescription>
+                    <CardTitle>{t.soil_suitability.card1.title}</CardTitle>
+                    <CardDescription>{t.soil_suitability.card1.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                      <div className="space-y-2">
-                        <Label htmlFor="crop-name">{t('soil_suitability.card1.crop_label')}</Label>
+                        <Label htmlFor="crop-name">{t.soil_suitability.card1.crop_label}</Label>
                         <Select onValueChange={setCrop} value={crop}>
                             <SelectTrigger id="crop-name">
-                                <SelectValue placeholder={t('soil_suitability.card1.crop_placeholder')} />
+                                <SelectValue placeholder={t.soil_suitability.card1.crop_placeholder} />
                             </SelectTrigger>
                             <SelectContent>
                                 {crops.map((c) => (
@@ -73,10 +73,10 @@ export default function SoilSuitabilityPage() {
                         </Select>
                     </div>
                      <div className="space-y-2">
-                        <Label htmlFor="soil-type">{t('soil_suitability.card1.soil_label')}</Label>
+                        <Label htmlFor="soil-type">{t.soil_suitability.card1.soil_label}</Label>
                         <Select onValueChange={setSoil} value={soil}>
                             <SelectTrigger id="soil-type">
-                                <SelectValue placeholder={t('soil_suitability.card1.soil_placeholder')} />
+                                <SelectValue placeholder={t.soil_suitability.card1.soil_placeholder} />
                             </SelectTrigger>
                             <SelectContent>
                                 {soilTypes.map((s) => (
@@ -89,15 +89,15 @@ export default function SoilSuitabilityPage() {
                 <CardFooter>
                     <Button onClick={handleCheckSuitability} disabled={isPending || !crop || !soil}>
                         {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                        {t('soil_suitability.card1.button')}
+                        {t.soil_suitability.card1.button}
                     </Button>
                 </CardFooter>
             </Card>
              <Card className="bg-secondary/30">
                 <CardHeader>
-                    <CardTitle>{t('soil_suitability.card2.title')}</CardTitle>
+                    <CardTitle>{t.soil_suitability.card2.title}</CardTitle>
                     <CardDescription>
-                         {results ? `${t('soil_suitability.card2.description_results_prefix')} ${crop} on ${soil} soil.` : t('soil_suitability.card2.description_initial')}
+                         {results ? `${t.soil_suitability.card2.description_results_prefix} ${crop} on ${soil} soil.` : t.soil_suitability.card2.description_initial}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -115,35 +115,35 @@ export default function SoilSuitabilityPage() {
                             </div>
                             
                             <div>
-                                <h4 className="font-semibold mb-2">{t('soil_suitability.card2.recommendations_title')}</h4>
+                                <h4 className="font-semibold mb-2">{t.soil_suitability.card2.recommendations_title}</h4>
                                 <p className="text-sm text-muted-foreground">{results.recommendations}</p>
                             </div>
                             
                             <div>
-                                <h4 className="font-semibold mb-2">{t('soil_suitability.card2.ideal_conditions_title')}</h4>
+                                <h4 className="font-semibold mb-2">{t.soil_suitability.card2.ideal_conditions_title}</h4>
                                 <div className="grid grid-cols-2 gap-4 text-sm">
                                     <div className="flex items-center gap-2 p-2 bg-background rounded-md">
                                         <Droplets className="w-5 h-5 text-accent" />
-                                        <span>{t('soil_suitability.card2.rainfall')}: {results.ideal_conditions.rainfall}</span>
+                                        <span>{t.soil_suitability.card2.rainfall}: {results.ideal_conditions.rainfall}</span>
                                     </div>
                                     <div className="flex items-center gap-2 p-2 bg-background rounded-md">
                                         <Thermometer className="w-5 h-5 text-accent" />
-                                        <span>{t('soil_suitability.card2.temp')}: {results.ideal_conditions.temperature}</span>
+                                        <span>{t.soil_suitability.card2.temp}: {results.ideal_conditions.temperature}</span>
                                     </div>
                                     <div className="flex items-center gap-2 p-2 bg-background rounded-md">
                                         <Wind className="w-5 h-5 text-accent" />
-                                        <span>{t('soil_suitability.card2.ph')}: {results.ideal_conditions.ph_range}</span>
+                                        <span>{t.soil_suitability.card2.ph}: {results.ideal_conditions.ph_range}</span>
                                     </div>
                                     <div className="flex items-center gap-2 p-2 bg-background rounded-md">
                                         <Sun className="w-5 h-5 text-accent" />
-                                        <span>{t('soil_suitability.card2.sunlight')}: {results.ideal_conditions.sunlight}</span>
+                                        <span>{t.soil_suitability.card2.sunlight}: {results.ideal_conditions.sunlight}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     ) : (
                         <div className="text-center text-muted-foreground pt-10">
-                            {t('soil_suitability.card2.initial_text')}
+                            {t.soil_suitability.card2.initial_text}
                         </div>
                     )}
                 </CardContent>

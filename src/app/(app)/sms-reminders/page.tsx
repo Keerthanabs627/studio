@@ -23,8 +23,8 @@ export default function SmsRemindersPage() {
         setTimeout(() => {
             setIsLoading(false);
             toast({
-                title: t('sms_reminders.toast.title'),
-                description: t('sms_reminders.toast.description'),
+                title: t.sms_reminders.toast.title,
+                description: t.sms_reminders.toast.description,
             });
         }, 1000);
     }
@@ -32,26 +32,26 @@ export default function SmsRemindersPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t('sms_reminders.title')}</h1>
-        <p className="text-muted-foreground">{t('sms_reminders.description')}</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t.sms_reminders.title}</h1>
+        <p className="text-muted-foreground">{t.sms_reminders.description}</p>
       </div>
        <Card>
         <CardHeader>
-          <CardTitle>{t('sms_reminders.card.title')}</CardTitle>
-          <CardDescription>{t('sms_reminders.card.description')}</CardDescription>
+          <CardTitle>{t.sms_reminders.card.title}</CardTitle>
+          <CardDescription>{t.sms_reminders.card.description}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between p-4 rounded-lg border">
             <Label htmlFor="sms-switch" className="flex flex-col gap-1">
-                <span className="font-semibold">{t('sms_reminders.card.sms_title')}</span>
-                <span className="font-normal text-muted-foreground">{t('sms_reminders.card.sms_description')}</span>
+                <span className="font-semibold">{t.sms_reminders.card.sms_title}</span>
+                <span className="font-normal text-muted-foreground">{t.sms_reminders.card.sms_description}</span>
             </Label>
             <Switch id="sms-switch" checked={smsEnabled} onCheckedChange={setSmsEnabled} />
           </div>
            <div className="flex items-center justify-between p-4 rounded-lg border">
             <Label htmlFor="whatsapp-switch" className="flex flex-col gap-1">
-                <span className="font-semibold">{t('sms_reminders.card.whatsapp_title')}</span>
-                <span className="font-normal text-muted-foreground">{t('sms_reminders.card.whatsapp_description')}</span>
+                <span className="font-semibold">{t.sms_reminders.card.whatsapp_title}</span>
+                <span className="font-normal text-muted-foreground">{t.sms_reminders.card.whatsapp_description}</span>
             </Label>
             <Switch id="whatsapp-switch" checked={whatsAppEnabled} onCheckedChange={setWhatsAppEnabled} />
           </div>
@@ -59,7 +59,7 @@ export default function SmsRemindersPage() {
         <CardFooter>
             <Button onClick={handleSaveChanges} disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {t('sms_reminders.card.button')}
+                {t.sms_reminders.card.button}
             </Button>
         </CardFooter>
       </Card>

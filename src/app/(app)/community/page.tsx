@@ -62,7 +62,7 @@ export default function CommunityPage() {
       author: "Rakesh Sharma",
       avatar: "https://picsum.photos/40/40?random=0",
       handle: "rakesh_sharma",
-      time: t('community.just_now'),
+      time: t.community.just_now,
       content: newPostContent,
       likes: 0,
       comments: 0,
@@ -77,8 +77,8 @@ export default function CommunityPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t('community.title')}</h1>
-        <p className="text-muted-foreground">{t('community.description')}</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t.community.title}</h1>
+        <p className="text-muted-foreground">{t.community.description}</p>
       </div>
 
       <Card>
@@ -90,12 +90,12 @@ export default function CommunityPage() {
             </Avatar>
             <div className="w-full space-y-2">
               <Textarea
-                placeholder={t('community.post_placeholder')}
+                placeholder={t.community.post_placeholder}
                 value={newPostContent}
                 onChange={(e) => setNewPostContent(e.target.value)}
               />
               <div className="flex justify-end">
-                <Button onClick={handlePost} disabled={!newPostContent.trim()}>{t('community.post_button')}</Button>
+                <Button onClick={handlePost} disabled={!newPostContent.trim()}>{t.community.post_button}</Button>
               </div>
             </div>
           </div>
@@ -126,11 +126,11 @@ export default function CommunityPage() {
             <CardFooter className="flex gap-6">
               <Button variant="ghost" size="sm" className="flex items-center gap-2 text-muted-foreground">
                 <ThumbsUp className="h-4 w-4" />
-                <span>{post.likes} {t('community.likes')}</span>
+                <span>{post.likes} {t.community.likes}</span>
               </Button>
               <Button variant="ghost" size="sm" className="flex items-center gap-2 text-muted-foreground">
                 <MessageSquare className="h-4 w-4" />
-                <span>{post.comments} {t('community.comments')}</span>
+                <span>{post.comments} {t.community.comments}</span>
               </Button>
             </CardFooter>
           </Card>

@@ -30,8 +30,8 @@ export default function RemindersPage() {
     if (!newTask.trim() || !newDate) {
       toast({
         variant: "destructive",
-        title: t('reminders.toast.missing_info.title'),
-        description: t('reminders.toast.missing_info.description'),
+        title: t.reminders.toast.missing_info.title,
+        description: t.reminders.toast.missing_info.description,
       });
       return;
     }
@@ -44,43 +44,43 @@ export default function RemindersPage() {
     setNewTask('');
     setNewDate('');
     toast({
-      title: t('reminders.toast.added.title'),
-      description: `${t('reminders.toast.added.description_prefix')} "${newTask}" ${t('reminders.toast.added.description_suffix')} ${newDate}.`,
+      title: t.reminders.toast.added.title,
+      description: `${t.reminders.toast.added.description_prefix} "${newTask}" ${t.reminders.toast.added.description_suffix} ${newDate}.`,
     });
   };
 
   const handleDeleteReminder = (id: number) => {
     setReminders(reminders.filter(r => r.id !== id));
     toast({
-      title: t('reminders.toast.removed.title'),
+      title: t.reminders.toast.removed.title,
     });
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t('reminders.title')}</h1>
-        <p className="text-muted-foreground">{t('reminders.description')}</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t.reminders.title}</h1>
+        <p className="text-muted-foreground">{t.reminders.description}</p>
       </div>
 
       <div className="grid gap-8 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>{t('reminders.card1.title')}</CardTitle>
-            <CardDescription>{t('reminders.card1.description')}</CardDescription>
+            <CardTitle>{t.reminders.card1.title}</CardTitle>
+            <CardDescription>{t.reminders.card1.description}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="task">{t('reminders.card1.task_label')}</Label>
+              <Label htmlFor="task">{t.reminders.card1.task_label}</Label>
               <Input
                 id="task"
-                placeholder={t('reminders.card1.task_placeholder')}
+                placeholder={t.reminders.card1.task_placeholder}
                 value={newTask}
                 onChange={(e) => setNewTask(e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="date">{t('reminders.card1.date_label')}</Label>
+              <Label htmlFor="date">{t.reminders.card1.date_label}</Label>
               <Input
                 id="date"
                 type="date"
@@ -92,15 +92,15 @@ export default function RemindersPage() {
           <CardFooter>
             <Button onClick={handleAddReminder}>
               <Plus className="mr-2 h-4 w-4" />
-              {t('reminders.card1.button')}
+              {t.reminders.card1.button}
             </Button>
           </CardFooter>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>{t('reminders.card2.title')}</CardTitle>
-            <CardDescription>{t('reminders.card2.description')}</CardDescription>
+            <CardTitle>{t.reminders.card2.title}</CardTitle>
+            <CardDescription>{t.reminders.card2.description}</CardDescription>
           </CardHeader>
           <CardContent>
             {reminders.length > 0 ? (
@@ -116,13 +116,13 @@ export default function RemindersPage() {
                     </div>
                     <Button variant="ghost" size="icon" onClick={() => handleDeleteReminder(reminder.id)}>
                       <Trash2 className="h-4 w-4 text-destructive" />
-                      <span className="sr-only">{t('reminders.card2.delete_button_sr')}</span>
+                      <span className="sr-only">{t.reminders.card2.delete_button_sr}</span>
                     </Button>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-center text-muted-foreground pt-10">{t('reminders.card2.no_reminders')}</p>
+              <p className="text-center text-muted-foreground pt-10">{t.reminders.card2.no_reminders}</p>
             )}
           </CardContent>
         </Card>

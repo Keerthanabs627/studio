@@ -1,8 +1,7 @@
-
 // @ts-nocheck
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -11,23 +10,44 @@ import { Switch } from "@/components/ui/switch";
 import { Bell, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/locales/client";
+import { getProfile, updateProfile } from "./actions";
+import type { Profile } from "./actions";
 
 export default function ProfilePage() {
   const t = useI18n();
-  const [name, setName] = useState("Rakesh Sharma");
-  const [phone, setPhone] = useState("+91 98765 43210");
-  const [isSaving, setIsSaving] = useState(false);
+  const [profile, setProfile] = useState<Profile>({ name: '', phone: '' });
+  const [isSaving, startTransition] = useTransition();
   const { toast } = useToast();
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+        const data = await getProfile();
+        setProfile(data);
+    }
+    fetchProfile();
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setProfile(prev => ({...prev, [id]: value}));
+  };
+
   const handleSaveChanges = () => {
-    setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      toast({
-        title: t.profile.toast.title,
-        description: t.profile.toast.description,
-      });
-    }, 1500);
+    startTransition(async () => {
+      const result = await updateProfile(profile);
+      if (result.error) {
+         toast({
+            variant: "destructive",
+            title: "Update Failed",
+            description: "Please check your inputs and try again.",
+         });
+      } else {
+        toast({
+          title: t.profile.toast.title,
+          description: t.profile.toast.description,
+        });
+      }
+    });
   };
 
 
@@ -45,11 +65,11 @@ export default function ProfilePage() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">{t.profile.card1.name_label}</Label>
-            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} disabled={isSaving} />
+            <Input id="name" value={profile.name} onChange={handleInputChange} disabled={isSaving} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">{t.profile.card1.phone_label}</Label>
-            <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={isSaving}/>
+            <Input id="phone" type="tel" value={profile.phone} onChange={handleInputChange} disabled={isSaving}/>
           </div>
         </CardContent>
         <CardFooter>

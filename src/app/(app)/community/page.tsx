@@ -6,6 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { ThumbsUp, MessageSquare } from "lucide-react";
 import Image from "next/image";
 import { useI18n } from "@/locales/client";
@@ -17,6 +19,7 @@ interface Post {
   handle: string;
   time: string;
   content: string;
+  category: string;
   image?: string;
   likes: number;
   comments: number;
@@ -29,6 +32,7 @@ const initialPosts: Post[] = [
     avatar: "https://picsum.photos/40/40?random=1",
     handle: "ravifarms",
     time: "2h ago",
+    category: "Equipments",
     content: "Looking to buy a second-hand tractor in the Belagavi region. Any leads would be appreciated!",
     image: "https://picsum.photos/600/400?random=10",
     likes: 12,
@@ -40,6 +44,7 @@ const initialPosts: Post[] = [
     avatar: "https://picsum.photos/40/40?random=2",
     handle: "anjali_gardens",
     time: "5h ago",
+    category: "Crop",
     content: "What's the best organic pesticide for tomato plants? Seeing some aphid infestation on my crop.",
     likes: 25,
     comments: 8,
@@ -53,6 +58,9 @@ export default function CommunityPage() {
   const t = useI18n();
   const [posts, setPosts] = useState<Post[]>(allPosts);
   const [newPostContent, setNewPostContent] = useState("");
+  const [category, setCategory] = useState("Crop");
+  
+  const categories = ["Crop", "Labor", "Equipments", "Feedback", "Q&A"];
 
   const handlePost = () => {
     if (!newPostContent.trim()) return;
@@ -64,6 +72,7 @@ export default function CommunityPage() {
       handle: "rakesh_sharma",
       time: t.community.just_now,
       content: newPostContent,
+      category: category,
       likes: 0,
       comments: 0,
     };
@@ -88,7 +97,15 @@ export default function CommunityPage() {
               <AvatarImage src="https://picsum.photos/40/40?random=0" alt="Your avatar" data-ai-hint="person" />
               <AvatarFallback>U</AvatarFallback>
             </Avatar>
-            <div className="w-full space-y-2">
+            <div className="w-full space-y-4">
+                <RadioGroup value={category} onValueChange={setCategory} className="flex flex-wrap gap-4">
+                    {categories.map((cat) => (
+                        <div key={cat} className="flex items-center space-x-2">
+                            <RadioGroupItem value={cat} id={`cat-${cat}`} />
+                            <Label htmlFor={`cat-${cat}`}>{t.community.categories[cat.toLowerCase() as keyof typeof t.community.categories]}</Label>
+                        </div>
+                    ))}
+                </RadioGroup>
               <Textarea
                 placeholder={t.community.post_placeholder}
                 value={newPostContent}
@@ -116,7 +133,9 @@ export default function CommunityPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">{post.content}</p>
+              <p className="mb-4">
+                <span className="font-semibold">[{t.community.categories[post.category.toLowerCase() as keyof typeof t.community.categories]}]</span> {post.content}
+                </p>
               {post.image && (
                 <div className="rounded-lg overflow-hidden border">
                   <Image src={post.image} alt="Post image" width={600} height={400} className="w-full h-auto object-cover" data-ai-hint="tractor agriculture" />

@@ -92,6 +92,13 @@ export default {
     likes: 'लाइक',
     comments: 'टिप्पणियाँ',
     just_now: 'अभी-अभी',
+    categories: {
+        crop: "फसल",
+        labor: "श्रम",
+        equipments: "उपकरण",
+        feedback: "प्रतिक्रिया",
+        "q&a": "प्रश्न और उत्तर"
+    }
   },
   chatbot: {
     title: 'AI चैटबॉट',
@@ -154,6 +161,12 @@ export default {
       description_results: 'यहां आपकी व्यक्तिगत सलाह है:',
       initial_text: 'प्रबंधन सलाह प्राप्त करने के लिए अपने खेत का विवरण दर्ज करें।',
     },
+    toast: {
+        saved: {
+            title: "खेत सहेजा गया",
+            description: "आपका {crop} वाला खेत सहेज लिया गया है।",
+        }
+    }
   },
   profile: {
     title: 'हमारी प्रोफ़ाइल',
@@ -241,6 +254,7 @@ export default {
       title: 'उपयुक्तता रिपोर्ट',
       description_initial: 'परिणाम यहां प्रदर्शित किए जाएंगे।',
       description_results_prefix: 'के लिए विश्लेषण',
+      description_results_suffix: '{soil} मिट्टी पर।',
       initial_text: 'आपकी रिपोर्ट यहां दिखाई देगी।',
       recommendations_title: 'सिफारिशें',
       ideal_conditions_title: 'आदर्श स्थितियाँ',

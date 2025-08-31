@@ -98,7 +98,7 @@ export default function SoilSuitabilityPage() {
                 <CardHeader>
                     <CardTitle>{t.soil_suitability.card2.title}</CardTitle>
                     <CardDescription>
-                         {results ? `${t.soil_suitability.card2.description_results_prefix} ${crop} on ${soil} soil.` : t.soil_suitability.card2.description_initial}
+                         {results ? `${t.soil_suitability.card2.description_results_prefix} ${crop} ${t.soil_suitability.card2.description_results_suffix.replace('{soil}', soil)}` : t.soil_suitability.card2.description_initial}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -153,4 +153,3 @@ export default function SoilSuitabilityPage() {
     </div>
   );
 }
-

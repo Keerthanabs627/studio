@@ -92,6 +92,13 @@ export default {
     likes: 'விருப்பங்கள்',
     comments: 'கருத்துகள்',
     just_now: 'இப்போதுதான்',
+    categories: {
+        crop: "பயிர்",
+        labor: "உழைப்பு",
+        equipments: "உபகரணங்கள்",
+        feedback: "கருத்து",
+        "q&a": "கேள்வி பதில்"
+    }
   },
   chatbot: {
     title: 'AI சாட்பாட்',
@@ -154,6 +161,12 @@ export default {
       description_results: 'உங்கள் தனிப்பயனாக்கப்பட்ட ஆலோசனை இங்கே:',
       initial_text: 'மேலாண்மை ஆலோசனையைப் பெற உங்கள் புல விவரங்களை உள்ளிடவும்.',
     },
+    toast: {
+        saved: {
+            title: "புலம் சேமிக்கப்பட்டது",
+            description: "உங்கள் {crop} உள்ள புலம் சேமிக்கப்பட்டது.",
+        }
+    }
   },
   profile: {
     title: 'எங்கள் சுயவிவரம்',
@@ -241,6 +254,7 @@ export default {
       title: 'பொருத்த அறிக்கை',
       description_initial: 'முடிவுகள் இங்கே காட்டப்படும்.',
       description_results_prefix: 'க்கான பகுப்பாய்வு',
+      description_results_suffix: '{soil} மண்ணில்.',
       initial_text: 'உங்கள் அறிக்கை இங்கே தோன்றும்.',
       recommendations_title: 'பரிந்துரைகள்',
       ideal_conditions_title: 'சிறந்த நிலைமைகள்',

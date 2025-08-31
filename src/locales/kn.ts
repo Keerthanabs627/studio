@@ -92,6 +92,13 @@ export default {
     likes: 'ಇಷ್ಟಗಳು',
     comments: 'ಕಾಮೆಂಟ್‌ಗಳು',
     just_now: 'ಈಗ ತಾನೆ',
+    categories: {
+        crop: "ಬೆಳೆ",
+        labor: "ಕಾರ್ಮಿಕ",
+        equipments: "ಉಪಕರಣಗಳು",
+        feedback: "ಪ್ರತಿಕ್ರಿಯೆ",
+        "q&a": "ಪ್ರಶ್ನೆ ಮತ್ತು ಉತ್ತರ"
+    }
   },
   chatbot: {
     title: 'AI ಚಾಟ್‌ಬಾಟ್',
@@ -153,6 +160,12 @@ export default {
       description_results: 'ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಸಲಹೆ ಇಲ್ಲಿದೆ:',
       initial_text: 'ನಿರ್ವಹಣಾ ಸಲಹೆ ಪಡೆಯಲು ನಿಮ್ಮ ಕ್ಷೇತ್ರ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ.',
     },
+    toast: {
+        saved: {
+            title: "ಕ್ಷೇತ್ರವನ್ನು ಉಳಿಸಲಾಗಿದೆ",
+            description: "ನಿಮ್ಮ {crop} ಇರುವ ಕ್ಷೇತ್ರವನ್ನು ಉಳಿಸಲಾಗಿದೆ.",
+        }
+    }
   },
   profile: {
     title: 'ನಮ್ಮ ಪ್ರೊಫೈಲ್',
@@ -216,7 +229,7 @@ export default {
       sms_title: 'SMS ಜ್ಞಾಪನೆಗಳು',
       sms_description: 'ಪ್ರಮಾಣಿತ ಪಠ್ಯ ಸಂದೇಶಗಳ ಮೂಲಕ ಜ್ಞಾಪನೆಗಳನ್ನು ಸ್ವೀಕರಿಸಿ.',
       whatsapp_title: 'WhatsApp ಜ್ಞಾಪನೆಗಳು',
-      whatsapp_description: 'WhatsApp ನಲ್ಲಿ ಜ್ಜ್ಞಾಪನೆಗಳನ್ನು ಸ್ವೀಕರಿಸಿ.',
+      whatsapp_description: 'WhatsApp ನಲ್ಲಿ ಜ್ಞಾಪನೆಗಳನ್ನು ಸ್ವೀಕರಿಸಿ.',
       button: 'ಆದ್ಯತೆಗಳನ್ನು ಉಳಿಸಿ',
     },
     toast: {
@@ -240,6 +253,7 @@ export default {
       title: 'ಸೂಕ್ತತೆ ವರದಿ',
       description_initial: 'ಫಲಿತಾಂಶಗಳನ್ನು ಇಲ್ಲಿ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.',
       description_results_prefix: 'ವಿಶ್ಲೇಷಣೆ',
+      description_results_suffix: '{soil} ಮಣ್ಣಿನಲ್ಲಿ.',
       initial_text: 'ನಿಮ್ಮ ವರದಿ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.',
       recommendations_title: 'ಶಿಫಾರಸುಗಳು',
       ideal_conditions_title: 'ಆದರ್ಶ ಪರಿಸ್ಥಿತಿಗಳು',

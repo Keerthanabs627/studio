@@ -74,8 +74,8 @@ export default function MyFieldsPage() {
   const handleSaveField = () => {
     setSavedFields(prev => [...prev, fieldData]);
     toast({
-      title: 'Field Saved',
-      description: `Your field with ${fieldData.crop} has been saved.`,
+      title: t.my_fields.toast.saved.title,
+      description: t.my_fields.toast.saved.description.replace('{crop}', fieldData.crop),
     });
   };
 

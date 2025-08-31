@@ -92,6 +92,13 @@ export default {
     likes: 'Likes',
     comments: 'Comments',
     just_now: 'Just now',
+    categories: {
+        crop: "Crop",
+        labor: "Labor",
+        equipments: "Equipments",
+        feedback: "Feedback",
+        "q&a": "Q&A"
+    }
   },
   chatbot: {
     title: 'AI Chatbot',
@@ -154,6 +161,12 @@ export default {
       description_results: 'Here is your personalized advice:',
       initial_text: 'Enter your field details to get management advice.',
     },
+    toast: {
+        saved: {
+            title: "Field Saved",
+            description: "Your field with {crop} has been saved.",
+        }
+    }
   },
   profile: {
     title: 'Our Profile',
@@ -241,6 +254,7 @@ export default {
       title: 'Suitability Report',
       description_initial: 'Results will be displayed here.',
       description_results_prefix: 'Analysis for',
+      description_results_suffix: 'on {soil} soil.',
       initial_text: 'Your report will appear here.',
       recommendations_title: 'Recommendations',
       ideal_conditions_title: 'Ideal Conditions',

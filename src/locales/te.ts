@@ -92,6 +92,13 @@ export default {
     likes: 'ఇష్టాలు',
     comments: 'వ్యాఖ్యలు',
     just_now: 'ఇప్పుడే',
+    categories: {
+        crop: "పంట",
+        labor: "శ్రమ",
+        equipments: "పరికరాలు",
+        feedback: "అభిప్రాయం",
+        "q&a": "ప్రశ్న మరియు జవాబు"
+    }
   },
   chatbot: {
     title: 'AI చాట్‌బాట్',
@@ -154,6 +161,12 @@ export default {
       description_results: 'ఇక్కడ మీ వ్యక్తిగతీకరించిన సలహా:',
       initial_text: 'నిర్వహణ సలహా పొందడానికి మీ క్షేత్ర వివరాలను నమోదు చేయండి.',
     },
+    toast: {
+        saved: {
+            title: "క్షేత్రం సేవ్ చేయబడింది",
+            description: "మీ {crop} ఉన్న క్షేత్రం సేవ్ చేయబడింది.",
+        }
+    }
   },
   profile: {
     title: 'మా ప్రొఫైల్',
@@ -241,6 +254,7 @@ export default {
       title: 'అనుకూలత నివేదిక',
       description_initial: 'ఫలితాలు ఇక్కడ ప్రదర్శించబడతాయి.',
       description_results_prefix: 'కోసం విశ్లేషణ',
+      description_results_suffix: '{soil} నేలపై.',
       initial_text: 'మీ నివేదిక ఇక్కడ కనిపిస్తుంది.',
       recommendations_title: 'సిఫార్సులు',
       ideal_conditions_title: 'ఆదర్శ పరిస్థితులు',

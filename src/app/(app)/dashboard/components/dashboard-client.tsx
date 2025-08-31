@@ -102,7 +102,7 @@ export function DashboardClient() {
             </div>
         )
     },
-    { href: "/fertilizer-calculator", icon: Calculator, title: t.sidebar.fertilizer_calculator, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
+    { href: "/fertilizer-calculator", icon: Calculator, title: t.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
     { href: "/market-prices", icon: LineChart, title: t.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
     { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
     { href: "/soil-suitability", icon: Map, title: t.sidebar.soil_suitability, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
@@ -141,10 +141,10 @@ export function DashboardClient() {
 
   const orderedCards = [
     allCards.find(c => c.isFarmRadio),
-    allCards.find(c => c.title === t.sidebar.fertilizer_calculator),
+    allCards.find(c => c.title === t.fertilizer_calculator.title),
     allCards.find(c => c.title === t.market_prices.title),
     allCards.find(c => c.title === t.sidebar.crop_doctor),
-    ...allCards.filter(c => ![t.sidebar.farm_radio, t.sidebar.fertilizer_calculator, t.market_prices.title, t.sidebar.crop_doctor].includes(c.title) && !c.isFarmRadio),
+    ...allCards.filter(c => ![t.sidebar.farm_radio, t.fertilizer_calculator.title, t.market_prices.title, t.sidebar.crop_doctor].includes(c.title) && !c.isFarmRadio),
   ].filter(Boolean);
 
 
@@ -179,7 +179,7 @@ export function DashboardClient() {
                 </Button>
               </CardFooter>
             )}
-            {card.isFarmRadio && !card.href && <CardFooter>{card.content}</CardFooter>}
+            {card.isFarmRadio && !card.href && <CardFooter className="pt-0"></CardFooter>}
           </Card>
         ))}
       </div>

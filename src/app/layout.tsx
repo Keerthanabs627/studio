@@ -10,6 +10,7 @@ import { i18n } from '@/locales/config';
 export const metadata: Metadata = {
   title: 'AgriSolutions Hub',
   description: 'An AI-powered hub for modern agriculture.',
+  manifest: '/manifest.json',
 };
 
 export default async function RootLayout({

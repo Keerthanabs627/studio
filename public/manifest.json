@@ -1,6 +1,7 @@
 {
   "name": "AgriSolutions Hub",
   "short_name": "AgriHub",
+  "description": "An AI-powered hub for modern agriculture.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F5F5DC",

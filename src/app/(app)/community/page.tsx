@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -42,18 +43,37 @@ export default function CommunityPage() {
 
     startTransition(async () => {
         try {
-            const newPost = await addPost({
+            // Optimistically update the UI
+            const newPostOptimistic: Post = {
+                id: Date.now(),
+                author: "Rakesh Sharma",
+                avatar: "https://picsum.photos/40/40?random=0",
+                handle: "rakesh_sharma",
+                time: t.community.just_now,
+                likes: 0,
+                comments: 0,
+                content: newPostContent,
+                category: category,
+            };
+            setPosts(prevPosts => [newPostOptimistic, ...prevPosts]);
+            setNewPostContent("");
+
+            await addPost({
                 content: newPostContent,
                 category: category,
             });
-            setPosts(prevPosts => [newPost, ...prevPosts]);
-            setNewPostContent("");
+            // Optionally, you can re-fetch posts to get the "real" version from the server
+            // const fetchedPosts = await getPosts();
+            // setPosts(fetchedPosts);
         } catch (error) {
             toast({
                 variant: 'destructive',
                 title: "Failed to post",
                 description: "Could not save your post. Please try again.",
             })
+            // Rollback optimistic update if server call fails
+            const fetchedPosts = await getPosts();
+            setPosts(fetchedPosts);
         }
     });
   };

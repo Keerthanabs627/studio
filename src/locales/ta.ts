@@ -1,3 +1,4 @@
+
 export default {
   sidebar: {
     dashboard: 'แดช்போர்டு',
@@ -97,7 +98,7 @@ export default {
         labor: "உழைப்பு",
         equipments: "உபகரணங்கள்",
         feedback: "கருத்து",
-        "qanda": "கேள்வி பதில்"
+        "q&a": "கேள்வி பதில்"
     }
   },
   chatbot: {

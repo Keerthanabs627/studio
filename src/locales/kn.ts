@@ -1,3 +1,4 @@
+
 export default {
   sidebar: {
     dashboard: 'ಡ್ಯಾಶ್‌ಬೋರ್ಡ್',
@@ -97,7 +98,7 @@ export default {
         labor: "ಕಾರ್ಮಿಕ",
         equipments: "ಉಪಕರಣಗಳು",
         feedback: "ಪ್ರತಿಕ್ರಿಯೆ",
-        "qanda": "ಪ್ರಶ್ನೆ ಮತ್ತು ಉತ್ತರ"
+        "q&a": "ಪ್ರಶ್ನೆ ಮತ್ತು ಉತ್ತರ"
     }
   },
   chatbot: {

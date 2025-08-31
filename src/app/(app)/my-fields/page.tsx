@@ -1,3 +1,4 @@
+
 'use client';
 
 import {useState, useTransition} from 'react';
@@ -52,6 +53,7 @@ export default function MyFieldsPage() {
 
   const handleGetAdvice = () => {
     startTransition(async () => {
+      setAdvice(null);
       const {crop, stage, moisture, n, p, k, ph} = fieldData;
       const result = await getCropManagementAdvice({
         crop,
@@ -187,13 +189,13 @@ export default function MyFieldsPage() {
           </CardHeader>
           <CardContent>
             {isPending ? (
-              <div className="flex items-center justify-center h-full">
+              <div className="flex items-center justify-center h-full min-h-[200px]">
                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
               </div>
             ) : advice ? (
               <div
                 className="text-sm whitespace-pre-wrap space-y-4"
-                dangerouslySetInnerHTML={{__html: advice.replace(/\n/g, '<br />')}}
+                dangerouslySetInnerHTML={{__html: advice.replace(/\n/g, '<br />').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}}
               />
             ) : (
               <div className="text-center text-muted-foreground pt-10">

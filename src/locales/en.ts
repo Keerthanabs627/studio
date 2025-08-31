@@ -97,7 +97,7 @@ export default {
         labor: "Labor",
         equipments: "Equipments",
         feedback: "Feedback",
-        "q&a": "Q&A"
+        "qanda": "Q&A"
     }
   },
   chatbot: {

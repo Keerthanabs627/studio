@@ -79,7 +79,7 @@ export default {
       tomato: 'टमाटर (किलो)',
       onion: 'प्याज (किलो)',
       mustard: 'सरसों (क्विंटल)',
-      gram: 'चना (क्विंटल)',
+      gram: 'चना (क्विంటल)',
       lentil: 'मसूर (क्विंटल)',
       turmeric: 'हल्दी (क्विंटल)',
     },
@@ -97,7 +97,7 @@ export default {
         labor: "श्रम",
         equipments: "उपकरण",
         feedback: "प्रतिक्रिया",
-        "q&a": "प्रश्न और उत्तर"
+        "qanda": "प्रश्न और उत्तर"
     }
   },
   chatbot: {

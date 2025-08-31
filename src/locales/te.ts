@@ -97,7 +97,7 @@ export default {
         labor: "శ్రమ",
         equipments: "పరికరాలు",
         feedback: "అభిప్రాయం",
-        "q&a": "ప్రశ్న మరియు జవాబు"
+        "qanda": "ప్రశ్న మరియు జవాబు"
     }
   },
   chatbot: {

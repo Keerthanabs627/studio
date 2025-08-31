@@ -97,7 +97,7 @@ export default {
         labor: "ಕಾರ್ಮಿಕ",
         equipments: "ಉಪಕರಣಗಳು",
         feedback: "ಪ್ರತಿಕ್ರಿಯೆ",
-        "q&a": "ಪ್ರಶ್ನೆ ಮತ್ತು ಉತ್ತರ"
+        "qanda": "ಪ್ರಶ್ನೆ ಮತ್ತು ಉತ್ತರ"
     }
   },
   chatbot: {

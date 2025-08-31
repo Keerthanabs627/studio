@@ -30,7 +30,6 @@ export function WeatherForecast({ weatherData, loading }: { weatherData: Weather
       <div className="grid gap-4 grid-cols-3">
         {[...Array(3)].map((_, index) => (
           <div key={index} className="flex flex-col items-center justify-center gap-1 rounded-lg bg-secondary/30 p-3">
-            <Skeleton className="h-5 w-16 mb-1" />
             <Skeleton className="h-8 w-8 rounded-full" />
             <Skeleton className="h-6 w-12 mt-1" />
             <Skeleton className="h-4 w-20" />
@@ -47,7 +46,6 @@ export function WeatherForecast({ weatherData, loading }: { weatherData: Weather
         const Icon = iconMap[icon as keyof typeof iconMap] || Sun;
         return (
           <div key={day} className="flex flex-col items-center justify-center gap-1 rounded-lg bg-secondary/30 p-3 text-center">
-            <p className="font-semibold text-sm">{day}</p>
             <Icon className="h-8 w-8 text-accent" />
             <p className="text-xl font-bold">{temp}</p>
             <p className="text-xs text-muted-foreground">{condition}</p>

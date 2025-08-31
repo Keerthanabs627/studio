@@ -154,21 +154,7 @@ export function DashboardClient() {
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        
-        {utilityCards.map((card, index) => (
-          <Card key={index} className="lg:col-span-3 flex flex-col">
-             <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                    <card.icon className="h-5 w-5 text-primary" />
-                    {card.title}
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
-                {card.description}
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         {allCards.map((card, index) => (
           <Card key={index} className="flex flex-col justify-between">
@@ -196,6 +182,20 @@ export function DashboardClient() {
                 </Button>
                 </CardFooter>
             )}
+          </Card>
+        ))}
+
+        {utilityCards.map((card, index) => (
+          <Card key={index} className="md:col-span-2 flex flex-col">
+             <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                    <card.icon className="h-5 w-5 text-primary" />
+                    {card.title}
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                {card.description}
+            </CardContent>
           </Card>
         ))}
       </div>

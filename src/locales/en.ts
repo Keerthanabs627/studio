@@ -77,7 +77,11 @@ export default {
       "cotton": "Cotton (Quintal)",
       "soybean": "Soybean (Quintal)",
       "tomato": "Tomato (Kg)",
-      "onion": "Onion (Kg)"
+      "onion": "Onion (Kg)",
+      "mustard": "Mustard (Quintal)",
+      "gram": "Gram (Quintal)",
+      "lentil": "Lentil (Quintal)",
+      "turmeric": "Turmeric (Quintal)"
     }
   },
   "community": {
@@ -127,22 +131,26 @@ export default {
   },
   "my_fields": {
     "title": "My Fields",
-    "description": "Get AI-powered advice for your crops at every stage.",
+    "description": "Get AI-powered advice for your crops based on detailed field data.",
     "advice_error": "Could not retrieve advice at this time.",
     "card1": {
-      "title": "Crop Details",
-      "description": "Enter your crop and its current growth stage.",
+      "title": "Field Data",
+      "description": "Enter the details for your field to get personalized advice.",
       "crop_label": "Crop Name",
       "crop_placeholder": "e.g., Wheat",
       "stage_label": "Growth Stage",
       "stage_placeholder": "e.g., Flowering",
-      "button": "Get Advice"
+      "moisture_label": "Soil Moisture (%)",
+      "ph_label": "Soil pH",
+      "npk_label": "NPK Levels (kg/ha)",
+      "button": "Get Advice",
+      "save_button": "Save Field"
     },
     "card2": {
       "title": "Management Advice",
-      "description_initial": "Advice will appear here.",
+      "description_initial": "Advice based on your field data will appear here.",
       "description_results": "Here is your personalized advice:",
-      "initial_text": "Enter your crop details to get management advice."
+      "initial_text": "Enter your field details to get management advice."
     }
   },
   "profile": {

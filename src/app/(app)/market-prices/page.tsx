@@ -15,6 +15,10 @@ const cropPriceData = [
   { key: "soybean", price: "₹4,650", trend: "up", change: "+3.0%" },
   { key: "tomato", price: "₹45", trend: "up", change: "+5.2%" },
   { key: "onion", price: "₹30", trend: "down", change: "-2.4%" },
+  { key: "mustard", price: "₹5,450", trend: "up", change: "+1.5%" },
+  { key: "gram", price: "₹5,100", trend: "down", change: "-0.8%" },
+  { key: "lentil", price: "₹6,600", trend: "up", change: "+2.3%" },
+  { key: "turmeric", price: "₹7,500", trend: "up", change: "+4.1%" },
 ];
 
 export default function MarketPricesPage() {

@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -77,7 +78,7 @@ export default function SoilSuitabilityPage() {
                         <Select onValueChange={setSoil} value={soil}>
                             <SelectTrigger id="soil-type">
                                 <SelectValue placeholder={t.soil_suitability.card1.soil_placeholder} />
-                            </Trigger>
+                            </SelectTrigger>
                             <SelectContent>
                                 {soilTypes.map((s) => (
                                     <SelectItem key={s} value={s}>{s}</SelectItem>
@@ -152,3 +153,4 @@ export default function SoilSuitabilityPage() {
     </div>
   );
 }
+

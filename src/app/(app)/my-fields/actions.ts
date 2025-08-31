@@ -6,6 +6,11 @@ import { z } from 'zod';
 const cropManagementSchema = z.object({
   crop: z.string().min(1, 'Crop name cannot be empty.'),
   growth_stage: z.string().min(1, 'Growth stage cannot be empty.'),
+  soil_moisture: z.string().min(1, "Soil moisture cannot be empty."),
+  nitrogen_level: z.string().min(1, "Nitrogen level cannot be empty."),
+  phosphorus_level: z.string().min(1, "Phosphorus level cannot be empty."),
+  potassium_level: z.string().min(1, "Potassium level cannot be empty."),
+  soil_ph: z.number()
 });
 
 export type CropManagementAdvice = {

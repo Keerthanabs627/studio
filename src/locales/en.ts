@@ -12,7 +12,7 @@ export default {
     our_profile: 'Our Profile',
   },
   dashboard: {
-    welcome: 'Welcome to AgriSolutions Hub',
+    welcome: 'Hello community',
     description: 'Your AI-powered partner in modern agriculture.',
     weather_forecast: {
       title: 'Weather Forecast',

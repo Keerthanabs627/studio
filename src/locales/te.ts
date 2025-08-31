@@ -12,7 +12,7 @@ export default {
     our_profile: 'మా ప్రొఫైల్',
   },
   dashboard: {
-    welcome: 'అగ్రిసొల్యూషన్స్ హబ్‌కు స్వాగతం',
+    welcome: 'నమస్కారం సంఘం',
     description: 'ఆధునిక వ్యవసాయంలో మీ AI-ఆధారిత భాగస్వామి.',
     weather_forecast: {
       title: 'వాతావరణ సూచన',

@@ -12,7 +12,7 @@ export default {
     our_profile: 'எங்கள் சுயவிவரம்',
   },
   dashboard: {
-    welcome: 'அக்ரிசொல்யூஷன்ஸ் மையத்திற்கு வரவேற்கிறோம்',
+    welcome: 'வணக்கம் சமூகம்',
     description: 'நவீன விவசாயத்தில் உங்கள் AI-இயங்கும் பங்குதாரர்.',
     weather_forecast: {
       title: 'வானிலை முன்னறிவிப்பு',

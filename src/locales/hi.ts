@@ -12,7 +12,7 @@ export default {
     our_profile: 'हमारी प्रोफ़ाइल',
   },
   dashboard: {
-    welcome: 'एग्रीसोल्यूशन्स हब में आपका स्वागत है',
+    welcome: 'नमस्ते समुदाय',
     description: 'आधुनिक कृषि में आपका AI-संचालित भागीदार।',
     weather_forecast: {
       title: 'मौसम पूर्वानुमान',

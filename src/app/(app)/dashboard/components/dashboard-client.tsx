@@ -101,7 +101,7 @@ export function DashboardClient() {
             </div>
         )
     },
-    { href: "/fertilizer-calculator", icon: Calculator, title: t.dashboard.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
+    { href: "/fertilizer-calculator", icon: Calculator, title: t.sidebar.fertilizer_calculator, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
     { href: "/market-prices", icon: LineChart, title: t.dashboard.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
     { href: "/crop-doctor", icon: Stethoscope, title: t.dashboard.crop_doctor.title, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
     { href: "/soil-suitability", icon: Map, title: t.dashboard.soil_suitability.title, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
@@ -138,7 +138,13 @@ export function DashboardClient() {
   }
   ]
 
-  const allCards = [dashboardCards[0], dashboardCards[3], dashboardCards[2], dashboardCards[1], ...dashboardCards.slice(4), ...utilityCards];
+  const allCards = [
+    dashboardCards[0], 
+    dashboardCards[1], 
+    dashboardCards[2], 
+    dashboardCards[3], 
+    ...dashboardCards.slice(4),
+  ];
 
 
   return (
@@ -148,31 +154,42 @@ export function DashboardClient() {
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
+        {utilityCards.map((card, index) => (
+          <Card key={index} className="lg:col-span-3 flex flex-col">
+             <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                    <card.icon className="h-5 w-5 text-primary" />
+                    {card.title}
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                {card.description}
+            </CardContent>
+          </Card>
+        ))}
+
         {allCards.map((card, index) => (
-          <Card key={index} className="flex flex-col">
-            <CardHeader className="pb-2">
-              <CardTitle className="flex items-center gap-2 text-base">
-                <card.icon className="h-5 w-5 text-primary" />
+          <Card key={index} className="flex flex-col justify-between">
+            <CardHeader className="pb-4">
+              <div className="flex items-center justify-center p-3 rounded-full bg-primary/10 h-16 w-16 mb-4">
+                <card.icon className="h-8 w-8 text-primary" />
+              </div>
+              <CardTitle className="text-lg">
                 {card.title}
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex-grow space-y-2 flex flex-col justify-center items-center text-center p-4 min-h-[100px]">
+            <CardContent className="flex-grow text-sm text-muted-foreground">
                 {typeof card.description === 'string' ? (
-                     <>
-                        <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/20 h-12 w-12">
-                            <card.icon className="h-6 w-6 text-primary" />
-                        </div>
-                        <p className="text-xs text-muted-foreground h-8">{card.description}</p>
-                    </>
+                     <p className="min-h-[40px]">{card.description}</p>
                 ) : (
                     <div className="w-full">{card.description}</div>
                 )}
             </CardContent>
             {card.href && (
-                <CardFooter className="pt-2">
-                <Button asChild variant="outline" size="sm" className="w-full">
+                <CardFooter>
+                <Button asChild variant="secondary" className="w-full">
                     <Link href={card.href}>
                     {card.linkText} <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>

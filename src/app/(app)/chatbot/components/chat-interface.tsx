@@ -19,7 +19,7 @@ interface Message {
 const initialMessages: Message[] = [
     {
         role: 'assistant',
-        content: 'Hello! I am your AI-powered agronomy expert. Ask me anything about crops, fertilizers, soil suitability, or market prices.'
+        content: 'Hello! I am your personal AI assistant. How can I help you today?'
     }
 ]
 
@@ -115,7 +115,7 @@ export function ChatInterface() {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about crops, fertilizers, prices..."
+            placeholder="Ask me anything..."
             className="flex-1"
             disabled={isPending}
           />

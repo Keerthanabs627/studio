@@ -1,6 +1,6 @@
 'use server';
 
-import { agronomicAIChatbot } from '@/ai/flows/agronomic-ai-chatbot';
+import { generalAIChatbot } from '@/ai/flows/agronomic-ai-chatbot';
 import { z } from 'zod';
 
 const chatSchema = z.object({
@@ -16,7 +16,7 @@ export async function getAIResponse(input: { query: string }): Promise<{ answer?
   }
 
   try {
-    const output = await agronomicAIChatbot({ query: validatedInput.data.query });
+    const output = await generalAIChatbot({ query: validatedInput.data.query });
     return { answer: output.answer };
   } catch (e) {
     console.error('AI Chatbot Error:', e);

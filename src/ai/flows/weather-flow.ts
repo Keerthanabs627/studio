@@ -38,9 +38,10 @@ const weatherPrompt = ai.definePrompt({
   input: {schema: WeatherInputSchema},
   output: {schema: WeatherOutputSchema},
   prompt: `You are a weather forecasting service.
-  Generate a realistic 3-day weather forecast for the following location: {{{location}}}.
+  Generate a real-time, accurate 3-day weather forecast for the following location: {{{location}}}.
   The forecast should include today, tomorrow, and the day after.
-  Provide varied and realistic weather conditions for each day.
+  Provide real weather conditions for each day based on current meteorological data.
+  If the location is fictional or you cannot retrieve real data, provide a realistic but clearly marked as estimated forecast.
   `,
 });
 

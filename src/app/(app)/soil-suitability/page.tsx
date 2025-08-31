@@ -1,20 +1,151 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+"use client";
+
+import { useState, useTransition } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Loader2, Droplets, Thermometer, Wind, Sun } from "lucide-react";
+import { getSoilSuitability, SoilSuitabilityOutput } from "./actions";
+
+const crops = [
+    "Rice", "Wheat", "Maize", "Barley", "Oats", "Sorghum", "Millet", "Rye",
+    "Sugarcane", "Cotton", "Jute", "Soybean", "Groundnut", "Sunflower",
+    "Mustard", "Rapeseed", "Safflower", "Linseed", "Castor", "Sesame",
+    "Potato", "Onion", "Tomato", "Brinjal", "Cabbage", "Cauliflower",
+    "Okra", "Chilli", "Capsicum", "Ginger", "Turmeric", "Garlic",
+    "Coriander", "Cumin", "Fennel", "Fenugreek", "Lentil", "Chickpea",
+    "Pigeonpea", "Blackgram", "Greengram", "Peas", "Apple", "Banana",
+    "Mango", "Grapes", "Orange", "Pomegranate", "Guava", "Papaya"
+];
+
+const soilTypes = [
+    "Alluvial", "Black", "Red", "Laterite", "Arid", "Forest", "Peaty", "Saline"
+];
+
 
 export default function SoilSuitabilityPage() {
+    const [crop, setCrop] = useState("");
+    const [soil, setSoil] = useState("");
+    const [results, setResults] = useState<SoilSuitabilityOutput | null>(null);
+    const [isPending, startTransition] = useTransition();
+
+    const handleCheckSuitability = () => {
+        if (!crop || !soil) return;
+        startTransition(async () => {
+            const res = await getSoilSuitability({ crop, soil_type: soil });
+            if (res.data) {
+                setResults(res.data);
+            } else {
+                console.error(res.error);
+                setResults(null);
+            }
+        });
+    };
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Soil Suitability</h1>
-        <p className="text-muted-foreground">Check the soil suitability for your crops.</p>
+        <p className="text-muted-foreground">Check if your soil is suitable for a specific crop.</p>
       </div>
-       <Card>
-        <CardHeader>
-          <CardTitle>Coming Soon</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p>This feature is under construction. Please check back later.</p>
-        </CardContent>
-      </Card>
+       <div className="grid gap-8 md:grid-cols-2">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Crop & Soil</CardTitle>
+                    <CardDescription>Select a crop and your soil type to check for suitability.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                     <div className="space-y-2">
+                        <Label htmlFor="crop-name">Crop Name</Label>
+                        <Select onValueChange={setCrop} value={crop}>
+                            <SelectTrigger id="crop-name">
+                                <SelectValue placeholder="Select a crop" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {crops.map((c) => (
+                                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="soil-type">Soil Type</Label>
+                        <Select onValueChange={setSoil} value={soil}>
+                            <SelectTrigger id="soil-type">
+                                <SelectValue placeholder="Select a soil type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {soilTypes.map((s) => (
+                                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </CardContent>
+                <CardFooter>
+                    <Button onClick={handleCheckSuitability} disabled={isPending || !crop || !soil}>
+                        {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                        Check Suitability
+                    </Button>
+                </CardFooter>
+            </Card>
+             <Card className="bg-secondary/30">
+                <CardHeader>
+                    <CardTitle>Suitability Report</CardTitle>
+                    <CardDescription>
+                         {results ? `Analysis for ${crop} on ${soil} soil.` : "Results will be displayed here."}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    {isPending ? (
+                         <div className="flex items-center justify-center h-full">
+                            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                         </div>
+                    ) : results ? (
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-4">
+                                <div className={`text-3xl font-bold ${results.is_suitable ? 'text-green-600' : 'text-red-600'}`}>
+                                    {results.suitability_score}%
+                                </div>
+                                <p className="text-sm">{results.analysis}</p>
+                            </div>
+                            
+                            <div>
+                                <h4 className="font-semibold mb-2">Recommendations</h4>
+                                <p className="text-sm text-muted-foreground">{results.recommendations}</p>
+                            </div>
+                            
+                            <div>
+                                <h4 className="font-semibold mb-2">Ideal Conditions</h4>
+                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                    <div className="flex items-center gap-2 p-2 bg-background rounded-md">
+                                        <Droplets className="w-5 h-5 text-accent" />
+                                        <span>Rainfall: {results.ideal_conditions.rainfall}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 p-2 bg-background rounded-md">
+                                        <Thermometer className="w-5 h-5 text-accent" />
+                                        <span>Temp: {results.ideal_conditions.temperature}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 p-2 bg-background rounded-md">
+                                        <Wind className="w-5 h-5 text-accent" />
+                                        <span>pH: {results.ideal_conditions.ph_range}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 p-2 bg-background rounded-md">
+                                        <Sun className="w-5 h-5 text-accent" />
+                                        <span>Sunlight: {results.ideal_conditions.sunlight}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="text-center text-muted-foreground pt-10">
+                            Your report will appear here.
+                        </div>
+                    )}
+                </CardContent>
+             </Card>
+       </div>
     </div>
   );
 }

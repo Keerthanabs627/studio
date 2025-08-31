@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -32,10 +33,10 @@ export function DashboardClient() {
   };
   
   const dashboardCards = [
-    { href: "/crop-doctor", icon: Stethoscope, title: t.dashboard.crop_doctor.title, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
     { href: "/fertilizer-calculator", icon: Calculator, title: t.dashboard.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
     { href: "/market-prices", icon: LineChart, title: t.dashboard.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
     { href: "/soil-suitability", icon: Map, title: t.dashboard.soil_suitability.title, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
+    { href: "/crop-doctor", icon: Stethoscope, title: t.dashboard.crop_doctor.title, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
     { href: "/my-fields", icon: Tractor, title: t.dashboard.my_fields.title, description: t.dashboard.my_fields.description, linkText: t.dashboard.my_fields.button },
     { href: "/reminders", icon: Bell, title: t.dashboard.reminders.title, description: t.dashboard.reminders.description, linkText: t.dashboard.reminders.button },
     { href: "/sms-reminders", icon: MessageCircle, title: t.dashboard.sms_reminders.title, description: t.dashboard.sms_reminders.description, linkText: t.dashboard.sms_reminders.button },

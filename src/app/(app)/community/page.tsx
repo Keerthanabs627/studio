@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -102,7 +103,7 @@ export default function CommunityPage() {
                     {categories.map((cat) => (
                         <div key={cat} className="flex items-center space-x-2">
                             <RadioGroupItem value={cat} id={`cat-${cat}`} />
-                            <Label htmlFor={`cat-${cat}`}>{t.community.categories[cat.toLowerCase() as keyof typeof t.community.categories]}</Label>
+                            <Label htmlFor={`cat-${cat}`}>{t.community.categories?.[cat.toLowerCase() as keyof typeof t.community.categories] || cat}</Label>
                         </div>
                     ))}
                 </RadioGroup>
@@ -134,7 +135,7 @@ export default function CommunityPage() {
             </CardHeader>
             <CardContent>
               <p className="mb-4">
-                <span className="font-semibold">[{t.community.categories[post.category.toLowerCase() as keyof typeof t.community.categories]}]</span> {post.content}
+                <span className="font-semibold">[{t.community.categories?.[post.category.toLowerCase() as keyof typeof t.community.categories] || post.category}]</span> {post.content}
                 </p>
               {post.image && (
                 <div className="rounded-lg overflow-hidden border">
@@ -158,3 +159,5 @@ export default function CommunityPage() {
     </div>
   );
 }
+
+    

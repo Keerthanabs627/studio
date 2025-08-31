@@ -77,9 +77,10 @@ export function DashboardClient() {
     { 
         icon: Radio, 
         title: t.sidebar.farm_radio,
-        description: (
-            <div className="flex flex-col items-center justify-center h-full text-center space-y-2">
-                <p className="text-xs text-muted-foreground">{t.dashboard.farm_radio.description}</p>
+        isFarmRadio: true,
+        description: t.dashboard.farm_radio.description,
+        content: (
+            <div className="flex flex-col items-center justify-center h-full text-center space-y-2 pt-2">
                 <Button onClick={handlePlayRadio} disabled={isRadioPending} size="sm">
                     {isRadioPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : isPlaying ? <Pause className="mr-2 h-4 w-4"/> : <Play className="mr-2 h-4 w-4" />}
                     {isRadioPending ? t.dashboard.farm_radio.loading_button : isPlaying ? t.dashboard.farm_radio.pause_button : t.dashboard.farm_radio.play_button}
@@ -102,21 +103,21 @@ export function DashboardClient() {
         )
     },
     { href: "/fertilizer-calculator", icon: Calculator, title: t.sidebar.fertilizer_calculator, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
-    { href: "/market-prices", icon: LineChart, title: t.dashboard.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
+    { href: "/market-prices", icon: LineChart, title: t.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
     { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
-    { href: "/soil-suitability", icon: Map, title: t.dashboard.soil_suitability.title, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
-    { href: "/my-fields", icon: Tractor, title: t.dashboard.my_fields.title, description: t.dashboard.my_fields.description, linkText: t.dashboard.my_fields.button },
-    { href: "/reminders", icon: Bell, title: t.dashboard.reminders.title, description: t.dashboard.reminders.description, linkText: t.dashboard.reminders.button },
-    { href: "/sms-reminders", icon: MessageCircle, title: t.dashboard.sms_reminders.title, description: t.dashboard.sms_reminders.description, linkText: t.dashboard.sms_reminders.button },
-    { href: "/community", icon: Users, title: t.dashboard.community_hub.title, description: t.dashboard.community_hub.description, linkText: t.dashboard.community_hub.button },
-    { href: "/chatbot", icon: Bot, title: t.dashboard.ai_assistant.title, description: t.dashboard.ai_assistant.description, linkText: t.dashboard.ai_assistant.button },
+    { href: "/soil-suitability", icon: Map, title: t.sidebar.soil_suitability, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
+    { href: "/my-fields", icon: Tractor, title: t.sidebar.my_fields, description: t.dashboard.my_fields.description, linkText: t.dashboard.my_fields.button },
+    { href: "/reminders", icon: Bell, title: t.sidebar.reminders, description: t.dashboard.reminders.description, linkText: t.dashboard.reminders.button },
+    { href: "/sms-reminders", icon: MessageCircle, title: t.sidebar.sms_reminders, description: t.dashboard.sms_reminders.description, linkText: t.dashboard.sms_reminders.button },
+    { href: "/community", icon: Users, title: t.sidebar.community, description: t.dashboard.community_hub.description, linkText: t.dashboard.community_hub.button },
+    { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, description: t.dashboard.ai_assistant.description, linkText: t.dashboard.ai_assistant.button },
   ];
 
   const utilityCards = [
     {
       icon: Sun,
       title: t.dashboard.weather_forecast.title,
-      description: (
+      content: (
         <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Input
@@ -135,15 +136,15 @@ export function DashboardClient() {
             <WeatherForecast weatherData={weatherData} loading={isWeatherPending} />
           </div>
       )
-  }
-  ]
+    }
+  ];
 
   const orderedCards = [
-    allCards.find(c => c.title === t.sidebar.farm_radio),
+    allCards.find(c => c.isFarmRadio),
     allCards.find(c => c.title === t.sidebar.fertilizer_calculator),
-    allCards.find(c => c.title === t.dashboard.market_prices.title),
+    allCards.find(c => c.title === t.market_prices.title),
     allCards.find(c => c.title === t.sidebar.crop_doctor),
-    ...allCards.filter(c => ![t.sidebar.farm_radio, t.sidebar.fertilizer_calculator, t.dashboard.market_prices.title, t.sidebar.crop_doctor].includes(c.title)),
+    ...allCards.filter(c => ![t.sidebar.farm_radio, t.sidebar.fertilizer_calculator, t.market_prices.title, t.sidebar.crop_doctor].includes(c.title) && !c.isFarmRadio),
   ].filter(Boolean);
 
 
@@ -154,22 +155,20 @@ export function DashboardClient() {
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
 
         {orderedCards.map((card, index) => (
-          <Card key={index} className="flex flex-col justify-between">
-            <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                    <card.icon className="h-6 w-6 text-primary" />
-                    <span className="text-lg">{card.title}</span>
-                </CardTitle>
+          <Card key={index} className="flex flex-col justify-between hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="pb-4">
+                <div className="flex items-start justify-between">
+                    <CardTitle className="text-lg font-semibold tracking-tight">{card.title}</CardTitle>
+                    <div className="p-2 bg-primary/10 rounded-full">
+                       <card.icon className="h-5 w-5 text-primary" />
+                    </div>
+                </div>
             </CardHeader>
-            <CardContent className="flex-grow text-sm text-muted-foreground pt-0">
-                {typeof card.description === 'string' ? (
-                     <p className="min-h-[40px]">{card.description}</p>
-                ) : (
-                    <div className="w-full">{card.description}</div>
-                )}
+            <CardContent className="flex-grow text-sm text-muted-foreground">
+                {card.isFarmRadio ? card.content : <p className="min-h-[40px]">{card.description}</p>}
             </CardContent>
             {card.href && (
                 <CardFooter>
@@ -193,7 +192,7 @@ export function DashboardClient() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {card.description}
+                    {card.content}
                 </CardContent>
             </Card>
         ))}

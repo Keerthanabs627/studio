@@ -2,16 +2,20 @@
 
 import { usePathname } from 'next/navigation';
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
-import { Bot, Calculator, LayoutDashboard, LineChart, User, Users } from 'lucide-react';
+import { Bot, Calculator, LayoutDashboard, LineChart, User, Users, Map, Tractor, Bell, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/fertilizer-calculator', label: 'Calculator', icon: Calculator },
-  { href: '/community', label: 'Community', icon: Users },
   { href: '/market-prices', label: 'Market Prices', icon: LineChart },
+  { href: '/soil-suitability', label: 'Soil Suitability', icon: Map },
+  { href: '/my-fields', label: 'My Fields', icon: Tractor },
+  { href: '/reminders', label: 'Reminders', icon: Bell },
+  { href: '/sms-reminders', label: 'SMS Reminders', icon: MessageCircle },
+  { href: '/community', label: 'Community', icon: Users },
   { href: '/chatbot', label: 'AI Chatbot', icon: Bot },
-  { href: '/profile', label: 'Profile', icon: User },
+  { href: '/profile', label: 'Our Profile', icon: User },
 ];
 
 export function SidebarNav() {

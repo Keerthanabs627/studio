@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Bot, Calculator, LineChart, Loader2, Search, Users } from "lucide-react";
+import { ArrowRight, Bot, Calculator, LineChart, Loader2, Search, Users, Map, Tractor, Bell, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { WeatherForecast } from "./weather-forecast";
 import { Input } from "@/components/ui/input";
@@ -78,22 +78,6 @@ export function DashboardClient() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-primary" />
-              Community Hub
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">Connect with other farmers and experts.</p>
-            <Button asChild variant="outline" size="sm">
-              <Link href="/community">
-                Join Discussion <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
               <LineChart className="h-5 w-5 text-primary" />
               Market Prices
             </CardTitle>
@@ -103,6 +87,86 @@ export function DashboardClient() {
             <Button asChild variant="outline" size="sm">
               <Link href="/market-prices">
                 View Prices <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Map className="h-5 w-5 text-primary" />
+              Soil Suitability
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">Check soil suitability for your crops.</p>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/soil-suitability">
+                Check Now <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Tractor className="h-5 w-5 text-primary" />
+              My Fields
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">Manage your fields and track crops.</p>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/my-fields">
+                Manage Fields <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Bell className="h-5 w-5 text-primary" />
+              Reminders
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">Set and manage your farming reminders.</p>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/reminders">
+                Set Reminders <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MessageCircle className="h-5 w-5 text-primary" />
+              SMS Reminders
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">Manage your SMS reminder preferences.</p>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/sms-reminders">
+                Manage SMS <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-primary" />
+              Community Hub
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">Connect with other farmers and experts.</p>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/community">
+                Join Discussion <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </CardContent>

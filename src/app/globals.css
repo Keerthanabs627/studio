@@ -36,11 +36,11 @@
   }
 
   .dark {
-    --background: 222.2 47.4% 11.2%;
+    --background: 0 0% 0%;
     --foreground: 0 0% 98%;
-    --card: 222.2 47.4% 11.2%;
+    --card: 220 13% 9%;
     --card-foreground: 0 0% 98%;
-    --popover: 222.2 47.4% 11.2%;
+    --popover: 224 71% 4%;
     --popover-foreground: 0 0% 98%;
     --primary: 120 25% 65%; /* Lighter green for dark mode */
     --primary-foreground: 222.2 47.4% 11.2%;
@@ -56,7 +56,7 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 120 25% 65%;
     
-    --sidebar-background: 222.2 47.4% 11.2%;
+    --sidebar-background: 224 71% 4%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 120 25% 65%;
     --sidebar-primary-foreground: 222.2 47.4% 11.2%;

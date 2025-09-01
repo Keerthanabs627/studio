@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getAIResponse } from '../actions';
+import { generalAIChatbot, GeneralAIChatbotInput, GeneralAIChatbotOutput } from '@/ai/flows/agronomic-ai-chatbot';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useI18n } from '@/locales/client';
@@ -74,26 +74,27 @@ export function ChatInterface() {
     setIsAwaitingImage(false);
 
     startTransition(async () => {
-      const result = await getAIResponse({ query: currentInput, photoDataUri: imageDataUri || undefined });
-      
-      setImagePreview(null);
-      setImageDataUri(null);
-      if(fileInputRef.current) fileInputRef.current.value = "";
+      try {
+        const result = await generalAIChatbot({ query: currentInput, photoDataUri: imageDataUri || undefined });
+        
+        setImagePreview(null);
+        setImageDataUri(null);
+        if(fileInputRef.current) fileInputRef.current.value = "";
 
-      if (result.error) {
-        toast({
-            variant: "destructive",
-            title: t.chatbot.toast.error_title,
-            description: result.error,
-        });
-        const errorMessage: Message = { role: 'assistant', content: t.chatbot.error_message };
-        setMessages((prev) => [...prev, errorMessage]);
-      } else {
         const assistantMessage: Message = { role: 'assistant', content: result.answer || t.chatbot.no_answer };
         setMessages((prev) => [...prev, assistantMessage]);
         if (result.requires_image) {
           setIsAwaitingImage(true);
         }
+      } catch (error) {
+        console.error("Chatbot Error:", error);
+        toast({
+            variant: "destructive",
+            title: t.chatbot.toast.error_title,
+            description: "An unexpected error occurred. Please try again.",
+        });
+        const errorMessage: Message = { role: 'assistant', content: t.chatbot.error_message };
+        setMessages((prev) => [...prev, errorMessage]);
       }
     });
   };

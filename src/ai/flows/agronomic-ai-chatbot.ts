@@ -44,20 +44,9 @@ export type GeneralAIChatbotOutput = z.infer<
 export async function generalAIChatbot(
   input: GeneralAIChatbotInput
 ): Promise<GeneralAIChatbotOutput> {
-  return generalAIChatbotFlow(input);
-}
-
-const generalAIChatbotFlow = ai.defineFlow(
-  {
-    name: 'generalAIChatbotFlow',
-    inputSchema: GeneralAIChatbotInputSchema,
-    outputSchema: GeneralAIChatbotOutputSchema,
-  },
-  async input => {
     const model = ai.getGenerator('gemini-1.5-pro-latest');
-
-    // Dynamically build the prompt based on whether an image is provided.
-    const promptParts = [
+    
+    const prompt = [
         `You are an expert AI agronomist assistant for Indian farmers. Your primary goal is to be as helpful as possible.
 - Your main expertise is agriculture. Use the provided tools to answer user questions comprehensively.
 - If a user asks a question that is not related to agriculture, answer it as a general AI assistant.
@@ -69,13 +58,12 @@ const generalAIChatbotFlow = ai.defineFlow(
 User query: ${input.query}`
     ];
     if (input.photoDataUri) {
-        promptParts.push(`User has provided this image: {{media url=${input.photoDataUri}}}`);
+        prompt.push(`User has provided this image: {{media url=${input.photoDataUri}}}`);
     }
-
 
     const response = await generate({
         model,
-        prompt: promptParts.join('\n'),
+        prompt: prompt,
         tools: [
           weatherTool,
           soilSuitabilityTool,
@@ -86,7 +74,7 @@ User query: ${input.query}`
           temperature: 0.7,
         },
     });
-    
+
     const toolRequest = response.toolRequest();
     
     // This is a specific workaround. If the model wants to call the crop doctor tool
@@ -114,5 +102,4 @@ User query: ${input.query}`
       answer,
       requires_image: false,
     };
-  }
-);
+}

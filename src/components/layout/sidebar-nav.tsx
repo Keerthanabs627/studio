@@ -7,6 +7,7 @@ import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui
 import { Bot, Calculator, LayoutDashboard, LineChart, User, Users, Map, Tractor, Bell, MessageCircle, Stethoscope, Radio } from 'lucide-react';
 import Link from 'next/link';
 import { useI18n } from '@/locales/client';
+import { WeatherIcon } from '../icons/weather-icon';
 
 export function SidebarNav() {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ export function SidebarNav() {
     { href: '/market-prices', label: t.sidebar.market_prices, icon: LineChart },
     { href: '/soil-suitability', label: t.sidebar.soil_suitability, icon: Map },
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Tractor },
+    { href: '/weather', label: t.dashboard.weather_forecast.title, icon: WeatherIcon },
     { href: '/reminders', label: t.sidebar.reminders, icon: Bell },
     { href: '/sms-reminders', label: t.sidebar.sms_reminders, icon: MessageCircle },
     { href: '/community', label: t.sidebar.community, icon: Users },

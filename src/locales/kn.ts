@@ -6,6 +6,7 @@ export default {
     fertilizer_calculator: 'ಸ್ಮಾರ್ಟ್ ಇಳುವರಿ ಆಪ್ಟಿಮೈಜರ್',
     market_prices: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು',
     soil_suitability: 'ಮಣ್ಣಿನ ಸೂಕ್ತತೆ',
+    schemes: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು',
     my_fields: 'ನನ್ನ ಹೊಲಗಳು',
     reminders: 'ಜ್ಞಾಪನೆಗಳು',
     sms_reminders: 'SMS ಜ್ಞಾಪನೆಗಳು',
@@ -333,5 +334,12 @@ export default {
       error_title: "ವಿಶ್ಲೇಷಣೆ ವಿಫలವಾಗಿದೆ",
       error_description: "ಚಿತ್ರವನ್ನು ವಿಶ್ಲೇಷಿಸಲು ನಮಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
     }
+  },
+  schemes: {
+    title: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು',
+    description: 'ರೈತರಿಗಾಗಿ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು ಮತ್ತು ಸಬ್ಸಿಡಿಗಳ ಮಾಹಿತಿ.',
+    eligibility: 'ಅರ್ಹತೆ',
+    benefits: 'ಪ್ರಯೋಜನಗಳು',
+    official_site: 'ಅಧಿಕೃತ ಸೈಟ್',
   }
 } as const;

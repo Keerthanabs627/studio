@@ -6,6 +6,7 @@ export default {
     fertilizer_calculator: 'Smart Yield Optimizer',
     market_prices: 'Market Prices',
     soil_suitability: 'Soil Suitability',
+    schemes: 'Govt. Schemes',
     my_fields: 'My Fields',
     reminders: 'Reminders',
     sms_reminders: 'SMS Reminders',
@@ -334,5 +335,12 @@ export default {
         error_title: "Analysis Failed",
         error_description: "We could not analyze the image. Please try again."
     }
+  },
+  schemes: {
+    title: 'Government Schemes',
+    description: 'Information on government schemes and subsidies for farmers.',
+    eligibility: 'Eligibility',
+    benefits: 'Benefits',
+    official_site: 'Official Site',
   }
 } as const;

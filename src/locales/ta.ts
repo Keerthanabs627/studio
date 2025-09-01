@@ -6,6 +6,7 @@ export default {
     fertilizer_calculator: 'ஸ்மார்ட் மகசூல் ஆப்டிமைசர்',
     market_prices: 'சந்தை விலைகள்',
     soil_suitability: 'மண் பொருத்தம்',
+    schemes: 'அரசு திட்டங்கள்',
     my_fields: 'என் வயல்கள்',
     reminders: 'நினைவூட்டல்கள்',
     sms_reminders: 'SMS நினைவூட்டல்கள்',
@@ -334,5 +335,12 @@ export default {
       error_title: "பகுப்பாய்வு தோல்வியுற்றது",
       error_description: "படத்தை பகுப்பாய்வு செய்ய முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
     }
+  },
+  schemes: {
+    title: 'அரசு திட்டங்கள்',
+    description: 'விவசாயிகளுக்கான அரசு திட்டங்கள் மற்றும் மானியங்கள் பற்றிய தகவல்.',
+    eligibility: 'தகுதி',
+    benefits: 'நன்மைகள்',
+    official_site: 'அதிகாரப்பூர்வ தளம்',
   }
 } as const;

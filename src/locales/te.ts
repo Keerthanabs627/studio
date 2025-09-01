@@ -6,6 +6,7 @@ export default {
     fertilizer_calculator: 'స్మార్ట్ దిగుబడి ఆప్టిమైజర్',
     market_prices: 'మార్కెట్ ధరలు',
     soil_suitability: 'నేల అనుకూలత',
+    schemes: 'ప్రభుత్వ పథకాలు',
     my_fields: 'నా పొలాలు',
     reminders: 'రిమైండర్‌లు',
     sms_reminders: 'SMS రిమైండర్‌లు',
@@ -334,5 +335,12 @@ export default {
       error_title: "విశ్లేషణ విఫలమైంది",
       error_description: "మేము చిత్రాన్ని విశ్లేషించలేకపోయాము. దయచేసి మళ్లీ ప్రయత్నించండి."
     }
+  },
+  schemes: {
+    title: 'ప్రభుత్వ పథకాలు',
+    description: 'రైతుల కోసం ప్రభుత్వ పథకాలు మరియు సబ్సిడీల సమాచారం.',
+    eligibility: 'అర్హత',
+    benefits: 'ప్రయోజనాలు',
+    official_site: 'అధికారిక సైట్',
   }
 } as const;

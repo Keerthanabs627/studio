@@ -1,18 +1,39 @@
+
 // @ts-nocheck
 'use server';
 
-interface Reminder {
-  id: number;
+import { db } from '@/lib/firebase';
+import { collection, getDocs, addDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { revalidatePath } from 'next/cache';
+
+export interface Reminder {
+  id: string;
   task: string;
   date: string;
+  time: string;
+  createdAt: any;
 }
 
-const reminders: Reminder[] = [
-    { id: 1, task: 'Apply first dose of Urea to wheat crop', date: '2024-07-25' },
-    { id: 2, task: 'Scout for pests in the cotton field', date: '2024-07-28' },
-];
+export async function getReminders(): Promise<Reminder[]> {
+  const remindersCollection = collection(db, 'reminders');
+  const q = query(remindersCollection, orderBy('createdAt', 'desc'));
+  const reminderSnapshot = await getDocs(q);
+  const remindersList = reminderSnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+  } as Reminder));
+  return remindersList;
+}
 
-export async function getReminders(): Promise<{ data: Reminder[] }> {
-  // In a real app, you'd fetch this from a database.
-  return Promise.resolve({ data: reminders });
+export async function addReminder(reminder: Omit<Reminder, 'id' | 'createdAt'>) {
+    await addDoc(collection(db, "reminders"), {
+        ...reminder,
+        createdAt: serverTimestamp(),
+    });
+    revalidatePath('/reminders');
+}
+
+export async function deleteReminder(id: string) {
+    await deleteDoc(doc(db, "reminders", id));
+    revalidatePath('/reminders');
 }

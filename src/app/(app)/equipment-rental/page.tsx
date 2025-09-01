@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -102,7 +103,7 @@ export default function EquipmentRentalPage() {
                     <Card key={item.id} className="overflow-hidden">
                         <CardHeader className="p-0">
                             <div className="relative aspect-video">
-                                <Image src={item.image} alt={item.name} layout="fill" objectFit="cover" data-ai-hint="tractor farm equipment" />
+                                <Image src={item.image} alt={item.name} layout="fill" objectFit="cover" data-ai-hint="farm equipment" />
                             </div>
                         </CardHeader>
                         <CardContent className="p-4 space-y-3">

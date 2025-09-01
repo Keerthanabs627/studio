@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 "use client";
 
@@ -13,6 +12,15 @@ import { Loader2, Phone } from "lucide-react";
 import { useI18n } from "@/locales/client";
 import { getEquipment, addEquipment, type Equipment } from "./actions";
 import { useToast } from "@/hooks/use-toast";
+
+function getEquipmentHint(name: string): string {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('tractor')) return 'tractor';
+    if (lowerName.includes('rotavator')) return 'rotavator';
+    if (lowerName.includes('sprayer')) return 'sprayer';
+    if (lowerName.includes('thresher')) return 'thresher';
+    return 'farm equipment';
+}
 
 export default function EquipmentRentalPage() {
   const t = useI18n();
@@ -61,7 +69,7 @@ export default function EquipmentRentalPage() {
                 name,
                 rate,
                 location,
-                image: `https://picsum.photos/600/400?random=${Date.now()}`,
+                image: `https://picsum.photos/seed/${name.toLowerCase().split(' ')[0]}/600/400`,
             });
             setName("");
             setRate("");
@@ -103,7 +111,7 @@ export default function EquipmentRentalPage() {
                     <Card key={item.id} className="overflow-hidden">
                         <CardHeader className="p-0">
                             <div className="relative aspect-video">
-                                <Image src={item.image} alt={item.name} layout="fill" objectFit="cover" data-ai-hint="farm equipment" />
+                                <Image src={item.image} alt={item.name} layout="fill" objectFit="cover" data-ai-hint={getEquipmentHint(item.name)} />
                             </div>
                         </CardHeader>
                         <CardContent className="p-4 space-y-3">

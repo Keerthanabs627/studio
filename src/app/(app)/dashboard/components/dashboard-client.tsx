@@ -23,6 +23,7 @@ export function DashboardClient() {
 
   const [location, setLocation] = useState('Belagavi');
   const [tempLocation, setTempLocation] = useState('Belagavi');
+  const { toast } = useToast();
 
   const fetchInitialData = async () => {
       const fetchedProfile = await getProfile();

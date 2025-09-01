@@ -24,38 +24,26 @@ const initialWeatherData = [
 
 export function WeatherForecast({ weatherData, loading }: { weatherData: WeatherData[] | null, loading: boolean }) {
   
-  if (loading) {
-    return (
-      <div className="grid gap-4 grid-cols-3">
-        {[...Array(3)].map((_, index) => (
-          <div key={index} className="flex flex-col items-center justify-center gap-2 rounded-lg bg-secondary/30 p-4 h-full">
-            <Skeleton className="h-5 w-16" />
-            <Skeleton className="h-8 w-8 rounded-full" />
-            <Skeleton className="h-6 w-12 mt-1" />
-            <Skeleton className="h-4 w-20" />
-            <Skeleton className="h-4 w-16" />
-          </div>
-        ))}
-      </div>
-    );
-  }
-  
   const dataToDisplay = weatherData && weatherData.length === 3 ? weatherData : initialWeatherData;
 
   return (
     <div className="grid gap-4 grid-cols-3">
-      {dataToDisplay.map(({ day, icon, temp, condition, wind }) => {
+      {dataToDisplay.map(({ day, icon, temp, condition, wind }, index) => {
         const Icon = iconMap[icon as keyof typeof iconMap] || Sun;
+        const showSkeleton = loading && (!weatherData || weatherData.length === 0);
+        
         return (
           <div key={day} className="flex flex-col items-center justify-between gap-1 rounded-lg bg-secondary/30 p-4 text-center h-full">
-            <p className="font-bold text-sm">{day}</p>
-            <Icon className="h-8 w-8 text-accent my-2" />
-            <p className="text-xl font-bold">{temp}</p>
-            <p className="text-xs text-muted-foreground capitalize">{condition}</p>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-              <Wind className="h-3 w-3" />
-              <span>{wind}</span>
-            </div>
+            {showSkeleton ? <Skeleton className="h-5 w-16 mb-2" /> : <p className="font-bold text-sm">{day}</p>}
+            {showSkeleton ? <Skeleton className="h-8 w-8 rounded-full my-2" /> : <Icon className="h-8 w-8 text-accent my-2" />}
+            {showSkeleton ? <Skeleton className="h-6 w-12" /> : <p className="text-xl font-bold">{temp}</p>}
+            {showSkeleton ? <Skeleton className="h-4 w-20 mt-1" /> : <p className="text-xs text-muted-foreground capitalize">{condition}</p>}
+            {showSkeleton ? <Skeleton className="h-4 w-16 mt-1" /> : (
+                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                <Wind className="h-3 w-3" />
+                <span>{wind}</span>
+                </div>
+            )}
           </div>
         );
       })}

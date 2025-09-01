@@ -110,12 +110,6 @@ export default function EquipmentRentalPage() {
                             <div className="font-bold text-lg text-primary">{item.rate}</div>
                             <p className="text-sm text-muted-foreground">{t.equipment_rental.location}: {item.location}</p>
                         </CardContent>
-                        <CardFooter>
-                            <Button className="w-full">
-                                <Phone className="mr-2 h-4 w-4" />
-                                {t.equipment_rental.contact_button}
-                            </Button>
-                        </CardFooter>
                     </Card>
                     ))}
                 </div>

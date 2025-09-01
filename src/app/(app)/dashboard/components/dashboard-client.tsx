@@ -37,7 +37,6 @@ export function DashboardClient() {
     { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, color: "text-purple-500" },
     { href: "/weather", icon: WeatherIcon, title: t.dashboard.weather_forecast.title, color: "text-blue-400" },
     { href: "/schemes", icon: Landmark, title: t.sidebar.schemes, color: "text-teal-400" },
-    { href: "/equipment-rental", icon: Wrench, title: t.sidebar.equipment_rental, color: "text-lime-400" },
   ];
 
   return (

@@ -7,7 +7,6 @@ export default {
     market_prices: 'बाजार मूल्य',
     soil_suitability: 'मिट्टी की उपयुक्तता',
     schemes: 'सरकारी योजनाएं',
-    equipment_rental: 'उपकरण किराया',
     my_fields: 'मेरे खेत',
     reminders: 'अनुस्मारक',
     sms_reminders: 'SMS अनुस्मारक',
@@ -344,33 +343,4 @@ export default {
     benefits: 'लाभ',
     official_site: 'आधिकारिक साइट',
   },
-  equipment_rental: {
-    title: 'उपकरण किराया',
-    description: 'अपने क्षेत्र में किराए के लिए कृषि उपकरण खोजें या सूचीबद्ध करें।',
-    available_title: 'किराए के लिए उपलब्ध',
-    listed_by: 'द्वारा सूचीबद्ध',
-    location: 'स्थान',
-    contact_button: 'मालिक से संपर्क करें',
-    list_card: {
-      title: 'अपना उपकरण सूचीबद्ध करें',
-      description: 'अपने उपकरण किराए पर देकर अन्य किसानों की मदद करें।',
-      name_label: 'उपकरण का नाम',
-      name_placeholder: 'जैसे, ट्रैक्टर, रोटावेटर',
-      rate_label: 'किराया दर',
-      rate_placeholder: 'जैसे, ₹1200/घंटा, ₹5000/दिन',
-      location_label: 'आपका स्थान',
-      location_placeholder: 'जैसे, बेलगावी, कर्नाटक',
-      button: 'मेरा उपकरण सूचीबद्ध करें',
-    },
-    toast: {
-      load_error_title: "लोड करने में विफल",
-      load_error_desc: "उपकरण सूची लोड नहीं हो सकी।",
-      missing_info_title: "अधूरी जानकारी",
-      missing_info_desc: "कृपया अपना उपकरण सूचीबद्ध करने के लिए सभी फ़ील्ड भरें।",
-      add_success_title: "उपकरण सूचीबद्ध",
-      add_success_desc: "आपका उपकरण सफलतापूर्वक सूचीबद्ध हो गया है।",
-      add_error_title: "सूचीबद्ध करने में विफल",
-      add_error_desc: "आपका उपकरण सूचीबद्ध नहीं हो सका। कृपया पुनः प्रयास करें।",
-    }
-  }
 } as const;

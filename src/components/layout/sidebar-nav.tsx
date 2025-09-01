@@ -20,7 +20,6 @@ export function SidebarNav() {
     { href: '/market-prices', label: t.sidebar.market_prices, icon: LineChart },
     { href: '/soil-suitability', label: t.sidebar.soil_suitability, icon: Map },
     { href: '/schemes', label: t.sidebar.schemes, icon: Landmark },
-    { href: '/equipment-rental', label: t.sidebar.equipment_rental, icon: Wrench },
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Tractor },
     { href: '/weather', label: t.dashboard.weather_forecast.title, icon: WeatherIcon },
     { href: '/reminders', label: t.sidebar.reminders, icon: Bell },

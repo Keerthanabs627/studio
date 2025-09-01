@@ -39,6 +39,7 @@ export default function CommunityPage() {
         setPosts(fetchedPosts);
         setProfile(fetchedProfile);
       } catch (error) {
+        console.error("Error fetching data:", error);
         toast({
             variant: 'destructive',
             title: "Failed to load data",
@@ -57,36 +58,25 @@ export default function CommunityPage() {
 
     startTransition(async () => {
         try {
-            const optimisticPost: Post = {
-                id: Date.now(),
-                author: profile.name,
-                avatar: "https://picsum.photos/40/40?random=0",
-                handle: `@${profile.name.toLowerCase().replace(/\s/g, '_')}`,
-                time: t.community.just_now,
-                likes: 0,
-                comments: 0,
-                content: newPostContent,
-                category: category,
-            };
-            setPosts(prevPosts => [optimisticPost, ...prevPosts]);
-            setNewPostContent("");
-
             await addPost({
                 content: newPostContent,
                 category: category,
             });
+            setNewPostContent("");
             // Re-fetch to confirm from server state, ensuring we have the latest list
             const fetchedPosts = await getPosts();
             setPosts(fetchedPosts);
+             toast({
+                title: "Post Successful",
+                description: "Your post has been added to the community hub.",
+            });
         } catch (error) {
+            console.error("Error posting:", error);
             toast({
                 variant: 'destructive',
                 title: "Failed to post",
                 description: "Could not save your post. Please try again.",
             })
-            // Rollback optimistic update if server call fails
-            const fetchedPosts = await getPosts();
-            setPosts(fetchedPosts);
         }
     });
   };
@@ -146,7 +136,7 @@ export default function CommunityPage() {
               </Avatar>
               <div>
                 <p className="font-semibold">{post.author}</p>
-                <p className="text-sm text-muted-foreground">{post.handle} · {post.time === 'Just now' ? t.community.just_now : post.time}</p>
+                <p className="text-sm text-muted-foreground">{post.handle} · {post.time}</p>
               </div>
             </CardHeader>
             <CardContent>

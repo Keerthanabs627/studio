@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Phone, Briefcase } from "lucide-react";
+import { Loader2, Phone, Briefcase, Trash2 } from "lucide-react";
 import { useI18n } from "@/locales/client";
-import { getJobs, addJob, type Job } from "./actions";
+import { getJobs, addJob, deleteJob, type Job } from "./actions";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -91,6 +91,25 @@ export default function LaborMarketplacePage() {
     });
   };
 
+  const handleDeleteJob = (id: string) => {
+    startTransition(async () => {
+        try {
+            await deleteJob(id);
+            toast({
+                title: "Job Deleted",
+                description: "The job listing has been removed.",
+            });
+            await fetchAndSetJobs();
+        } catch (error) {
+            toast({
+                variant: 'destructive',
+                title: "Failed to delete",
+                description: "Could not delete the job listing.",
+            })
+        }
+    });
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -108,9 +127,19 @@ export default function LaborMarketplacePage() {
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {jobs.map((job) => (
-                    <Card key={job.id} className="overflow-hidden flex flex-col">
+                    <Card key={job.id} className="overflow-hidden flex flex-col group relative">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="absolute top-2 right-2 h-7 w-7 text-muted-foreground hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => handleDeleteJob(job.id)}
+                          disabled={isPending}
+                          aria-label="Delete job"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                         <CardHeader>
-                            <CardTitle className="text-xl">{job.title}</CardTitle>
+                            <CardTitle className="text-xl pr-8">{job.title}</CardTitle>
                             <CardDescription>{job.location}</CardDescription>
                         </CardHeader>
                         <CardContent className="p-4 pt-0 space-y-3 flex-1">

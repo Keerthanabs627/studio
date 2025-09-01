@@ -2,7 +2,7 @@
 'use server';
 
 import { db } from '@/lib/firebase';
-import { collection, getDocs, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, addDoc, serverTimestamp, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 import { getProfile } from '../profile/actions';
 
@@ -45,4 +45,9 @@ export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'cr
   await addDoc(collection(db, "labor_jobs"), newJob);
   
   revalidatePath('/labor-marketplace');
+}
+
+export async function deleteJob(id: string) {
+    await deleteDoc(doc(db, "labor_jobs", id));
+    revalidatePath('/labor-marketplace');
 }

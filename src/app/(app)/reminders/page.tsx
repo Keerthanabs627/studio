@@ -59,13 +59,20 @@ export default function RemindersPage() {
             date: newDate,
             time: newTime,
           });
+          
+          let description = `${t.reminders.toast.added.description_prefix} "${newTask}" ${t.reminders.toast.added.description_suffix} ${newDate}.`;
+          if (Notification.permission !== 'granted') {
+            description += " Please enable notifications to receive alerts."
+          }
+
+          toast({
+            title: t.reminders.toast.added.title,
+            description: description,
+          });
+
           setNewTask('');
           setNewDate('');
           setNewTime('');
-          toast({
-            title: t.reminders.toast.added.title,
-            description: `${t.reminders.toast.added.description_prefix} "${newTask}" ${t.reminders.toast.added.description_suffix} ${newDate}.`,
-          });
           await fetchAndSetReminders(); // Refetch reminders
       } catch (error) {
         toast({

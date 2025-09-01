@@ -24,7 +24,7 @@ export function DashboardClient() {
 
   const [location, setLocation] = useState('Belagavi');
   const [tempLocation, setTempLocation] = useState('Belagavi');
-  const { toast } = useToast();
+  const {toast} = useToast();
 
   const fetchInitialData = async () => {
       const fetchedProfile = await getProfile();
@@ -81,11 +81,8 @@ export function DashboardClient() {
     <div className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2">
              <Card>
-                <CardHeader>
-                    <CardTitle>{t.dashboard.welcome}</CardTitle>
-                </CardHeader>
                 <CardContent>
-                    <p className="text-muted-foreground">{t.dashboard.description}</p>
+                    <p className="text-muted-foreground pt-6">{t.dashboard.description}</p>
                 </CardContent>
              </Card>
             <Card className="flex flex-col">
@@ -111,17 +108,17 @@ export function DashboardClient() {
             </Card>
         </div>
 
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-2">
         {allCards.map((card, index) => {
           const span =
-            (index >= 0 && index <= 2) ? 'col-span-2' : // First row (3 cards)
-            (index >= 3 && index <= 4) ? 'col-span-3' : // Second row (2 cards)
-            'col-span-2' // Third row (3 cards)
+            (index >= 0 && index <= 2) ? 'col-span-1' :
+            (index >= 3 && index <= 4) ? 'col-span-1 md:col-span-3' :
+            'col-span-1';
 
           return (
           <Link href={card.href} key={index} className={cn("block", span)}>
-            <Card className="flex flex-col items-center justify-center p-2 h-28 hover:bg-card/60 transition-colors duration-200">
-                <card.icon className={`h-8 w-8 mb-2 ${card.color}`} />
+            <Card className="flex flex-col items-center justify-center p-1 h-24 hover:bg-card/60 transition-colors duration-200">
+                <card.icon className={`h-6 w-6 mb-1 ${card.color}`} />
                 <p className="text-center text-xs font-medium">{card.title}</p>
             </Card>
           </Link>

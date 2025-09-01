@@ -30,7 +30,6 @@ export function ChatInterface() {
   const [input, setInput] = useState('');
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageDataUri, setImageDataUri] = useState<string | null>(null);
-  const [isAwaitingImage, setIsAwaitingImage] = useState(false);
   const [isPending, startTransition] = useTransition();
   
   const scrollAreaRef = useRef<HTMLDivElement>(null);
@@ -71,7 +70,6 @@ export function ChatInterface() {
     setMessages((prev) => [...prev, userMessage]);
     const currentInput = input;
     setInput('');
-    setIsAwaitingImage(false);
 
     startTransition(async () => {
       const result = await getAIResponse({ query: currentInput, photoDataUri: imageDataUri || undefined });
@@ -92,9 +90,6 @@ export function ChatInterface() {
       } else {
         const assistantMessage: Message = { role: 'assistant', content: result.answer || t.chatbot.no_answer };
         setMessages((prev) => [...prev, assistantMessage]);
-        if (result.requires_image) {
-            setIsAwaitingImage(true);
-        }
       }
     });
   };
@@ -156,18 +151,16 @@ export function ChatInterface() {
                 onChange={handleFileChange}
                 className="hidden"
             />
-            {isAwaitingImage && (
-                <Button 
-                    type="button" 
-                    size="icon" 
-                    variant="outline"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={isPending}
-                    aria-label="Attach image"
-                >
-                    <Paperclip className="w-4 h-4" />
-                </Button>
-            )}
+            <Button 
+                type="button" 
+                size="icon" 
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isPending}
+                aria-label="Attach image"
+            >
+                <Paperclip className="w-4 h-4" />
+            </Button>
             <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}

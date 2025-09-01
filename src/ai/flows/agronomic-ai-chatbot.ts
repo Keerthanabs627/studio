@@ -80,17 +80,29 @@ const generalAIChatbotFlow = ai.defineFlow(
   },
   async input => {
     const llm = ai.getGenerator('gemini-1.5-pro-latest');
-    const {output} = await llm.generate({
+    const response = await llm.generate({
       prompt: {
         ...generalAIChatbotPrompt.compile(input),
       },
       tools: generalAIChatbotPrompt.config.tools,
-      output: {
-        schema: GeneralAIChatbotOutputSchema,
-        format: 'json'
-      }
     });
 
-    return output!;
+    const answer = response.text;
+    const requires_image =
+      response.content.some(
+        part => part.toolRequest?.name === 'diagnoseCrop'
+      ) && !input.photoDataUri;
+    
+    if (requires_image) {
+      return {
+        answer: "It sounds like you have a question about a plant's health. To help you with that, please upload a photo of the affected plant.",
+        requires_image: true,
+      };
+    }
+
+    return {
+      answer,
+      requires_image: false,
+    };
   }
 );

@@ -16,7 +16,7 @@ import {
   soilSuitabilityTool,
   weatherTool,
 } from '../tools/agronomic-tools';
-import { generate } from 'genkit/ai';
+import { generate } from 'genkit';
 
 const GeneralAIChatbotInputSchema = z.object({
   query: z.string().describe('The user query.'),

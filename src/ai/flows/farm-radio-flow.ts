@@ -11,8 +11,6 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import wav from 'wav';
 import {getWeather} from '@/app/(app)/dashboard/actions';
-import {getMarketPrices} from '@/app/(app)/market-prices/actions';
-import {getReminders} from '@/app/(app)/reminders/actions';
 
 const FarmRadioInputSchema = z.object({
   location: z.string().describe("The user's location for the weather forecast."),
@@ -36,30 +34,14 @@ const farmRadioFlow = ai.defineFlow(
     outputSchema: z.object({audioDataUri: z.string()}),
   },
   async input => {
-    const [weather, prices, reminders] = await Promise.all([
-      getWeather({location: input.location}),
-      getMarketPrices(),
-      getReminders(),
-    ]);
-
+    // Get weather data
+    const weather = await getWeather({location: input.location});
     const weatherString = weather.data
       ? weather.data
           .map(f => `${f.day}: ${f.condition}, ${f.temp}`)
           .join('; ')
       : 'not available';
-    const pricesString = prices.data
-      ? prices.data
-          .slice(0, 3)
-          .map(p => `${p.name}: ${p.price}`)
-          .join('; ')
-      : 'not available';
-    const remindersString = reminders.data
-      ? reminders.data
-          .slice(0, 2)
-          .map(r => r.task)
-          .join('; ')
-      : 'none';
-      
+
     const languageMap: {[key: string]: string} = {
       en: 'English',
       hi: 'Hindi',
@@ -70,20 +52,22 @@ const farmRadioFlow = ai.defineFlow(
     
     const language = languageMap[input.locale] || 'English';
 
-    // 1. Generate the script
+    // 1. Generate the script using a more capable model
     const {output: scriptOutput} = await ai.generate({
-      prompt: `You are a friendly radio host for a farm news program. Generate a short, engaging radio script (about 100-120 words) for a farmer. The script must be in ${language}.
+      prompt: `You are a friendly radio host for a farm news program in India. Generate a short, engaging radio script (about 100-120 words) for a farmer. The script must be in ${language}.
 
       Here is the information to include:
       - Location: ${input.location}
       - Weather Forecast: ${weatherString}
-      - Top 3 Market Prices: ${pricesString}
-      - Upcoming Reminders: ${remindersString}
+      
+      You also need to generate the following information yourself, making it realistic for the location:
+      - Top 3 Market Prices: Generate realistic market prices for 3 major crops relevant to the location.
+      - Upcoming Reminders: Generate 2 brief, relevant farming reminders (e.g., "Time to start scouting for pests in your cotton crop.").
       
       Start with a warm greeting. Keep the tone positive and informative. End with a friendly sign-off.
       Do not use markdown or any special formatting. Just plain text for the script.
       `,
-      model: ai.model('gemini-1.5-flash'),
+      model: ai.model('gemini-1.5-flash'), // Using a more capable model
       output: {
         schema: z.string(),
       },

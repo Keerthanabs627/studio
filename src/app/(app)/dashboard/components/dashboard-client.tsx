@@ -1,8 +1,9 @@
+
 // @ts-nocheck
 "use client";
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { Bot, Calculator, LineChart, Users, Map, Tractor, Bell, MessageCircle, Sun, Stethoscope, User, Droplets, Radio, ArrowRight, Wind } from "lucide-react";
+import { Droplets, Stethoscope, LineChart, Map, Tractor, Bell, Users, Bot, User, Radio } from "lucide-react";
 import Link from "next/link";
 import { useI18n } from "@/locales/client";
 import { WeatherForecast } from "./weather-forecast";
@@ -11,8 +12,7 @@ import { getWeather, type WeatherData } from '../actions';
 import { getProfile, type Profile } from '../../profile/actions';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 
 export function DashboardClient() {
@@ -24,18 +24,25 @@ export function DashboardClient() {
   const [location, setLocation] = useState('Belagavi');
   const [tempLocation, setTempLocation] = useState('Belagavi');
 
+  const fetchInitialData = async () => {
+      const fetchedProfile = await getProfile();
+      setProfile(fetchedProfile);
+      fetchWeather(fetchedProfile?.location || 'Belagavi');
+    };
 
-  const fetchWeather = () => {
-    if (!location.trim()) {
+  const fetchWeather = (loc: string) => {
+    if (!loc.trim()) {
         toast({
             variant: "destructive",
             title: "Location cannot be empty.",
         })
         return;
     };
+    setLocation(loc);
+    setTempLocation(loc);
 
     startWeatherTransition(async () => {
-        const weatherResult = await getWeather({ location });
+        const weatherResult = await getWeather({ location: loc });
         if (weatherResult.data) {
           setWeatherData(weatherResult.data);
         } else {
@@ -49,35 +56,17 @@ export function DashboardClient() {
   }
 
   useEffect(() => {
-    const fetchInitialData = async () => {
-      const fetchedProfile = await getProfile();
-      setProfile(fetchedProfile);
-    };
-    
     fetchInitialData();
-    fetchWeather(); // Fetch initial weather for default location
   }, []);
 
   const handleLocationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLocation(tempLocation);
-    startWeatherTransition(async () => {
-        const weatherResult = await getWeather({ location: tempLocation });
-        if (weatherResult.data) {
-          setWeatherData(weatherResult.data);
-        } else {
-          toast({
-            variant: "destructive",
-            title: "Failed to get weather",
-            description: weatherResult.error || "Could not fetch weather data.",
-          })
-        }
-    });
+    fetchWeather(tempLocation);
   }
 
   const allCards = [
-    { href: "/fertilizer-calculator", icon: Droplets, title: t.fertilizer_calculator.title, color: "text-yellow-400" },
     { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, color: "text-indigo-400" },
+    { href: "/fertilizer-calculator", icon: Droplets, title: t.fertilizer_calculator.title, color: "text-yellow-400" },
     { href: "/market-prices", icon: LineChart, title: t.market_prices.title, color: "text-green-400" },
     { href: "/soil-suitability", icon: Map, title: t.sidebar.soil_suitability, color: "text-purple-400" },
     { href: "/my-fields", icon: Tractor, title: t.sidebar.my_fields, color: "text-red-400" },
@@ -88,7 +77,15 @@ export function DashboardClient() {
 
   return (
     <div className="space-y-6">
-        <div className="grid gap-6">
+        <div className="grid gap-6 md:grid-cols-2">
+             <Card>
+                <CardHeader>
+                    <CardTitle>{profile ? `Welcome, ${profile.name}!` : 'Welcome!'}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">{t.dashboard.description}</p>
+                </CardContent>
+             </Card>
             <Card className="flex flex-col">
                 <CardHeader>
                     <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>

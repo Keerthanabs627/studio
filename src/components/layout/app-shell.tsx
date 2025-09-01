@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 'use client';
 
@@ -7,8 +8,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Globe, Leaf } from 'lucide-react';
 import { SidebarNav } from './sidebar-nav';
-import { i18n } from '@/locales/config';
-import { I18nProvider, useLocale } from '@/locales/i18n-provider';
+import { useLocale } from '@/locales/i18n-provider';
 import type { Dictionary } from '@/locales/dictionaries';
 import type { Locale } from '@/locales/config';
 
@@ -32,9 +32,9 @@ function LanguageSwitcher() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          {i18n.locales.map((loc) => (
-            <DropdownMenuItem key={loc} onSelect={() => setLocale(loc)} disabled={locale === loc}>
-                {languageMap[loc]}
+          {Object.entries(languageMap).map(([loc, name]) => (
+            <DropdownMenuItem key={loc} onSelect={() => setLocale(loc as Locale)} disabled={locale === loc}>
+                {name}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
@@ -43,10 +43,9 @@ function LanguageSwitcher() {
 }
 
 
-export function AppShell({ children, dictionary, locale }: { children: ReactNode, dictionary: Dictionary, locale: Locale }) {
+export function AppShell({ children }: { children: ReactNode }) {
   
   return (
-    <I18nProvider dictionary={dictionary} locale={locale}>
       <SidebarProvider>
         <Sidebar variant="inset" collapsible="icon">
           <SidebarHeader className="p-4 justify-center">
@@ -73,6 +72,5 @@ export function AppShell({ children, dictionary, locale }: { children: ReactNode
           </main>
         </SidebarInset>
       </SidebarProvider>
-    </I18nProvider>
   );
 }

@@ -1,5 +1,4 @@
 
-// @ts-nocheck
 'use server';
 
 import { generalAIChatbot, GeneralAIChatbotInput, GeneralAIChatbotOutput } from '@/ai/flows/agronomic-ai-chatbot';

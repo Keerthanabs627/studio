@@ -3,7 +3,7 @@
 "use client";
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { Droplets, Stethoscope, LineChart, Map, Tractor, Bell, Users, Bot, User, Radio, Landmark } from "lucide-react";
+import { Droplets, Stethoscope, LineChart, Map, Tractor, Bell, Users, Bot, Landmark, Wrench } from "lucide-react";
 import Link from "next/link";
 import { useI18n } from "@/locales/client";
 import { useState, useEffect, useTransition } from "react";
@@ -37,11 +37,12 @@ export function DashboardClient() {
     { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, color: "text-purple-500" },
     { href: "/weather", icon: WeatherIcon, title: t.dashboard.weather_forecast.title, color: "text-blue-400" },
     { href: "/schemes", icon: Landmark, title: t.sidebar.schemes, color: "text-teal-400" },
+    { href: "/equipment-rental", icon: Wrench, title: t.sidebar.equipment_rental, color: "text-lime-400" },
   ];
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-5">
         {allCards.map((card, index) => {
           const Icon = card.icon;
           return (

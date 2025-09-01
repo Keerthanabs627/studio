@@ -7,6 +7,7 @@ export default {
     market_prices: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು',
     soil_suitability: 'ಮಣ್ಣಿನ ಸೂಕ್ತತೆ',
     schemes: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು',
+    equipment_rental: 'ಉಪಕರಣಗಳ ಬಾಡಿಗೆ',
     my_fields: 'ನನ್ನ ಹೊಲಗಳು',
     reminders: 'ಜ್ಞಾಪನೆಗಳು',
     sms_reminders: 'SMS ಜ್ಞಾಪನೆಗಳು',
@@ -237,7 +238,7 @@ export default {
   },
   reminders: {
     title: 'ಜ್ಞಾಪನೆಗಳು',
-    description: 'ನಿಮ್ಮ ಕೃಷಿ ಜ್ಞಾಪನೆಗಳನ್ನು ಹೊಂದಿಸಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ.',
+    description: 'ನಿಮ್ಮ ಕೃಷಿ ಜ್ಜ್ಞಾಪನೆಗಳನ್ನು ಹೊಂದಿಸಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ.',
     card1: {
       title: 'ಹೊಸ ಜ್ಞಾಪನೆ ಸೇರಿಸಿ',
       description: 'ನಿಮ್ಮ ಫಾರ್ಮ್‌ಗಾಗಿ ಹೊಸ ಕಾರ್ಯವನ್ನು ನಿಗದಿಪಡಿಸಿ.',
@@ -341,5 +342,34 @@ export default {
     eligibility: 'ಅರ್ಹತೆ',
     benefits: 'ಪ್ರಯೋಜನಗಳು',
     official_site: 'ಅಧಿಕೃತ ಸೈಟ್',
+  },
+  equipment_rental: {
+    title: 'ಉಪಕರಣಗಳ ಬಾಡಿಗೆ',
+    description: 'ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ಬಾಡಿಗೆಗೆ ಕೃಷಿ ಉಪಕರಣಗಳನ್ನು ಹುಡುಕಿ ಅಥವಾ ಪಟ್ಟಿ ಮಾಡಿ.',
+    available_title: 'ಬಾಡಿಗೆಗೆ ಲಭ್ಯವಿದೆ',
+    listed_by: 'ರಿಂದ ಪಟ್ಟಿ ಮಾಡಲಾಗಿದೆ',
+    location: 'ಸ್ಥಳ',
+    contact_button: 'ಮಾಲೀಕರನ್ನು ಸಂಪರ್ಕಿಸಿ',
+    list_card: {
+      title: 'ನಿಮ್ಮ ಉಪಕರಣವನ್ನು ಪಟ್ಟಿ ಮಾಡಿ',
+      description: 'ನಿಮ್ಮ ಉಪಕರಣವನ್ನು ಬಾಡಿಗೆಗೆ ನೀಡಿ ಇತರ ರೈತರಿಗೆ ಸಹಾಯ ಮಾಡಿ.',
+      name_label: 'ಉಪಕರಣದ ಹೆಸರು',
+      name_placeholder: 'ಉದಾ., ಟ್ರ್ಯಾಕ್ಟರ್, ರೋಟಾವೇಟರ್',
+      rate_label: 'ಬಾಡಿಗೆ ದರ',
+      rate_placeholder: 'ಉದಾ., ₹1200/ಗಂಟೆ, ₹5000/ದಿನ',
+      location_label: 'ನಿಮ್ಮ ಸ್ಥಳ',
+      location_placeholder: 'ಉದಾ., ಬೆಳಗಾವಿ, ಕರ್ನಾಟಕ',
+      button: 'ನನ್ನ ಉಪಕರಣವನ್ನು ಪಟ್ಟಿ ಮಾಡಿ',
+    },
+    toast: {
+      load_error_title: "ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ",
+      load_error_desc: "ಉಪಕರಣಗಳ ಪಟ್ಟಿಯನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",
+      missing_info_title: "ಮಾಹಿತಿ ಕಾಣೆಯಾಗಿದೆ",
+      missing_info_desc: "ನಿಮ್ಮ ಉಪಕರಣವನ್ನು ಪಟ್ಟಿ ಮಾಡಲು ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.",
+      add_success_title: "ಉಪಕರಣವನ್ನು ಪಟ್ಟಿ ಮಾಡಲಾಗಿದೆ",
+      add_success_desc: "ನಿಮ್ಮ ಉಪಕರಣವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಟ್ಟಿ ಮಾಡಲಾಗಿದೆ.",
+      add_error_title: "ಪಟ್ಟಿ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ",
+      add_error_desc: "ನಿಮ್ಮ ಉಪಕರಣವನ್ನು ಪಟ್ಟಿ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+    }
   }
 } as const;

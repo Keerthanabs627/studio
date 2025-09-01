@@ -7,6 +7,7 @@ export default {
     market_prices: 'Market Prices',
     soil_suitability: 'Soil Suitability',
     schemes: 'Govt. Schemes',
+    equipment_rental: 'Equipment Rental',
     my_fields: 'My Fields',
     reminders: 'Reminders',
     sms_reminders: 'SMS Reminders',
@@ -342,5 +343,34 @@ export default {
     eligibility: 'Eligibility',
     benefits: 'Benefits',
     official_site: 'Official Site',
+  },
+  equipment_rental: {
+    title: 'Equipment Rental',
+    description: 'Find or list agricultural equipment for rent in your area.',
+    available_title: 'Available for Rent',
+    listed_by: 'Listed by',
+    location: 'Location',
+    contact_button: 'Contact Owner',
+    list_card: {
+      title: 'List Your Equipment',
+      description: 'Help other farmers by listing your equipment for rent.',
+      name_label: 'Equipment Name',
+      name_placeholder: 'e.g., Tractor, Rotavator',
+      rate_label: 'Rental Rate',
+      rate_placeholder: 'e.g., ₹1200/hour, ₹5000/day',
+      location_label: 'Your Location',
+      location_placeholder: 'e.g., Belagavi, Karnataka',
+      button: 'List My Equipment',
+    },
+    toast: {
+        load_error_title: "Failed to Load",
+        load_error_desc: "Could not load equipment list.",
+        missing_info_title: "Missing Information",
+        missing_info_desc: "Please fill out all fields to list your equipment.",
+        add_success_title: "Equipment Listed",
+        add_success_desc: "Your equipment has been successfully listed.",
+        add_error_title: "Failed to List",
+        add_error_desc: "Could not list your equipment. Please try again.",
+    }
   }
 } as const;

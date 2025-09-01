@@ -7,6 +7,7 @@ export default {
     market_prices: 'మార్కెట్ ధరలు',
     soil_suitability: 'నేల అనుకూలత',
     schemes: 'ప్రభుత్వ పథకాలు',
+    equipment_rental: 'పరికరాల అద్దె',
     my_fields: 'నా పొలాలు',
     reminders: 'రిమైండర్‌లు',
     sms_reminders: 'SMS రిమైండర్‌లు',
@@ -342,5 +343,34 @@ export default {
     eligibility: 'అర్హత',
     benefits: 'ప్రయోజనాలు',
     official_site: 'అధికారిక సైట్',
+  },
+  equipment_rental: {
+    title: 'పరికరాల అద్దె',
+    description: 'మీ ప్రాంతంలో అద్దెకు వ్యవసాయ పరికరాలను కనుగొనండి లేదా జాబితా చేయండి.',
+    available_title: 'అద్దెకు లభ్యం',
+    listed_by: 'జాబితా చేసినవారు',
+    location: 'స్థానం',
+    contact_button: 'యజమానిని సంప్రదించండి',
+    list_card: {
+      title: 'మీ పరికరాలను జాబితా చేయండి',
+      description: 'మీ పరికరాలను అద్దెకు ఇచ్చి ఇతర రైతులకు సహాయం చేయండి.',
+      name_label: 'పరికరం పేరు',
+      name_placeholder: 'ఉదా., ట్రాక్టర్, రోటావేటర్',
+      rate_label: 'అద్దె రేటు',
+      rate_placeholder: 'ఉదా., ₹1200/గంట, ₹5000/రోజు',
+      location_label: 'మీ స్థానం',
+      location_placeholder: 'ఉదా., బెళగావి, కర్ణాటక',
+      button: 'నా పరికరాన్ని జాబితా చేయండి',
+    },
+    toast: {
+      load_error_title: "లోడ్ చేయడంలో విఫలమైంది",
+      load_error_desc: "పరికరాల జాబితాను లోడ్ చేయడం సాధ్యపడలేదు.",
+      missing_info_title: "సమాచారం లేదు",
+      missing_info_desc: "దయచేసి మీ పరికరాలను జాబితా చేయడానికి అన్ని ఫీల్డ్‌లను పూరించండి.",
+      add_success_title: "పరికరం జాబితా చేయబడింది",
+      add_success_desc: "మీ పరికరం విజయవంతంగా జాబితా చేయబడింది.",
+      add_error_title: "జాబితా చేయడంలో విఫలమైంది",
+      add_error_desc: "మీ పరికరాన్ని జాబితా చేయడం సాధ్యపడలేదు. దయచేసి మళ్లీ ప్రయత్నించండి.",
+    }
   }
 } as const;

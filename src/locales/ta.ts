@@ -7,6 +7,7 @@ export default {
     market_prices: 'சந்தை விலைகள்',
     soil_suitability: 'மண் பொருத்தம்',
     schemes: 'அரசு திட்டங்கள்',
+    equipment_rental: 'உபகரணங்கள் வாடகை',
     my_fields: 'என் வயல்கள்',
     reminders: 'நினைவூட்டல்கள்',
     sms_reminders: 'SMS நினைவூட்டல்கள்',
@@ -342,5 +343,34 @@ export default {
     eligibility: 'தகுதி',
     benefits: 'நன்மைகள்',
     official_site: 'அதிகாரப்பூர்வ தளம்',
+  },
+  equipment_rental: {
+    title: 'உபகரணங்கள் வாடகை',
+    description: 'உங்கள் பகுதியில் வாடகைக்கு விவசாய உபகரணங்களைக் கண்டறியவும் அல்லது பட்டியலிடவும்.',
+    available_title: 'வாடகைக்கு கிடைக்கும்',
+    listed_by: 'பட்டியலிட்டவர்',
+    location: 'இடம்',
+    contact_button: 'உரிமையாளரைத் தொடர்பு கொள்ளுங்கள்',
+    list_card: {
+      title: 'உங்கள் உபகரணங்களைப் பட்டியலிடுங்கள்',
+      description: 'உங்கள் உபகரணங்களை வாடகைக்கு விட்டு மற்ற விவசாயிகளுக்கு உதவுங்கள்.',
+      name_label: 'உபகரணத்தின் பெயர்',
+      name_placeholder: 'உதா., டிராக்டர், ரோட்டாவேட்டர்',
+      rate_label: 'வாடகை விகிதம்',
+      rate_placeholder: 'உதா., ₹1200/மணி, ₹5000/நாள்',
+      location_label: 'உங்கள் இடம்',
+      location_placeholder: 'உதா., பெலகாவி, கர்நாடகா',
+      button: 'என் உபகரணத்தைப் பட்டியலிடு',
+    },
+    toast: {
+        load_error_title: "ஏற்றுவதில் தோல்வி",
+        load_error_desc: "உபகரணப் பட்டியலை ஏற்ற முடியவில்லை.",
+        missing_info_title: "தகவல் இல்லை",
+        missing_info_desc: "உங்கள் உபகரணங்களைப் பட்டியலிட அனைத்து புலங்களையும் நிரப்பவும்.",
+        add_success_title: "உபகரணம் பட்டியலிடப்பட்டது",
+        add_success_desc: "உங்கள் உபகரணம் வெற்றிகரமாக பட்டியலிடப்பட்டது.",
+        add_error_title: "பட்டியலிடுவதில் தோல்வி",
+        add_error_desc: "உங்கள் உபகரணத்தைப் பட்டியலிட முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    }
   }
 } as const;

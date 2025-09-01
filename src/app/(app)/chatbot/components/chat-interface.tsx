@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { generalAIChatbot, GeneralAIChatbotInput, GeneralAIChatbotOutput } from '@/ai/flows/agronomic-ai-chatbot';
+import { getAIResponse } from '@/app/(app)/chatbot/actions';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useI18n } from '@/locales/client';
@@ -75,7 +75,7 @@ export function ChatInterface() {
 
     startTransition(async () => {
       try {
-        const result = await generalAIChatbot({ query: currentInput, photoDataUri: imageDataUri || undefined });
+        const result = await getAIResponse({ query: currentInput, photoDataUri: imageDataUri || undefined });
         
         setImagePreview(null);
         setImageDataUri(null);

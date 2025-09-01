@@ -4,7 +4,7 @@
 
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { useI18n } from "@/locales/client";
-import { Stethoscope, Droplets, Tractor, Users, ArrowDown } from "lucide-react";
+import { Stethoscope, Droplets, Tractor, Users } from "lucide-react";
 
 export default function GuidePage() {
   const t = useI18n();
@@ -43,29 +43,21 @@ export default function GuidePage() {
         <p className="text-muted-foreground">{t.guide.description}</p>
       </div>
 
-      <div className="flex flex-col items-center">
+      <div className="space-y-6">
         {steps.map((step, index) => {
           const Icon = step.icon;
           return (
-            <div key={index} className="flex flex-col items-center w-full">
-              <Card className="w-full">
-                <CardContent className="p-6 flex items-center gap-6">
+            <Card key={index} className="overflow-hidden">
+                <CardContent className="p-6 flex items-start md:items-center gap-6">
                   <div className={`flex items-center justify-center h-16 w-16 shrink-0 rounded-full ${step.color}`}>
                     <Icon className="h-8 w-8" />
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <h3 className="text-xl font-semibold">{step.title}</h3>
                     <p className="text-sm text-muted-foreground mt-1">{step.description}</p>
                   </div>
                 </CardContent>
-              </Card>
-              
-              {index < steps.length - 1 && (
-                <div className="h-16 w-px bg-border my-2 relative">
-                    <ArrowDown className="h-5 w-5 text-muted-foreground absolute bottom-0 left-1/2 -translate-x-1/2" />
-                </div>
-              )}
-            </div>
+            </Card>
           );
         })}
       </div>

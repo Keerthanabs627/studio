@@ -80,7 +80,7 @@ export function DashboardClient() {
         <div className="grid gap-6 md:grid-cols-2">
              <Card>
                 <CardHeader>
-                    <CardTitle>{profile ? `Welcome, ${profile.name}!` : 'Welcome!'}</CardTitle>
+                    <CardTitle>{t.dashboard.welcome}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-muted-foreground">{t.dashboard.description}</p>

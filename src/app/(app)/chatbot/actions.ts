@@ -1,6 +1,6 @@
 'use server';
 
-import { generalAIChatbot, GeneralAIChatbotInput } from '@/ai/flows/agronomic-ai-chatbot';
+import { generalAIChatbot, GeneralAIChatbotInput, GeneralAIChatbotOutput } from '@/ai/flows/agronomic-ai-chatbot';
 import { z } from 'zod';
 
 const chatSchema = z.object({
@@ -17,7 +17,7 @@ export async function getAIResponse(input: GeneralAIChatbotInput): Promise<{ ans
   }
 
   try {
-    const output = await generalAIChatbot(validatedInput.data);
+    const output: GeneralAIChatbotOutput = await generalAIChatbot(validatedInput.data);
     return { answer: output.answer, requires_image: output.requires_image };
   } catch (e) {
     console.error('AI Chatbot Error:', e);

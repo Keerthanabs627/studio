@@ -87,22 +87,22 @@ const generalAIChatbotFlow = ai.defineFlow(
       tools: generalAIChatbotPrompt.config.tools,
     });
 
-    const answer = response.text;
-    const requires_image =
-      response.content.some(
-        part => part.toolRequest?.name === 'diagnoseCrop'
-      ) && !input.photoDataUri;
+    const toolRequest = response.toolRequest();
     
-    if (requires_image) {
+    // If the model wants to call the crop doctor but there's no photo,
+    // ask the user for a photo.
+    if (toolRequest?.name === 'diagnoseCrop' && !input.photoDataUri) {
       return {
-        answer: "It sounds like you have a question about a plant's health. To help you with that, please upload a photo of the affected plant.",
+        answer:
+          "It sounds like you have a question about a plant's health. To help you with that, please upload a photo of the affected plant.",
         requires_image: true,
       };
     }
-
+    
+    const answer = response.text;
     return {
       answer,
-      requires_image: false,
+      requires_image: false, // In all other cases, we don't need an image.
     };
   }
 );

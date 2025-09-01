@@ -1,10 +1,9 @@
-
 // @ts-nocheck
 "use client";
 
 import { usePathname } from 'next/navigation';
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
-import { Bot, Calculator, LayoutDashboard, LineChart, User, Users, Map, Tractor, Bell, MessageCircle, Stethoscope, Radio, Landmark, Wrench, Compass } from 'lucide-react';
+import { Bot, Calculator, LayoutDashboard, LineChart, User, Users, Map, Tractor, Bell, MessageCircle, Stethoscope, Radio, Landmark, Wrench, Compass, Code } from 'lucide-react';
 import Link from 'next/link';
 import { useI18n } from '@/locales/client';
 import { WeatherIcon } from '../icons/weather-icon';
@@ -29,6 +28,7 @@ export function SidebarNav() {
     { href: '/community', label: t.sidebar.community, icon: Users },
     { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
     { href: '/profile', label: t.sidebar.our_profile, icon: User },
+    { href: '/codes', label: t.sidebar.codes, icon: Code },
   ];
 
   return (

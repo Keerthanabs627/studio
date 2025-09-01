@@ -15,6 +15,7 @@ export default {
     ai_chatbot: 'AI Chatbot',
     our_profile: 'Our Profile',
     guide: 'Guide',
+    codes: 'Codes',
   },
   dashboard: {
     welcome: 'Hello community',
@@ -389,5 +390,9 @@ export default {
     step4_title: '4. Connect & Collaborate',
     step4_desc: "You're not alone. Share your findings in the Community Hub, hire help in the Labor Marketplace, or ask the AI Chatbot any question you have.",
     app_flow: 'Application Flow'
+  },
+  codes: {
+    title: 'Application Code',
+    description: 'The complete source code for every file in this application.'
   }
 } as const;

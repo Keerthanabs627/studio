@@ -7,6 +7,7 @@ export default {
     market_prices: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು',
     soil_suitability: 'ಮಣ್ಣಿನ ಸೂಕ್ತತೆ',
     schemes: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು',
+    labor_marketplace: 'ಕಾರ್ಮಿಕ ಮಾರುಕಟ್ಟೆ',
     my_fields: 'ನನ್ನ ಹೊಲಗಳು',
     reminders: 'ಜ್ಞಾಪನೆಗಳು',
     notifications: 'ಅಧಿಸೂಚನೆಗಳು',
@@ -247,7 +248,7 @@ export default {
       button: 'ಜ್ಞಾಪನೆ ಸೇರಿಸಿ',
     },
     card2: {
-      title: 'ಮುಂಬರುವ ಜ್ಞಾಪನೆಗಳು',
+      title: 'ಮುಂಬರುವ ಜ್ турниರೆಗಳು',
       description: 'ನಿಮ್ಮ ನಿಗದಿತ ಕಾರ್ಯಗಳು ಇಲ್ಲಿ ಪಟ್ಟಿಮಾಡಲಾಗಿದೆ.',
       no_reminders: 'ನಿಮಗೆ ಯಾವುದೇ ಮುಂಬರುವ ಜ್ಞಾಪನೆಗಳಿಲ್ಲ.',
       delete_button_sr: 'ಜ್ಞಾಪನೆಯನ್ನು ಅಳಿಸಿ',
@@ -341,5 +342,37 @@ export default {
     eligibility: 'ಅರ್ಹತೆ',
     benefits: 'ಪ್ರಯೋಜನಗಳು',
     official_site: 'ಅಧಿಕೃತ ಸೈಟ್',
+  },
+  labor_marketplace: {
+    title: "ಕಾರ್ಮಿಕ ಮಾರುಕಟ್ಟೆ",
+    description: "ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ಕೃಷಿ ಉದ್ಯೋಗಾವಕಾಶಗಳನ್ನು ಹುಡುಕಿ ಅಥವಾ ಪೋಸ್ಟ್ ಮಾಡಿ.",
+    available_title: "ಲಭ್ಯವಿರುವ ಉದ್ಯೋಗಗಳು",
+    listed_by: "ಪಟ್ಟಿ ಮಾಡಿದವರು",
+    location: "ಸ್ಥಳ",
+    post_card: {
+      title: "ಉದ್ಯೋಗವನ್ನು ಪೋಸ್ಟ್ ಮಾಡಿ",
+      description: "ಕೆಲಸಗಾರರನ್ನು ಹುಡುಕಲು ಉದ್ಯೋಗ ಖಾಲಿತನವನ್ನು ಪಟ್ಟಿ ಮಾಡಿ.",
+      title_label: "ಉದ್ಯೋಗ ಶೀರ್ಷಿಕೆ",
+      title_placeholder: "ಉದಾ., ಗೋಧಿ ಕೊಯ್ಲುಗಾರ",
+      description_label: "ಉದ್ಯೋಗ ವಿವರಣೆ",
+      description_placeholder: "ಕಾರ್ಯಗಳು, ಅವಧಿ, ಇತ್ಯಾದಿಗಳನ್ನು ವಿವರಿಸಿ.",
+      location_label: "ಸ್ಥಳ",
+      location_placeholder: "ಉದಾ., ಬೆಳಗಾವಿ, ಕರ್ನಾಟಕ",
+      rate_label: "ಪಾವತಿ/ದರ",
+      rate_placeholder: "ಉದಾ., ₹500/ದಿನ",
+      contact_label: "ಸಂಪರ್ಕ ಮಾಹಿತಿ",
+      contact_placeholder: "ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆ ಅಥವಾ ಇಮೇಲ್",
+      button: "ಉದ್ಯೋಗವನ್ನು ಪೋಸ್ಟ್ ಮಾಡಿ"
+    },
+    toast: {
+      load_error_title: "ಉದ್ಯೋಗಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ",
+      load_error_desc: "ಉದ್ಯೋಗ ಪಟ್ಟಿಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+      missing_info_title: "ಮಾಹಿತಿ ಕಾಣೆಯಾಗಿದೆ",
+      missing_info_desc: "ಉದ್ಯೋಗವನ್ನು ಪೋಸ್ಟ್ ಮಾಡಲು ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ.",
+      add_success_title: "ಉದ್ಯೋಗ ಪೋಸ್ಟ್ ಮಾಡಲಾಗಿದೆ",
+      add_success_desc: "ನಿಮ್ಮ ಉದ್ಯೋಗವನ್ನು ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ಪಟ್ಟಿ ಮಾಡಲಾಗಿದೆ.",
+      add_error_title: "ಉದ್ಯೋಗವನ್ನು ಪೋಸ್ಟ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ",
+      add_error_desc: "ನಿಮ್ಮ ಉದ್ಯೋಗ ಪಟ್ಟಿಯನ್ನು ಉಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
+    }
   },
 } as const;

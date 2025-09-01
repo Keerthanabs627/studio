@@ -32,6 +32,7 @@ export function DashboardClient() {
     { href: "/market-prices", icon: LineChart, title: t.market_prices.title, color: "text-green-400" },
     { href: "/soil-suitability", icon: Map, title: t.sidebar.soil_suitability, color: "text-purple-400" },
     { href: "/my-fields", icon: Tractor, title: t.sidebar.my_fields, color: "text-red-400" },
+    { href: "/labor-marketplace", icon: Wrench, title: t.sidebar.labor_marketplace, color: "text-cyan-400" },
     { href: "/reminders", icon: Bell, title: t.sidebar.reminders, color: "text-orange-400" },
     { href: "/community", icon: Users, title: t.sidebar.community, color: "text-pink-400" },
     { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, color: "text-purple-500" },

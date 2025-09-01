@@ -7,6 +7,7 @@ export default {
     market_prices: 'మార్కెట్ ధరలు',
     soil_suitability: 'నేల అనుకూలత',
     schemes: 'ప్రభుత్వ పథకాలు',
+    labor_marketplace: 'లేబర్ మార్కెట్‌ప్లేస్',
     my_fields: 'నా పొలాలు',
     reminders: 'రిమైండర్‌లు',
     notifications: 'నోటిఫికేషన్‌లు',
@@ -342,5 +343,37 @@ export default {
     eligibility: 'అర్హత',
     benefits: 'ప్రయోజనాలు',
     official_site: 'అధికారిక సైట్',
+  },
+  labor_marketplace: {
+    title: "లేబర్ మార్కెట్‌ప్లేస్",
+    description: "మీ ప్రాంతంలో వ్యవసాయ ఉద్యోగ అవకాశాలను కనుగొనండి లేదా పోస్ట్ చేయండి.",
+    available_title: "అందుబాటులో ఉన్న ఉద్యోగాలు",
+    listed_by: "జాబితా చేసినవారు",
+    location: "స్థానం",
+    post_card: {
+      title: "ఉద్యోగాన్ని పోస్ట్ చేయండి",
+      description: "కార్మికులను కనుగొనడానికి ఒక ఉద్యోగ ఖాళీని జాబితా చేయండి.",
+      title_label: "ఉద్యోగ శీర్షిక",
+      title_placeholder: "ఉదా., గోధుమ కోత కోసేవారు",
+      description_label: "ఉద్యోగ వివరణ",
+      description_placeholder: "పనులు, వ్యవధి, మొదలైనవాటిని వివరించండి.",
+      location_label: "స్థానం",
+      location_placeholder: "ఉదా., బెలగావి, కర్ణాటక",
+      rate_label: "చెల్లింపు/రేటు",
+      rate_placeholder: "ఉదా., ₹500/రోజు",
+      contact_label: "సంప్రదింపు సమాచారం",
+      contact_placeholder: "మీ ఫోన్ నంబర్ లేదా ఇమెయిల్",
+      button: "ఉద్యోగాన్ని పోస్ట్ చేయండి"
+    },
+    toast: {
+      load_error_title: "ఉద్యోగాలను లోడ్ చేయడంలో విఫలమైంది",
+      load_error_desc: "ఉద్యోగ జాబితాలను లోడ్ చేయడం సాధ్యం కాలేదు. దయచేసి మళ్లీ ప్రయత్నించండి.",
+      missing_info_title: "సమాచారం లేదు",
+      missing_info_desc: "ఉద్యోగాన్ని పోస్ట్ చేయడానికి దయచేసి అన్ని ఫీల్డ్‌లను పూరించండి.",
+      add_success_title: "ఉద్యోగం పోస్ట్ చేయబడింది",
+      add_success_desc: "మీ ఉద్యోగం మార్కెట్‌ప్లేస్‌లో జాబితా చేయబడింది.",
+      add_error_title: "ఉద్యోగాన్ని పోస్ట్ చేయడంలో విఫలమైంది",
+      add_error_desc: "మీ ఉద్యోగ జాబితాను సేవ్ చేయడం సాధ్యం కాలేదు. దయచేసి మళ్లీ ప్రయత్నించండి."
+    }
   },
 } as const;

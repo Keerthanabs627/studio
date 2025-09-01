@@ -7,6 +7,7 @@ export default {
     market_prices: 'बाजार मूल्य',
     soil_suitability: 'मिट्टी की उपयुक्तता',
     schemes: 'सरकारी योजनाएं',
+    labor_marketplace: 'श्रम बाज़ार',
     my_fields: 'मेरे खेत',
     reminders: 'अनुस्मारक',
     notifications: 'सूचनाएं',
@@ -342,5 +343,37 @@ export default {
     eligibility: 'पात्रता',
     benefits: 'लाभ',
     official_site: 'आधिकारिक साइट',
+  },
+  labor_marketplace: {
+    title: "श्रम बाज़ार",
+    description: "अपने क्षेत्र में कृषि नौकरी के अवसर खोजें या पोस्ट करें।",
+    available_title: "उपलब्ध नौकरियां",
+    listed_by: "द्वारा सूचीबद्ध",
+    location: "स्थान",
+    post_card: {
+      title: "नौकरी पोस्ट करें",
+      description: "श्रमिकों को खोजने के लिए एक नौकरी की रिक्ति सूचीबद्ध करें।",
+      title_label: "नौकरी का शीर्षक",
+      title_placeholder: "जैसे, गेहूं की कटाई करने वाला",
+      description_label: "नौकरी का विवरण",
+      description_placeholder: "कार्यों, अवधि, आदि का वर्णन करें।",
+      location_label: "स्थान",
+      location_placeholder: "जैसे, बेलगावी, कर्नाटक",
+      rate_label: "वेतन/दर",
+      rate_placeholder: "जैसे, ₹500/दिन",
+      contact_label: "संपर्क जानकारी",
+      contact_placeholder: "आपका फ़ोन नंबर या ईमेल",
+      button: "नौकरी पोस्ट करें"
+    },
+    toast: {
+      load_error_title: "नौकरियां लोड करने में विफल",
+      load_error_desc: "नौकरी लिस्टिंग लोड नहीं हो सकी। कृपया पुनः प्रयास करें।",
+      missing_info_title: "अधूरी जानकारी",
+      missing_info_desc: "नौकरी पोस्ट करने के लिए कृपया सभी फ़ील्ड भरें।",
+      add_success_title: "नौकरी पोस्ट की गई",
+      add_success_desc: "आपकी नौकरी बाज़ार में सूचीबद्ध हो गई है।",
+      add_error_title: "नौकरी पोस्ट करने में विफल",
+      add_error_desc: "आपकी नौकरी लिस्टिंग सहेजी नहीं जा सकी। कृपया पुनः प्रयास करें।"
+    }
   },
 } as const;

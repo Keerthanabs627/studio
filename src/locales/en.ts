@@ -7,6 +7,7 @@ export default {
     market_prices: 'Market Prices',
     soil_suitability: 'Soil Suitability',
     schemes: 'Govt. Schemes',
+    labor_marketplace: 'Labor Marketplace',
     my_fields: 'My Fields',
     reminders: 'Reminders',
     notifications: 'Notifications',
@@ -342,5 +343,37 @@ export default {
     eligibility: 'Eligibility',
     benefits: 'Benefits',
     official_site: 'Official Site',
+  },
+  labor_marketplace: {
+    title: "Labor Marketplace",
+    description: "Find or post agricultural job opportunities in your area.",
+    available_title: "Available Jobs",
+    listed_by: "Listed by",
+    location: "Location",
+    post_card: {
+      title: "Post a Job",
+      description: "List a job opening to find workers.",
+      title_label: "Job Title",
+      title_placeholder: "e.g., Wheat Harvester",
+      description_label: "Job Description",
+      description_placeholder: "Describe the tasks, duration, etc.",
+      location_label: "Location",
+      location_placeholder: "e.g., Belagavi, Karnataka",
+      rate_label: "Pay/Rate",
+      rate_placeholder: "e.g., ₹500/day",
+      contact_label: "Contact Information",
+      contact_placeholder: "Your phone number or email",
+      button: "Post Job"
+    },
+    toast: {
+      load_error_title: "Failed to load jobs",
+      load_error_desc: "Could not load job listings. Please try again.",
+      missing_info_title: "Missing Information",
+      missing_info_desc: "Please fill out all fields to post a job.",
+      add_success_title: "Job Posted",
+      add_success_desc: "Your job has been listed on the marketplace.",
+      add_error_title: "Failed to post job",
+      add_error_desc: "Could not save your job listing. Please try again."
+    }
   },
 } as const;

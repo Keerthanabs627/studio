@@ -7,6 +7,7 @@ export default {
     market_prices: 'சந்தை விலைகள்',
     soil_suitability: 'மண் பொருத்தம்',
     schemes: 'அரசு திட்டங்கள்',
+    labor_marketplace: 'தொழிலாளர் சந்தை',
     my_fields: 'என் வயல்கள்',
     reminders: 'நினைவூட்டல்கள்',
     notifications: 'அறிவிப்புகள்',
@@ -342,5 +343,37 @@ export default {
     eligibility: 'தகுதி',
     benefits: 'நன்மைகள்',
     official_site: 'அதிகாரப்பூர்வ தளம்',
+  },
+  labor_marketplace: {
+    title: "தொழிலாளர் சந்தை",
+    description: "உங்கள் பகுதியில் விவசாய வேலை வாய்ப்புகளைக் கண்டறியவும் அல்லது இடுகையிடவும்.",
+    available_title: "கிடைக்கக்கூடிய வேலைகள்",
+    listed_by: "பட்டியலிட்டவர்",
+    location: "இடம்",
+    post_card: {
+      title: "ஒரு வேலையை இடுகையிடவும்",
+      description: "தொழிலாளர்களைக் கண்டுபிடிக்க ஒரு வேலை காலியிடத்தை பட்டியலிடுங்கள்.",
+      title_label: "வேலை தலைப்பு",
+      title_placeholder: "உதா., கோதுமை அறுவடை செய்பவர்",
+      description_label: "வேலை விளக்கம்",
+      description_placeholder: "பணிகள், காலம் போன்றவற்றை விவரிக்கவும்.",
+      location_label: "இடம்",
+      location_placeholder: "உதா., பெலகாவி, கர்நாடகா",
+      rate_label: "சம்பளம்/விகிதம்",
+      rate_placeholder: "உதா., ₹500/நாள்",
+      contact_label: "தொடர்பு தகவல்",
+      contact_placeholder: "உங்கள் தொலைபேசி எண் அல்லது மின்னஞ்சல்",
+      button: "வேலையை இடுகையிடவும்"
+    },
+    toast: {
+      load_error_title: "வேலைகளை ஏற்ற முடியவில்லை",
+      load_error_desc: "வேலை பட்டியல்களை ஏற்ற முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+      missing_info_title: "விடுபட்ட தகவல்",
+      missing_info_desc: "ஒரு வேலையை இடுகையிட தயவுசெய்து அனைத்து புலங்களையும் நிரப்பவும்.",
+      add_success_title: "வேலை இடுகையிடப்பட்டது",
+      add_success_desc: "உங்கள் வேலை சந்தையில் பட்டியலிடப்பட்டுள்ளது.",
+      add_error_title: "வேலையை இடுகையிட முடியவில்லை",
+      add_error_desc: "உங்கள் வேலை பட்டியலைச் சேமிக்க முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
+    }
   },
 } as const;

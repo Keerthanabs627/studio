@@ -49,7 +49,6 @@ export async function generalAIChatbot(
 const generalAIChatbotPrompt = ai.definePrompt({
   name: 'generalAIChatbotPrompt',
   input: {schema: GeneralAIChatbotInputSchema},
-  output: {schema: GeneralAIChatbotOutputSchema},
   tools: [
     weatherTool,
     soilSuitabilityTool,
@@ -60,7 +59,7 @@ const generalAIChatbotPrompt = ai.definePrompt({
 
 - Your main expertise is agriculture. Use the provided tools to answer user questions comprehensively.
 - If a user asks a question that is not related to agriculture, answer it as a general AI assistant.
-- If a user asks about something that requires a visual, like a plant disease, you MUST set 'requires_image' to true in your response and ask the user to upload a photo. Do not try to answer without the image.
+- If a user asks about something that requires a visual, like a plant disease, you MUST ask the user to upload a photo. Do not try to answer without the image.
 - If the user provides an image, use the cropDoctorTool to analyze it.
 - Combine information from multiple tools if needed to give a complete answer.
 - Always be friendly and conversational.
@@ -80,17 +79,19 @@ const generalAIChatbotFlow = ai.defineFlow(
   },
   async input => {
     const llm = ai.getGenerator('gemini-1.5-pro-latest');
+    
     const response = await llm.generate({
       prompt: {
         ...generalAIChatbotPrompt.compile(input),
       },
       tools: generalAIChatbotPrompt.config.tools,
+      toolRequest: 'auto'
     });
 
     const toolRequest = response.toolRequest();
     
-    // If the model wants to call the crop doctor but there's no photo,
-    // ask the user for a photo.
+    // This is a specific workaround. If the model wants to call the crop doctor tool
+    // but the user hasn't provided a photo yet, we interrupt the flow and ask for one.
     if (toolRequest?.name === 'diagnoseCrop' && !input.photoDataUri) {
       return {
         answer:
@@ -100,9 +101,19 @@ const generalAIChatbotFlow = ai.defineFlow(
     }
     
     const answer = response.text;
+    
+    if(!answer){
+        return {
+            answer: "Sorry, I encountered an issue and cannot provide a response right now. Please try again.",
+            requires_image: false
+        }
+    }
+
+    // In all other cases, we return the generated text.
+    // The `requires_image` flag is only true in the specific case handled above.
     return {
       answer,
-      requires_image: false, // In all other cases, we don't need an image.
+      requires_image: false,
     };
   }
 );

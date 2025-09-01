@@ -31,6 +31,7 @@ export function ChatInterface() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageDataUri, setImageDataUri] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const [isAwaitingImage, setIsAwaitingImage] = useState(false);
   
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -70,6 +71,7 @@ export function ChatInterface() {
     setMessages((prev) => [...prev, userMessage]);
     const currentInput = input;
     setInput('');
+    setIsAwaitingImage(false);
 
     startTransition(async () => {
       const result = await getAIResponse({ query: currentInput, photoDataUri: imageDataUri || undefined });
@@ -86,10 +88,12 @@ export function ChatInterface() {
         });
         const errorMessage: Message = { role: 'assistant', content: t.chatbot.error_message };
         setMessages((prev) => [...prev, errorMessage]);
-
       } else {
         const assistantMessage: Message = { role: 'assistant', content: result.answer || t.chatbot.no_answer };
         setMessages((prev) => [...prev, assistantMessage]);
+        if (result.requires_image) {
+          setIsAwaitingImage(true);
+        }
       }
     });
   };
@@ -154,7 +158,7 @@ export function ChatInterface() {
             <Button 
                 type="button" 
                 size="icon" 
-                variant="outline"
+                variant={isAwaitingImage ? "default" : "outline"}
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isPending}
                 aria-label="Attach image"
@@ -173,6 +177,11 @@ export function ChatInterface() {
                 <span className="sr-only">{t.chatbot.send_button_sr}</span>
             </Button>
             </form>
+             {isAwaitingImage && (
+                <p className="text-xs text-muted-foreground mt-2">
+                    Please upload an image to help the AI diagnose the issue.
+                </p>
+            )}
         </div>
       </CardContent>
     </Card>

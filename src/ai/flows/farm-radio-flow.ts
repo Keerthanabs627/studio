@@ -15,7 +15,7 @@ import {getMarketPrices} from '@/app/(app)/market-prices/actions';
 import {getReminders} from '@/app/(app)/reminders/actions';
 
 const FarmRadioInputSchema = z.object({
-  location: z.string().describe('The user\'s location for the weather forecast.'),
+  location: z.string().describe("The user's location for the weather forecast."),
   locale: z.string().describe('The language locale for the broadcast (e.g., "en", "hi").'),
 });
 
@@ -75,6 +75,7 @@ const farmRadioFlow = ai.defineFlow(
       prompt: `You are a friendly radio host for a farm news program. Generate a short, engaging radio script (about 100-120 words) for a farmer. The script must be in ${language}.
 
       Here is the information to include:
+      - Location: ${input.location}
       - Weather Forecast: ${weatherString}
       - Top 3 Market Prices: ${pricesString}
       - Upcoming Reminders: ${remindersString}
@@ -82,7 +83,7 @@ const farmRadioFlow = ai.defineFlow(
       Start with a warm greeting. Keep the tone positive and informative. End with a friendly sign-off.
       Do not use markdown or any special formatting. Just plain text for the script.
       `,
-      model: ai.model('gemini-2.5-flash'),
+      model: ai.model('gemini-1.5-flash'),
       output: {
         schema: z.string(),
       },

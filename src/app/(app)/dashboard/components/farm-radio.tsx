@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 "use client";
 
@@ -10,7 +9,7 @@ import { Loader2, Play, Pause, Radio } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { generateFarmRadio } from '../actions';
 
-export function FarmRadio() {
+export function FarmRadio({ location }: { location: string }) {
     const t = useI18n();
     const { locale } = useLocale();
     const { toast } = useToast();
@@ -18,6 +17,16 @@ export function FarmRadio() {
     const [isLoading, setIsLoading] = useState(false);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
+
+    useEffect(() => {
+        // Reset audio if location changes
+        setIsPlaying(false);
+        setAudioSrc(null);
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.src = '';
+        }
+    }, [location]);
 
     useEffect(() => {
         if (audioRef.current && audioSrc) {
@@ -42,7 +51,7 @@ export function FarmRadio() {
         } else {
             setIsLoading(true);
             try {
-                const result = await generateFarmRadio({ location: 'Belagavi', locale: locale });
+                const result = await generateFarmRadio({ location, locale });
                 if (result.error) {
                     throw new Error(result.error);
                 }
@@ -62,7 +71,7 @@ export function FarmRadio() {
     };
     
     return (
-        <Card>
+        <Card className="flex flex-col">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Radio className="w-5 h-5 text-primary" />
@@ -70,8 +79,8 @@ export function FarmRadio() {
                 </CardTitle>
                 <CardDescription>{t.dashboard.farm_radio.description}</CardDescription>
             </CardHeader>
-            <CardContent>
-                <Button onClick={handlePlayPause} className="w-full" disabled={isLoading}>
+            <CardContent className="flex-1 flex items-center justify-center">
+                <Button onClick={handlePlayPause} className="w-full" disabled={isLoading || !location}>
                     {isLoading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -94,4 +103,3 @@ export function FarmRadio() {
         </Card>
     );
 }
-

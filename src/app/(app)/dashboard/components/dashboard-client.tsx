@@ -6,7 +6,6 @@ import { Bot, Calculator, LineChart, Users, Map, Tractor, Bell, MessageCircle, S
 import Link from "next/link";
 import { useI18n } from "@/locales/client";
 import { WeatherForecast } from "./weather-forecast";
-import { FarmRadio } from "./farm-radio";
 import { useState, useEffect, useTransition } from "react";
 import { getWeather, type WeatherData } from '../actions';
 import { getProfile, type Profile } from '../../profile/actions';
@@ -89,7 +88,7 @@ export function DashboardClient() {
 
   return (
     <div className="space-y-6">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6">
             <Card className="flex flex-col">
                 <CardHeader>
                     <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
@@ -111,8 +110,6 @@ export function DashboardClient() {
                     </form>
                 </CardFooter>
             </Card>
-            
-            <FarmRadio location={location}/>
         </div>
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">

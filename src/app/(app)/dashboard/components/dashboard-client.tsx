@@ -13,6 +13,7 @@ import { getProfile, type Profile } from '../../profile/actions';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 
 export function DashboardClient() {
@@ -110,15 +111,21 @@ export function DashboardClient() {
             </Card>
         </div>
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {allCards.map((card, index) => (
-          <Link href={card.href} key={index} className="block">
-            <Card className="flex flex-col items-center justify-center p-4 h-32 hover:bg-card/60 transition-colors duration-200">
-                <card.icon className={`h-10 w-10 mb-2 ${card.color}`} />
-                <p className="text-center text-sm font-medium">{card.title}</p>
+      <div className="grid grid-cols-6 gap-4">
+        {allCards.map((card, index) => {
+          const span =
+            (index >= 0 && index <= 2) ? 'col-span-2' : // First row (3 cards)
+            (index >= 3 && index <= 4) ? 'col-span-3' : // Second row (2 cards)
+            'col-span-2' // Third row (3 cards)
+
+          return (
+          <Link href={card.href} key={index} className={cn("block", span)}>
+            <Card className="flex flex-col items-center justify-center p-2 h-28 hover:bg-card/60 transition-colors duration-200">
+                <card.icon className={`h-8 w-8 mb-2 ${card.color}`} />
+                <p className="text-center text-xs font-medium">{card.title}</p>
             </Card>
           </Link>
-        ))}
+        )})}
       </div>
     </div>
   );

@@ -80,11 +80,6 @@ export function DashboardClient() {
   return (
     <div className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2">
-             <Card>
-                <CardContent>
-                    <p className="text-muted-foreground pt-6">{t.dashboard.description}</p>
-                </CardContent>
-             </Card>
             <Card className="flex flex-col">
                 <CardHeader>
                     <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>

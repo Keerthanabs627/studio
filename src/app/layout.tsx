@@ -25,7 +25,7 @@ export default async function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Fertilizer Waste Detector" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#FFFFFF" />
+        <meta name="theme-color" content="#0A0A0A" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
       <body className="font-body antialiased">

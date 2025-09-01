@@ -8,3 +8,4 @@ import '@/ai/flows/fertilizer-calculator-flow.ts';
 import '@/ai/flows/soil-suitability-flow.ts';
 import '@/ai/flows/crop-management-flow.ts';
 import '@/ai/flows/crop-doctor-flow.ts';
+import '@/ai/tools/agronomic-tools.ts';

@@ -1,13 +1,14 @@
 'use server';
 
-import { generalAIChatbot } from '@/ai/flows/agronomic-ai-chatbot';
+import { generalAIChatbot, GeneralAIChatbotInput } from '@/ai/flows/agronomic-ai-chatbot';
 import { z } from 'zod';
 
 const chatSchema = z.object({
   query: z.string().min(1, 'Query cannot be empty.'),
+  photoDataUri: z.string().optional(),
 });
 
-export async function getAIResponse(input: { query: string }): Promise<{ answer?: string; error?: string }> {
+export async function getAIResponse(input: GeneralAIChatbotInput): Promise<{ answer?: string; error?: string, requires_image?: boolean }> {
   const validatedInput = chatSchema.safeParse(input);
 
   if (!validatedInput.success) {
@@ -16,8 +17,8 @@ export async function getAIResponse(input: { query: string }): Promise<{ answer?
   }
 
   try {
-    const output = await generalAIChatbot({ query: validatedInput.data.query });
-    return { answer: output.answer };
+    const output = await generalAIChatbot(validatedInput.data);
+    return { answer: output.answer, requires_image: output.requires_image };
   } catch (e) {
     console.error('AI Chatbot Error:', e);
     return { error: 'An unexpected error occurred while communicating with the AI. Please try again later.' };

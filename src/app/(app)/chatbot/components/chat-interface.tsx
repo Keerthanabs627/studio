@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useTransition } from 'react';
-import { Bot, User, CornerDownLeft, Loader2, Frown } from 'lucide-react';
+import { Bot, User, CornerDownLeft, Loader2, Frown, Paperclip } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -28,8 +28,13 @@ export function ChatInterface() {
   ]
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState('');
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageDataUri, setImageDataUri] = useState<string | null>(null);
+  const [isAwaitingImage, setIsAwaitingImage] = useState(false);
   const [isPending, startTransition] = useTransition();
+  
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const scrollToBottom = () => {
@@ -45,16 +50,36 @@ export function ChatInterface() {
     scrollToBottom();
   }, [messages]);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        const dataUri = loadEvent.target?.result as string;
+        setImageDataUri(dataUri);
+        setImagePreview(URL.createObjectURL(file));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input.trim() || isPending) return;
 
     const userMessage: Message = { role: 'user', content: input };
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
+    setIsAwaitingImage(false);
 
     startTransition(async () => {
-      const result = await getAIResponse({ query: input });
+      const result = await getAIResponse({ query: currentInput, photoDataUri: imageDataUri || undefined });
+      
+      setImagePreview(null);
+      setImageDataUri(null);
+      if(fileInputRef.current) fileInputRef.current.value = "";
+
       if (result.error) {
         toast({
             variant: "destructive",
@@ -67,6 +92,9 @@ export function ChatInterface() {
       } else {
         const assistantMessage: Message = { role: 'assistant', content: result.answer || t.chatbot.no_answer };
         setMessages((prev) => [...prev, assistantMessage]);
+        if (result.requires_image) {
+            setIsAwaitingImage(true);
+        }
       }
     });
   };
@@ -113,19 +141,46 @@ export function ChatInterface() {
             )}
           </div>
         </ScrollArea>
-        <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t pt-4">
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder={t.chatbot.input_placeholder}
-            className="flex-1"
-            disabled={isPending}
-          />
-          <Button type="submit" size="icon" disabled={isPending || !input.trim()}>
-            {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CornerDownLeft className="w-4 h-4" />}
-            <span className="sr-only">{t.chatbot.send_button_sr}</span>
-          </Button>
-        </form>
+        <div className="border-t pt-4">
+             {imagePreview && (
+                <div className="relative w-24 h-24 mb-2 rounded-md overflow-hidden border">
+                    <img src={imagePreview} alt="Image preview" className="w-full h-full object-cover" />
+                </div>
+             )}
+            <form onSubmit={handleSubmit} className="flex items-center gap-2">
+            <Input
+                id="file-upload"
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+            />
+            {isAwaitingImage && (
+                <Button 
+                    type="button" 
+                    size="icon" 
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isPending}
+                    aria-label="Attach image"
+                >
+                    <Paperclip className="w-4 h-4" />
+                </Button>
+            )}
+            <Input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={t.chatbot.input_placeholder}
+                className="flex-1"
+                disabled={isPending}
+            />
+            <Button type="submit" size="icon" disabled={isPending || !input.trim()}>
+                {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <CornerDownLeft className="w-4 h-4" />}
+                <span className="sr-only">{t.chatbot.send_button_sr}</span>
+            </Button>
+            </form>
+        </div>
       </CardContent>
     </Card>
   );

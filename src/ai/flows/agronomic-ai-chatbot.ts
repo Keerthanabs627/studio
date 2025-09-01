@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview An AI chatbot for answering questions.
+ * @fileOverview An AI chatbot that can use tools to answer agricultural questions.
  *
  * - generalAIChatbot - A function that handles the chatbot interactions.
  * - GeneralAIChatbotInput - The input type for the generalAIChatbot function.
@@ -9,19 +9,40 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
+import {
+  cropDoctorTool,
+  fertilizerCalculatorTool,
+  soilSuitabilityTool,
+  weatherTool,
+} from '../tools/agronomic-tools';
 
 const GeneralAIChatbotInputSchema = z.object({
   query: z.string().describe('The user query.'),
+  photoDataUri: z
+    .string()
+    .optional()
+    .describe(
+      "A photo provided by the user if requested, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
 });
 export type GeneralAIChatbotInput = z.infer<typeof GeneralAIChatbotInputSchema>;
 
 const GeneralAIChatbotOutputSchema = z.object({
   answer: z.string().describe('The AI chatbot response to the user query.'),
+  requires_image: z
+    .boolean()
+    .describe(
+      'Set to true if you need the user to provide an image to answer their query (e.g., for plant disease diagnosis).'
+    ),
 });
-export type GeneralAIChatbotOutput = z.infer<typeof GeneralAIChatbotOutputSchema>;
+export type GeneralAIChatbotOutput = z.infer<
+  typeof GeneralAIChatbotOutputSchema
+>;
 
-export async function generalAIChatbot(input: GeneralAIChatbotInput): Promise<GeneralAIChatbotOutput> {
+export async function generalAIChatbot(
+  input: GeneralAIChatbotInput
+): Promise<GeneralAIChatbotOutput> {
   return generalAIChatbotFlow(input);
 }
 
@@ -29,12 +50,25 @@ const generalAIChatbotPrompt = ai.definePrompt({
   name: 'generalAIChatbotPrompt',
   input: {schema: GeneralAIChatbotInputSchema},
   output: {schema: GeneralAIChatbotOutputSchema},
-  prompt: `You are a helpful AI assistant.
+  tools: [
+    weatherTool,
+    soilSuitabilityTool,
+    fertilizerCalculatorTool,
+    cropDoctorTool,
+  ],
+  prompt: `You are an expert AI agronomist assistant for Indian farmers. Your goal is to be as helpful as possible.
 
-  User query: {{{query}}}
+- Use the provided tools to answer user questions comprehensively.
+- If a user asks about something that requires a visual, like a plant disease, you MUST set 'requires_image' to true in your response and ask the user to upload a photo. Do not try to answer without the image.
+- If the user provides an image, use the cropDoctorTool to analyze it.
+- Combine information from multiple tools if needed to give a complete answer.
+- Always be friendly and conversational.
 
-  Please provide a concise and informative answer to the user's query.
-  If the question is unanswerable, respond that you cannot answer. Do not make up information.`,
+User query: {{{query}}}
+{{#if photoDataUri}}
+User has provided this image: {{media url=photoDataUri}}
+{{/if}}
+`,
 });
 
 const generalAIChatbotFlow = ai.defineFlow(
@@ -44,7 +78,18 @@ const generalAIChatbotFlow = ai.defineFlow(
     outputSchema: GeneralAIChatbotOutputSchema,
   },
   async input => {
-    const {output} = await generalAIChatbotPrompt(input);
+    const llm = ai.getGenerator('gemini-1.5-pro-latest');
+    const {output} = await llm.generate({
+      prompt: {
+        ...generalAIChatbotPrompt.compile(input),
+      },
+      tools: generalAIChatbotPrompt.config.tools,
+      output: {
+        schema: GeneralAIChatbotOutputSchema,
+        format: 'json'
+      }
+    });
+
     return output!;
   }
 );

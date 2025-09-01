@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 "use client";
 
@@ -9,13 +8,13 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { ThumbsUp, MessageSquare, Loader2 } from "lucide-react";
+import { ThumbsUp, MessageSquare, Loader2, Tag } from "lucide-react";
 import Image from "next/image";
 import { useI18n } from "@/locales/client";
 import { getPosts, addPost, type Post } from "./actions";
 import { getProfile, type Profile } from "../profile/actions";
 import { useToast } from "@/hooks/use-toast";
-
+import { Badge } from "@/components/ui/badge";
 
 export default function CommunityPage() {
   const t = useI18n();
@@ -32,16 +31,25 @@ export default function CommunityPage() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const [fetchedPosts, fetchedProfile] = await Promise.all([
-        getPosts(),
-        getProfile()
-      ]);
-      setPosts(fetchedPosts);
-      setProfile(fetchedProfile);
-      setIsLoading(false);
+      try {
+        const [fetchedPosts, fetchedProfile] = await Promise.all([
+          getPosts(),
+          getProfile()
+        ]);
+        setPosts(fetchedPosts);
+        setProfile(fetchedProfile);
+      } catch (error) {
+        toast({
+            variant: 'destructive',
+            title: "Failed to load data",
+            description: "Could not load community posts or profile.",
+        });
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchData();
-  }, []);
+  }, [toast]);
 
 
   const handlePost = () => {
@@ -49,26 +57,25 @@ export default function CommunityPage() {
 
     startTransition(async () => {
         try {
-            // Optimistically update the UI
             const optimisticPost: Post = {
                 id: Date.now(),
                 author: profile.name,
                 avatar: "https://picsum.photos/40/40?random=0",
-                handle: profile.name.toLowerCase().replace(' ', '_'),
+                handle: `@${profile.name.toLowerCase().replace(/\s/g, '_')}`,
                 time: t.community.just_now,
                 likes: 0,
                 comments: 0,
-                content: `[${category}] ${newPostContent}`,
+                content: newPostContent,
                 category: category,
             };
             setPosts(prevPosts => [optimisticPost, ...prevPosts]);
             setNewPostContent("");
 
             await addPost({
-                content: `[${category}] ${newPostContent}`,
+                content: newPostContent,
                 category: category,
             });
-            // Re-fetch to confirm from server state
+            // Re-fetch to confirm from server state, ensuring we have the latest list
             const fetchedPosts = await getPosts();
             setPosts(fetchedPosts);
         } catch (error) {
@@ -139,15 +146,17 @@ export default function CommunityPage() {
               </Avatar>
               <div>
                 <p className="font-semibold">{post.author}</p>
-                <p className="text-sm text-muted-foreground">@{post.handle} · {post.time === 'Just now' ? t.community.just_now : post.time}</p>
+                <p className="text-sm text-muted-foreground">{post.handle} · {post.time === 'Just now' ? t.community.just_now : post.time}</p>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="mb-4">
-                 {post.content}
-                </p>
+              <p className="mb-4">{post.content}</p>
+              <div className="flex items-center gap-2">
+                <Tag className="h-4 w-4 text-muted-foreground" />
+                <Badge variant="outline">{post.category}</Badge>
+              </div>
               {post.image && (
-                <div className="rounded-lg overflow-hidden border">
+                <div className="rounded-lg overflow-hidden border mt-4">
                   <Image src={post.image} alt="Post image" width={600} height={400} className="w-full h-auto object-cover" data-ai-hint="tractor agriculture" />
                 </div>
               )}

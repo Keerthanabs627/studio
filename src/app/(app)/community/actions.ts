@@ -30,7 +30,7 @@ export async function addPost(post: Omit<Post, 'id' | 'likes' | 'comments' | 'ti
     id: posts.length + 1,
     author: profile.name, // Use the name from the user's profile
     avatar: "https://picsum.photos/40/40?random=0",
-    handle: profile.name.toLowerCase().replace(' ', '_'), // Create a handle from the name
+    handle: `@${profile.name.toLowerCase().replace(/\s/g, '_')}`, // Create a handle from the name
     time: "Just now",
     likes: 0,
     comments: 0,

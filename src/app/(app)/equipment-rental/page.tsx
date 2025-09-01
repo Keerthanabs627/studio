@@ -2,7 +2,6 @@
 "use client";
 
 import { useState, useEffect, useTransition } from "react";
-import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,15 +11,6 @@ import { Loader2, Phone } from "lucide-react";
 import { useI18n } from "@/locales/client";
 import { getEquipment, addEquipment, type Equipment } from "./actions";
 import { useToast } from "@/hooks/use-toast";
-
-function getEquipmentHint(name: string): string {
-    const lowerName = name.toLowerCase();
-    if (lowerName.includes('tractor')) return 'tractor';
-    if (lowerName.includes('rotavator')) return 'rotavator';
-    if (lowerName.includes('sprayer')) return 'sprayer';
-    if (lowerName.includes('thresher')) return 'thresher';
-    return 'farm equipment';
-}
 
 export default function EquipmentRentalPage() {
   const t = useI18n();
@@ -69,7 +59,6 @@ export default function EquipmentRentalPage() {
                 name,
                 rate,
                 location,
-                image: `https://picsum.photos/seed/${name.toLowerCase().split(' ')[0]}/600/400`,
             });
             setName("");
             setRate("");
@@ -108,13 +97,8 @@ export default function EquipmentRentalPage() {
             ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {equipment.map((item) => (
-                    <Card key={item.id} className="overflow-hidden">
-                        <CardHeader className="p-0">
-                            <div className="relative aspect-video">
-                                <Image src={item.image} alt={item.name} layout="fill" objectFit="cover" data-ai-hint={getEquipmentHint(item.name)} />
-                            </div>
-                        </CardHeader>
-                        <CardContent className="p-4 space-y-3">
+                    <Card key={item.id} className="overflow-hidden flex flex-col">
+                        <CardContent className="p-4 space-y-3 flex-1">
                             <CardTitle className="text-xl">{item.name}</CardTitle>
                              <div className="flex items-center gap-3 text-sm text-muted-foreground">
                                 <Avatar className="h-8 w-8">

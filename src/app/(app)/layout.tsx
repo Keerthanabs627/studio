@@ -1,2 +1,6 @@
-// This file is intentionally blank.
-// The layout logic has been moved to template.tsx for performance reasons.
+
+import type { ReactNode } from 'react';
+
+export default function AppLayout({ children }: { children: ReactNode }) {
+  return <>{children}</>;
+}

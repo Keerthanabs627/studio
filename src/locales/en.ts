@@ -14,6 +14,7 @@ export default {
     community: 'Community',
     ai_chatbot: 'AI Chatbot',
     our_profile: 'Our Profile',
+    guide: 'Guide',
   },
   dashboard: {
     welcome: 'Hello community',
@@ -376,4 +377,17 @@ export default {
       add_error_desc: "Could not save your job listing. Please try again."
     }
   },
+  guide: {
+    title: 'App Guide & Flowchart',
+    description: 'A visual guide to the main workflow of the application.',
+    step1_title: '1. Diagnose & Identify',
+    step1_desc: 'Start by identifying a problem. Is your crop sick? Use the Crop Doctor to upload an image and get an AI-powered diagnosis.',
+    step2_title: '2. Analyze & Plan',
+    step2_desc: "Once you know the issue, plan your solution. Use the Soil Suitability checker, get a multi-stage Fertilizer Plan, or check Market Prices to make informed decisions.",
+    step3_title: '3. Manage & Act',
+    step3_desc: "Enter your field data into My Fields to get personalized, actionable advice on irrigation, nutrient management, and pest control. Set Reminders to stay on track.",
+    step4_title: '4. Connect & Collaborate',
+    step4_desc: "You're not alone. Share your findings in the Community Hub, hire help in the Labor Marketplace, or ask the AI Chatbot any question you have.",
+    app_flow: 'Application Flow'
+  }
 } as const;

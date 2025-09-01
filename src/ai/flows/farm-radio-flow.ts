@@ -11,7 +11,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import wav from 'wav';
-import {getWeather} from '@/app/(app)/dashboard/actions';
+import {getWeatherForecast} from '@/ai/flows/weather-flow';
 
 const FarmRadioInputSchema = z.object({
   location: z.string().describe("The user's location for the weather forecast."),
@@ -35,10 +35,10 @@ const farmRadioFlow = ai.defineFlow(
     outputSchema: z.object({audioDataUri: z.string()}),
   },
   async input => {
-    // Get weather data
-    const weather = await getWeather({location: input.location});
-    const weatherString = weather.data
-      ? weather.data
+    // Get weather data by calling the weather flow
+    const weather = await getWeatherForecast({location: input.location});
+    const weatherString = weather.forecast
+      ? weather.forecast
           .map(f => `${f.day}: ${f.condition}, ${f.temp}`)
           .join('; ')
       : 'not available';

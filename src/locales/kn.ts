@@ -91,7 +91,7 @@ export default {
         green_gram: 'ಹೆಸರು ಕಾಳು (ಕ್ವಿಂಟಲ್)',
         black_gram: 'ಉದ್ದಿನ ಬೇಳೆ (ಕ್ವಿಂಟಲ್)',
         kidney_bean: 'ರಾಜ್ಮಾ (ಕ್ವಿಂಟಲ್)',
-        soybean: 'ಸೋಯಾಬೀನ್ (ಕ್ವಿಂಟಲ್)',
+        soybean: 'ಸೋಯಾಬೀన్ (ಕ್ವಿಂಟಲ್)',
         groundnut: 'ಶೇಂಗಾ (ಕ್ವಿಂಟಲ್)',
         mustard: 'ಸಾಸಿವೆ (ಕ್ವಿಂಟಲ್)',
         sunflower: 'ಸೂರ್ಯಕಾಂತಿ (ಕ್ವಿಂಟಲ್)',
@@ -176,7 +176,7 @@ export default {
     card2: {
       title: 'ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್ ಇಳುವರಿ ಯೋಜನೆ',
       description_initial: 'ನಿಮ್ಮ ಪೂರ್ಣ-ಸೀಸನ್ ಗೊಬ್ಬರ ಯೋಜನೆ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.',
-      description_results_prefix: 'ಗಾಗಿ ಪೂರ್ಣ-ಸೀಸನ್ ಯೋಜನೆ',
+      description_results_prefix: 'ಗಾಗಿ ಪೂರ್ಣ-ಸೀಸన్ ಯೋಜನೆ',
       initial_text: 'ನಿಮ್ಮ ಯೋಜನೆಯನ್ನು ರಚಿಸಲು ಬೆಳೆ ಮತ್ತು ಪ್ರದೇಶವನ್ನು ನಮೂದಿಸಿ.',
       stage: 'ಹಂತ',
       waste_alert_title: 'వ్యర్థ ಉಳಿತಾಯ ಎಚ್ಚರಿಕೆ!',
@@ -197,7 +197,7 @@ export default {
       stage_placeholder: 'ಉದಾ., ಹೂಬಿಡುವಿಕೆ',
       moisture_label: 'ಮಣ್ಣಿನ ತೇವಾಂಶ (%)',
       ph_label: 'ಮಣ್ಣಿನ ಪಿಎಚ್',
-      npk_label: 'ಎನ್‌ಪಿಕೆ ಮಟ್ಟಗಳು (ಕೆಜಿ/ಹೆ)',
+      npk_label: 'ಎನ್‌పಿಕೆ ಮಟ್ಟಗಳು (ಕೆಜಿ/ಹೆ)',
       button: 'ಸಲಹೆ ಪಡೆಯಿರಿ',
       save_button: 'ಕ್ಷೇತ್ರವನ್ನು ಉಳಿಸಿ',
     },
@@ -215,7 +215,7 @@ export default {
     }
   },
   profile: {
-    title: 'ನಮ್ಮ ಪ್ರೊಫೈల్',
+    title: 'ನಮ್ಮ ಪ್ರೊಫೈಲ್',
     description: 'ನಿಮ್ಮ ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು ವೈಯಕ್ತಿಕ ಮಾಹಿತಿಯನ್ನು ನಿರ್ವಹಿಸಿ.',
     card1: {
       title: 'ವೈಯಕ್ತಿಕ ಮಾಹಿತಿ',
@@ -227,8 +227,8 @@ export default {
     card2: {
       title: 'ಅಧಿಸೂಚನೆಗಳು',
       description: 'ಅಪ್ಲಿಕೇಶನ್‌ನಿಂದ ನೀವು ಅಧಿಸೂಚನೆಗಳನ್ನು ಹೇಗೆ ಸ್ವೀಕರಿಸುತ್ತೀರಿ ಎಂಬುದನ್ನು ನಿರ್ವಹಿಸಿ.',
-      sms_title: 'SMS ಜ್ಞಾಪನೆಗಳು',
-      sms_description: 'ಗೊಬ್ಬರ ಅನ್ವಯಕ್ಕಾಗಿ ಜ್ಞಾಪನೆಗಳನ್ನು ಸ್ವೀಕರಿಸಿ.',
+      manage_title: 'ಅಧಿಸೂಚನೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
+      manage_description: 'ನಿಮ್ಮ SMS ಮತ್ತು WhatsApp ಆದ್ಯತೆಗಳನ್ನು ಹೊಂದಿಸಲು ಇಲ್ಲಿ ಕ್ಲಿಕ್ ಮಾಡಿ.',
     },
     toast: {
       title: 'ಪ್ರೊಫೈಲ್ ನವೀಕರಿಸಲಾಗಿದೆ',
@@ -237,7 +237,7 @@ export default {
   },
   reminders: {
     title: 'ಜ್ಞಾಪನೆಗಳು',
-    description: 'ನಿಮ್ಮ ಕೃಷಿ ಜ್ಜ್ಞಾಪನೆಗಳನ್ನು ಹೊಂದಿಸಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ.',
+    description: 'ನಿಮ್ಮ ಕೃಷಿ ಜ್ಞಾಪನೆಗಳನ್ನು ಹೊಂದಿಸಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ.',
     card1: {
       title: 'ಹೊಸ ಜ್ಞಾಪನೆ ಸೇರಿಸಿ',
       description: 'ನಿಮ್ಮ ಫಾರ್ಮ್‌ಗಾಗಿ ಹೊಸ ಕಾರ್ಯವನ್ನು ನಿಗದಿಪಡಿಸಿ.',
@@ -328,10 +328,10 @@ export default {
       loading_description: "ನಮ್ಮ AI ನಿಮ್ಮ ಸಸ್ಯವನ್ನು ಪರಿಶೀಲಿಸುತ್ತಿದೆ. ಇದಕ್ಕೆ ಸ್ವಲ್ಪ ಸಮಯ লাগಬಹುದು.",
       not_plant_title: "ಸಸ್ಯವಲ್ಲ",
       confidence_label: "ವಿಶ್ವಾಸ",
-      recommendations_title: "ಶಿಫಾರಸುಗಳು"
+      recommendations_title: "ಶಿఫಾರಸುಗಳು"
     },
     toast: {
-      error_title: "ವಿಶ್ಲೇಷಣೆ ವಿಫలವಾಗಿದೆ",
+      error_title: "ವಿಶ್ಲೇಷಣೆ ವಿಫಲವಾಗಿದೆ",
       error_description: "ಚಿತ್ರವನ್ನು ವಿಶ್ಲೇಷಿಸಲು ನಮಗೆ ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."
     }
   },

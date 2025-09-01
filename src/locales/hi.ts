@@ -95,7 +95,7 @@ export default {
       groundnut: 'मूंगफली (क्विంటल)',
       mustard: 'सरसों (क्विంటल)',
       sunflower: 'सूरजमुखी (क्विంటल)',
-      sesame: 'तिल (क्विंटल)',
+      sesame: 'तिल (क्विంటल)',
       castor_seed: 'अरंडी का बीज (क्विంటल)',
       sugarcane: 'गन्ना (टन)',
       cotton: 'कपास (क्विంటल)',
@@ -228,8 +228,8 @@ export default {
     card2: {
       title: 'सूचनाएं',
       description: 'ऐप से सूचनाएं कैसे प्राप्त करें, इसे प्रबंधित करें।',
-      sms_title: 'SMS अनुस्मारक',
-      sms_description: 'उर्वरक आवेदन के लिए अनुस्मारक प्राप्त करें।',
+      manage_title: 'सूचना सेटिंग्स प्रबंधित करें',
+      manage_description: 'अपनी SMS और WhatsApp प्राथमिकताएँ सेट करने के लिए यहाँ क्लिक करें।',
     },
     toast: {
       title: 'प्रोफ़ाइल अपडेट किया गया',

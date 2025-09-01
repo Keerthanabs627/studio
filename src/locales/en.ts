@@ -228,8 +228,8 @@ export default {
     card2: {
       title: 'Notifications',
       description: 'Manage how you receive notifications from the app.',
-      sms_title: 'SMS Reminders',
-      sms_description: 'Receive reminders for fertilizer application.',
+      manage_title: 'Manage Notification Settings',
+      manage_description: 'Click here to set your SMS and WhatsApp preferences.',
     },
     toast: {
       title: 'Profile Updated',

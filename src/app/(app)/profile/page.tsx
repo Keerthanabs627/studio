@@ -6,16 +6,17 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Bell, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useI18n } from "@/locales/client";
 import { getProfile, updateProfile } from "./actions";
 import type { Profile } from "./actions";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const t = useI18n();
-  const [profile, setProfile] = useState<Profile>({ name: '', phone: '' });
+  const router = useRouter();
+  const [profile, setProfile] = useState<Profile>({ name: '', phone: '', notifications: { sms: false, whatsapp: false } });
   const [isSaving, startTransition] = useTransition();
   const { toast } = useToast();
 
@@ -34,12 +35,12 @@ export default function ProfilePage() {
 
   const handleSaveChanges = () => {
     startTransition(async () => {
-      const result = await updateProfile(profile);
+      const result = await updateProfile({ name: profile.name, phone: profile.phone });
       if (result.error) {
          toast({
             variant: "destructive",
             title: "Update Failed",
-            description: "Please check your inputs and try again.",
+            description: Object.values(result.error).flat().join(', ') || "Please check your inputs and try again.",
          });
       } else {
         toast({
@@ -85,16 +86,18 @@ export default function ProfilePage() {
             <CardDescription>{t.profile.card2.description}</CardDescription>
         </CardHeader>
         <CardContent>
-           <div className="flex items-center justify-between p-4 rounded-lg bg-secondary/30">
-                <div className="flex items-center gap-3">
+           <button
+             onClick={() => router.push('/notifications')}
+             className="w-full flex items-center justify-between p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-colors"
+           >
+                <div className="flex items-center gap-3 text-left">
                     <Bell className="h-5 w-5 text-primary"/>
                     <div>
-                        <p className="font-medium">{t.profile.card2.sms_title}</p>
-                        <p className="text-sm text-muted-foreground">{t.profile.card2.sms_description}</p>
+                        <p className="font-medium">{t.profile.card2.manage_title}</p>
+                        <p className="text-sm text-muted-foreground">{t.profile.card2.manage_description}</p>
                     </div>
                 </div>
-                <Switch defaultChecked />
-           </div>
+           </button>
         </CardContent>
       </Card>
     </div>

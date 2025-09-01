@@ -7,6 +7,10 @@ import { z } from 'zod';
 export interface Profile {
   name: string;
   phone: string;
+  notifications: {
+    sms: boolean;
+    whatsapp: boolean;
+  };
 }
 
 // This is a temporary in-memory "database" for the prototype.
@@ -14,6 +18,10 @@ export interface Profile {
 let userProfile: Profile = {
   name: "Rakesh Sharma",
   phone: "+91 98765 43210",
+  notifications: {
+    sms: true,
+    whatsapp: false,
+  }
 };
 
 export async function getProfile(): Promise<Profile> {
@@ -22,12 +30,12 @@ export async function getProfile(): Promise<Profile> {
 }
 
 const profileSchema = z.object({
-    name: z.string().min(1, 'Name cannot be empty.'),
-    phone: z.string().min(1, 'Phone cannot be empty.'),
+    name: z.string().min(2, 'Name must be at least 2 characters.'),
+    phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number.'),
 });
 
 
-export async function updateProfile(data: Profile) {
+export async function updateProfile(data: Pick<Profile, 'name' | 'phone'>) {
   const validatedFields = profileSchema.safeParse(data);
 
   if (!validatedFields.success) {
@@ -36,8 +44,8 @@ export async function updateProfile(data: Profile) {
     };
   }
   
-  // In a real app, you'd update this in a database.
   userProfile = {
+      ...userProfile,
       name: validatedFields.data.name,
       phone: validatedFields.data.phone
   };
@@ -45,4 +53,27 @@ export async function updateProfile(data: Profile) {
   revalidatePath('/profile');
   
   return { data: userProfile };
+}
+
+
+const notificationSchema = z.object({
+    sms: z.boolean(),
+    whatsapp: z.boolean(),
+});
+
+export async function updateNotificationPreferences(data: Profile['notifications']) {
+    const validatedFields = notificationSchema.safeParse(data);
+
+    if (!validatedFields.success) {
+        return {
+            error: validatedFields.error.flatten().fieldErrors,
+        };
+    }
+
+    userProfile.notifications = validatedFields.data;
+    
+    revalidatePath('/notifications');
+    revalidatePath('/profile');
+    
+    return { data: userProfile };
 }

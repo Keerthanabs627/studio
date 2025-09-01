@@ -78,7 +78,6 @@ export function DashboardClient() {
         icon: Radio, 
         title: t.sidebar.farm_radio,
         isFarmRadio: true,
-        description: t.dashboard.farm_radio.description,
         content: (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-2 pt-2">
                 <Button onClick={handlePlayRadio} disabled={isRadioPending} size="sm">
@@ -102,15 +101,15 @@ export function DashboardClient() {
             </div>
         )
     },
-    { href: "/fertilizer-calculator", icon: Calculator, title: t.fertilizer_calculator.title, description: t.dashboard.fertilizer_calculator.description, linkText: t.dashboard.fertilizer_calculator.button },
-    { href: "/market-prices", icon: LineChart, title: t.market_prices.title, description: t.dashboard.market_prices.description, linkText: t.dashboard.market_prices.button },
-    { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, description: t.dashboard.crop_doctor.description, linkText: t.dashboard.crop_doctor.button },
-    { href: "/soil-suitability", icon: Map, title: t.sidebar.soil_suitability, description: t.dashboard.soil_suitability.description, linkText: t.dashboard.soil_suitability.button },
-    { href: "/my-fields", icon: Tractor, title: t.sidebar.my_fields, description: t.dashboard.my_fields.description, linkText: t.dashboard.my_fields.button },
-    { href: "/reminders", icon: Bell, title: t.sidebar.reminders, description: t.dashboard.reminders.description, linkText: t.dashboard.reminders.button },
-    { href: "/sms-reminders", icon: MessageCircle, title: t.sidebar.sms_reminders, description: t.dashboard.sms_reminders.description, linkText: t.dashboard.sms_reminders.button },
-    { href: "/community", icon: Users, title: t.sidebar.community, description: t.dashboard.community_hub.description, linkText: t.dashboard.community_hub.button },
-    { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, description: t.dashboard.ai_assistant.description, linkText: t.dashboard.ai_assistant.button },
+    { href: "/fertilizer-calculator", icon: Calculator, title: t.fertilizer_calculator.title, linkText: t.dashboard.fertilizer_calculator.button },
+    { href: "/market-prices", icon: LineChart, title: t.market_prices.title, linkText: t.dashboard.market_prices.button },
+    { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, linkText: t.dashboard.crop_doctor.button },
+    { href: "/soil-suitability", icon: Map, title: t.sidebar.soil_suitability, linkText: t.dashboard.soil_suitability.button },
+    { href: "/my-fields", icon: Tractor, title: t.sidebar.my_fields, linkText: t.dashboard.my_fields.button },
+    { href: "/reminders", icon: Bell, title: t.sidebar.reminders, linkText: t.dashboard.reminders.button },
+    { href: "/sms-reminders", icon: MessageCircle, title: t.sidebar.sms_reminders, linkText: t.dashboard.sms_reminders.button },
+    { href: "/community", icon: Users, title: t.sidebar.community, linkText: t.dashboard.community_hub.button },
+    { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, linkText: t.dashboard.ai_assistant.button },
   ];
 
   const utilityCards = [
@@ -168,7 +167,7 @@ export function DashboardClient() {
               </div>
             </CardHeader>
             <CardContent className="flex-grow text-sm text-muted-foreground">
-              {card.isFarmRadio ? card.content : <p className="min-h-[40px]">{card.description}</p>}
+              {card.isFarmRadio ? card.content : <div className="min-h-[40px]"></div>}
             </CardContent>
             {card.href && (
               <CardFooter>
@@ -179,7 +178,7 @@ export function DashboardClient() {
                 </Button>
               </CardFooter>
             )}
-            {card.isFarmRadio && !card.href && <CardFooter className="pt-0"></CardFooter>}
+             {card.isFarmRadio && !card.href && <CardFooter className="pt-0 pb-4"></CardFooter>}
           </Card>
         ))}
       </div>

@@ -28,22 +28,25 @@ export default function LaborMarketplacePage() {
   const [rate, setRate] = useState("");
   const [contact, setContact] = useState("");
 
+  const fetchAndSetJobs = async () => {
+    try {
+      const fetchedJobs = await getJobs();
+      setJobs(fetchedJobs);
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+      toast({
+          variant: 'destructive',
+          title: t.labor_marketplace.toast.load_error_title,
+          description: t.labor_marketplace.toast.load_error_desc,
+      });
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      try {
-        const fetchedJobs = await getJobs();
-        setJobs(fetchedJobs);
-      } catch (error) {
-        toast({
-            variant: 'destructive',
-            title: t.labor_marketplace.toast.load_error_title,
-            description: t.labor_marketplace.toast.load_error_desc,
-        });
-      } finally {
-        setIsLoading(false);
-      }
+      await fetchAndSetJobs();
+      setIsLoading(false);
     };
     fetchData();
   }, [toast, t]);
@@ -77,8 +80,7 @@ export default function LaborMarketplacePage() {
                 description: t.labor_marketplace.toast.add_success_desc,
             });
             // Refetch data
-            const fetchedJobs = await getJobs();
-            setJobs(fetchedJobs);
+            await fetchAndSetJobs();
         } catch (error) {
             toast({
                 variant: 'destructive',

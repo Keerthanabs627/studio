@@ -29,6 +29,20 @@ export default function CommunityPage() {
   
   const categories = ["Crop", "Labor", "Equipments", "Feedback", "Q&A"];
 
+  const fetchAndSetPosts = async () => {
+    try {
+      const fetchedPosts = await getPosts();
+      setPosts(fetchedPosts);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      toast({
+          variant: 'destructive',
+          title: "Failed to load posts",
+          description: "Could not load community posts.",
+      });
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -65,8 +79,7 @@ export default function CommunityPage() {
             });
             setNewPostContent("");
             // Re-fetch to confirm from server state, ensuring we have the latest list
-            const fetchedPosts = await getPosts();
-            setPosts(fetchedPosts);
+            await fetchAndSetPosts();
              toast({
                 title: "Post Successful",
                 description: "Your post has been added to the community hub.",

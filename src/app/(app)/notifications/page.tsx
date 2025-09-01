@@ -7,16 +7,19 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useTransition, useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, BellRing } from "lucide-react";
 import { useI18n } from "@/locales/client";
 import { getProfile, updateNotificationPreferences } from "../profile/actions";
 import type { Profile } from "../profile/actions";
+import { Separator } from "@/components/ui/separator";
 
 export default function NotificationsPage() {
     const t = useI18n();
     const { toast } = useToast();
     const [preferences, setPreferences] = useState({ sms: true, whatsapp: false });
     const [isSaving, startTransition] = useTransition();
+    const [pushStatus, setPushStatus] = useState('default');
+
 
     useEffect(() => {
         const fetchPrefs = async () => {
@@ -24,6 +27,9 @@ export default function NotificationsPage() {
             setPreferences(profile.notifications);
         };
         fetchPrefs();
+        if ('Notification' in window) {
+            setPushStatus(Notification.permission);
+        }
     }, []);
 
 
@@ -45,6 +51,58 @@ export default function NotificationsPage() {
         });
     }
 
+    const handleEnablePush = async () => {
+        if (!('Notification' in window) || !('serviceWorker' in navigator)) {
+            toast({
+                variant: 'destructive',
+                title: 'Unsupported',
+                description: "Your browser does not support push notifications."
+            });
+            return;
+        }
+
+        if (Notification.permission === 'granted') {
+            toast({ title: 'Already enabled!' });
+            return;
+        }
+
+        if (Notification.permission === 'denied') {
+            toast({ 
+                variant: 'destructive',
+                title: 'Permission Denied',
+                description: 'You have previously blocked notifications. Please enable them in your browser settings.'
+            });
+            return;
+        }
+
+        const permission = await Notification.requestPermission();
+        setPushStatus(permission);
+
+        if (permission === 'granted') {
+            toast({
+                title: 'Push Notifications Enabled!',
+                description: 'You will now receive reminders as push notifications.'
+            });
+            // In a real app, you would send the subscription to your server here
+            // const sub = await navigator.serviceWorker.ready.then(reg => reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: 'YOUR_VAPID_PUBLIC_KEY' }));
+            // await saveSubscription(sub);
+        } else {
+             toast({
+                variant: 'destructive',
+                title: 'Permission Denied',
+                description: 'You will not receive push notifications.'
+            });
+        }
+    };
+
+    const getPushStatusText = () => {
+        switch(pushStatus) {
+            case 'granted': return 'Push notifications are enabled on this device.';
+            case 'denied': return 'Push notifications are blocked in your browser settings.';
+            default: return 'Enable push notifications to get reminders on your device.';
+        }
+    }
+
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
@@ -52,6 +110,17 @@ export default function NotificationsPage() {
         <p className="text-muted-foreground">{t.notifications.description}</p>
       </div>
        <Card>
+        <CardHeader>
+          <CardTitle>Push Notifications</CardTitle>
+          <CardDescription>{getPushStatusText()}</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <Button onClick={handleEnablePush} disabled={pushStatus !== 'default'}>
+                <BellRing className="mr-2 h-4 w-4" />
+                {pushStatus === 'default' ? 'Enable Push Notifications' : pushStatus === 'granted' ? 'Enabled' : 'Blocked'}
+            </Button>
+        </CardContent>
+        <Separator className="my-4" />
         <CardHeader>
           <CardTitle>{t.notifications.card.title}</CardTitle>
           <CardDescription>{t.notifications.card.description}</CardDescription>

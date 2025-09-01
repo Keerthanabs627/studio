@@ -16,6 +16,7 @@ import {
   soilSuitabilityTool,
   weatherTool,
 } from '../tools/agronomic-tools';
+import { generate } from 'genkit/ai';
 
 const GeneralAIChatbotInputSchema = z.object({
   query: z.string().describe('The user query.'),
@@ -59,7 +60,7 @@ const generalAIChatbotPrompt = ai.definePrompt({
 
 - Your main expertise is agriculture. Use the provided tools to answer user questions comprehensively.
 - If a user asks a question that is not related to agriculture, answer it as a general AI assistant.
-- If a user asks about something that requires a visual, like a plant disease, you MUST ask the user to upload a photo. Do not try to answer without the image.
+- If a user asks about something that requires a visual, like a plant disease, you MUST ask the user to upload a photo by using the 'diagnoseCrop' tool.
 - If the user provides an image, use the cropDoctorTool to analyze it.
 - Combine information from multiple tools if needed to give a complete answer.
 - Always be friendly and conversational.
@@ -78,16 +79,32 @@ const generalAIChatbotFlow = ai.defineFlow(
     outputSchema: GeneralAIChatbotOutputSchema,
   },
   async input => {
-    const llm = ai.getGenerator('gemini-1.5-pro-latest');
-    
-    const response = await llm.generate({
-      prompt: {
-        ...generalAIChatbotPrompt.compile(input),
-      },
-      tools: generalAIChatbotPrompt.config.tools,
-      toolRequest: 'auto'
-    });
+    const model = ai.getGenerator('gemini-1.5-pro-latest');
 
+    const response = await generate({
+        model,
+        prompt: `You are an expert AI agronomist assistant for Indian farmers. Your primary goal is to be as helpful as possible.
+- Your main expertise is agriculture. Use the provided tools to answer user questions comprehensively.
+- If a user asks a question that is not related to agriculture, answer it as a general AI assistant.
+- If a user asks about something that requires a visual, like a plant disease, you MUST ask the user to upload a photo. Do not try to answer without the image. You should respond by asking for the photo. If you need to use the diagnoseCrop tool but don't have an image, ask for it.
+- If the user provides an image, use the cropDoctorTool to analyze it.
+- Combine information from multiple tools if needed to give a complete answer.
+- Always be friendly and conversational.
+
+User query: ${input.query}
+${input.photoDataUri ? `User has provided this image: {{media url=${input.photoDataUri}}}` : ''}
+`,
+        tools: [
+          weatherTool,
+          soilSuitabilityTool,
+          fertilizerCalculatorTool,
+          cropDoctorTool,
+        ],
+        config: {
+          temperature: 0.7,
+        },
+    });
+    
     const toolRequest = response.toolRequest();
     
     // This is a specific workaround. If the model wants to call the crop doctor tool
@@ -100,7 +117,7 @@ const generalAIChatbotFlow = ai.defineFlow(
       };
     }
     
-    const answer = response.text;
+    const answer = response.text();
     
     if(!answer){
         return {

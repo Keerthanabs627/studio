@@ -9,7 +9,7 @@ export default {
     schemes: 'ప్రభుత్వ పథకాలు',
     my_fields: 'నా పొలాలు',
     reminders: 'రిమైండర్‌లు',
-    sms_reminders: 'SMS రిమైండర్‌లు',
+    notifications: 'నోటిఫికేషన్‌లు',
     community: 'సంఘం',
     ai_chatbot: 'AI చాట్‌బాట్',
     our_profile: 'మా ప్రొఫైల్',
@@ -268,8 +268,8 @@ export default {
       },
     },
   },
-  sms_reminders: {
-    title: 'SMS రిమైండర్‌లు',
+  notifications: {
+    title: 'నోటిఫికేషన్‌లు',
     description: 'మీ SMS మరియు WhatsApp రిమైండర్ ప్రాధాన్యతలను నిర్వహించండి.',
     card: {
       title: 'నోటిఫికేషన్ ఛానెల్‌లు',

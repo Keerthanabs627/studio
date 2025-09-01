@@ -9,7 +9,7 @@ export default {
     schemes: 'ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು',
     my_fields: 'ನನ್ನ ಹೊಲಗಳು',
     reminders: 'ಜ್ಞಾಪನೆಗಳು',
-    sms_reminders: 'SMS ಜ್ಞಾಪನೆಗಳು',
+    notifications: 'ಅಧಿಸೂಚನೆಗಳು',
     community: 'ಸಮುದಾಯ',
     ai_chatbot: 'AI ಚಾಟ್‌ಬಾಟ್',
     our_profile: 'ನಮ್ಮ ಪ್ರೊಫೈಲ್',
@@ -267,8 +267,8 @@ export default {
       },
     },
   },
-  sms_reminders: {
-    title: 'SMS ಜ್ಞಾಪನೆಗಳು',
+  notifications: {
+    title: 'ಅಧಿಸೂಚನೆಗಳು',
     description: 'ನಿಮ್ಮ SMS ಮತ್ತು WhatsApp ಜ್ಞಾಪನೆ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ.',
     card: {
       title: 'ಅಧಿಸೂಚನೆ ಚಾನೆಲ್‌ಗಳು',

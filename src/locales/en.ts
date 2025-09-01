@@ -9,7 +9,7 @@ export default {
     schemes: 'Govt. Schemes',
     my_fields: 'My Fields',
     reminders: 'Reminders',
-    sms_reminders: 'SMS Reminders',
+    notifications: 'Notifications',
     community: 'Community',
     ai_chatbot: 'AI Chatbot',
     our_profile: 'Our Profile',
@@ -268,8 +268,8 @@ export default {
       },
     },
   },
-  sms_reminders: {
-    title: 'SMS Reminders',
+  notifications: {
+    title: 'Notifications',
     description: 'Manage your SMS and WhatsApp reminder preferences.',
     card: {
       title: 'Notification Channels',

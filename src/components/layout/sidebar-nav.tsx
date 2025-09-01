@@ -23,7 +23,7 @@ export function SidebarNav() {
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Tractor },
     { href: '/weather', label: t.dashboard.weather_forecast.title, icon: WeatherIcon },
     { href: '/reminders', label: t.sidebar.reminders, icon: Bell },
-    { href: '/sms-reminders', label: t.sidebar.sms_reminders, icon: MessageCircle },
+    { href: '/notifications', label: t.sidebar.notifications, icon: MessageCircle },
     { href: '/community', label: t.sidebar.community, icon: Users },
     { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
     { href: '/profile', label: t.sidebar.our_profile, icon: User },

@@ -9,7 +9,7 @@ export default {
     schemes: 'அரசு திட்டங்கள்',
     my_fields: 'என் வயல்கள்',
     reminders: 'நினைவூட்டல்கள்',
-    sms_reminders: 'SMS நினைவூட்டல்கள்',
+    notifications: 'அறிவிப்புகள்',
     community: 'சமூகம்',
     ai_chatbot: 'AI சாட்பாட்',
     our_profile: 'எங்கள் சுயவிவரம்',
@@ -268,8 +268,8 @@ export default {
       },
     },
   },
-  sms_reminders: {
-    title: 'SMS நினைவூட்டல்கள்',
+  notifications: {
+    title: 'அறிவிப்புகள்',
     description: 'உங்கள் SMS மற்றும் WhatsApp நினைவூட்டல் விருப்பங்களை நிர்வகிக்கவும்.',
     card: {
       title: 'அறிவிப்பு சேனல்கள்',

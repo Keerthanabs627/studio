@@ -9,7 +9,7 @@ export default {
     schemes: 'सरकारी योजनाएं',
     my_fields: 'मेरे खेत',
     reminders: 'अनुस्मारक',
-    sms_reminders: 'SMS अनुस्मारक',
+    notifications: 'सूचनाएं',
     community: 'समुदाय',
     ai_chatbot: 'AI चैटबॉट',
     our_profile: 'हमारी प्रोफ़ाइल',
@@ -268,8 +268,8 @@ export default {
       },
     },
   },
-  sms_reminders: {
-    title: 'SMS अनुस्मारक',
+  notifications: {
+    title: 'सूचनाएं',
     description: 'अपनी SMS और WhatsApp अनुस्मारक प्राथमिकताएँ प्रबंधित करें।',
     card: {
       title: 'सूचना चैनल',

@@ -37,14 +37,14 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
           <CardTitle>Quick Links</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
             {quickLinks.map((link) => {
               const Icon = link.icon;
               return (
                 <Button key={link.href} variant="outline" className="h-24 flex-col gap-2" asChild>
                   <Link href={link.href}>
                     <Icon className="h-6 w-6 text-primary" />
-                    <span>{link.label}</span>
+                    <span className="text-xs text-center">{link.label}</span>
                   </Link>
                 </Button>
               )

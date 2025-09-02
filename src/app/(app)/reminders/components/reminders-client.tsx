@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -102,7 +103,13 @@ export function RemindersClient({ initialReminders, t }: { initialReminders: Rem
   };
 
   const formatDate = (dateString: string, timeString: string) => {
+    if (!dateString || !timeString) {
+      return "Invalid date";
+    }
     const date = new Date(`${dateString}T${timeString}`);
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
     const options: Intl.DateTimeFormatOptions = { 
         year: 'numeric', 
         month: 'long', 
@@ -111,7 +118,6 @@ export function RemindersClient({ initialReminders, t }: { initialReminders: Rem
         hour: 'numeric', 
         minute: 'numeric', 
         hour12: true,
-        timeZone: 'UTC' // Assuming dates/times are stored in UTC
     };
     return new Intl.DateTimeFormat('en-US', options).format(date);
   }

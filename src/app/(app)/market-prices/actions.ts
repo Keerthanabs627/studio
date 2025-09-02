@@ -57,7 +57,7 @@ export async function getMarketPrices(): Promise<{ data: {name: string, price: s
         const trend = getTrend(commodity);
         return {
             key: `${record.state}-${record.district}-${record.market}-${commodity}-${index}`,
-            name: `${commodity} (${record.district})`,
+            name: `${record.commodity} (${record.district})`,
             price: `₹${record.modal_price}`,
             trend: trend,
             change: getChange(trend)

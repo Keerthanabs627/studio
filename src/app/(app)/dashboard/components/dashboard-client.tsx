@@ -16,7 +16,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function DashboardClient({ profile, t, initialWeather, todaysReminders }: { profile: Profile | null, t: any, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
 
   const quickLinks = [
-    { href: "/guide", icon: Compass, title: t.sidebar.guide, color: "text-orange-400" },
     { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, color: "text-indigo-400" },
     { href: "/fertilizer-calculator", icon: Droplets, title: t.fertilizer_calculator.title, color: "text-yellow-400" },
     { href: "/market-prices", icon: LineChart, title: t.market_prices.title, color: "text-green-400" },
@@ -25,6 +24,7 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
     { href: "/schemes", icon: Landmark, title: t.sidebar.schemes, color: "text-teal-400" },
     { href: "/community", icon: Users, title: t.sidebar.community, color: "text-pink-400" },
     { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, color: "text-purple-500" },
+    { href: "/guide", icon: Compass, title: t.sidebar.guide, color: "text-orange-400" },
   ];
 
   const iconMap: { [key: string]: React.ElementType } = {

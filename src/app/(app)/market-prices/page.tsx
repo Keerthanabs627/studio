@@ -39,120 +39,58 @@ export default function MarketPricesPage() {
   const [prices, setPrices] = useState<PriceData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-  const [isListening, setIsListening] = useState(false);
-  const { toast } = useToast();
 
-  useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => {
-        setIsOnline(false);
-        if (prices.length === 0 && typeof window !== 'undefined') {
-            const cached = localStorage.getItem(CACHE_KEY);
-            if (cached) {
-                setPrices(JSON.parse(cached));
-            }
-        }
-    };
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-    
-    if (typeof navigator !== 'undefined') {
-        setIsOnline(navigator.onLine);
-    }
-
+  const fetchAndSetPrices = () => {
     startTransition(async () => {
         if (navigator.onLine) {
+            setError(null);
             const { data, error: apiError } = await getMarketPrices();
             if (apiError) {
                 setError(apiError);
-                const cached = localStorage.getItem(CACHE_KEY);
-                if (cached) setPrices(JSON.parse(cached));
+                // Don't clear prices, keep showing cached data if available
             } else if (data && data.length > 0) {
                 setPrices(data);
                 if (typeof window !== 'undefined') {
                     localStorage.setItem(CACHE_KEY, JSON.stringify(data));
                 }
-            } else {
-                 const cached = localStorage.getItem(CACHE_KEY);
-                 if (cached) setPrices(JSON.parse(cached));
             }
         } else {
-             const cached = localStorage.getItem(CACHE_KEY);
-             if (cached) setPrices(JSON.parse(cached));
+            setError("You are offline. Showing last saved data.");
         }
     });
+  }
+
+  useEffect(() => {
+    // Initial load from cache
+    if (typeof window !== 'undefined') {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            setPrices(JSON.parse(cached));
+        }
+        setIsOnline(navigator.onLine);
+    }
+    
+    // Fetch fresh data
+    fetchAndSetPrices();
+
+    const handleOnline = () => {
+        setIsOnline(true);
+        setError(null);
+        fetchAndSetPrices();
+    };
+    const handleOffline = () => {
+        setIsOnline(false);
+        setError("You are offline. Showing last saved data.");
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
     return () => {
         window.removeEventListener('online', handleOnline);
         window.removeEventListener('offline', handleOffline);
     }
   }, []);
-
-  const handleVoiceCommand = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      toast({
-        variant: 'destructive',
-        title: 'Voice recognition not supported',
-        description: 'Your browser does not support the Web Speech API.',
-      });
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = () => {
-      setIsListening(true);
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error', event.error);
-      toast({
-          variant: 'destructive',
-          title: 'Speech recognition error',
-          description: event.error === 'not-allowed' ? 'Microphone access denied.' : 'An error occurred during speech recognition.',
-      })
-      setIsListening(false);
-    };
-
-    recognition.onresult = (event) => {
-      const query = event.results[0][0].transcript;
-      toast({
-          title: 'Heard you say:',
-          description: `"${query}"`,
-      });
-
-      startTransition(async () => {
-        try {
-          const response = await getVoiceCommandResponseHandler({ query });
-          const audio = new Audio(response.audio_response_data_uri);
-          audio.play();
-          
-          toast({
-              title: 'AI Response',
-              description: response.text_response,
-          })
-        } catch (error) {
-          console.error("Error processing voice command:", error);
-          toast({
-              variant: 'destructive',
-              title: 'Error processing command',
-              description: 'Could not get a response from the AI.',
-          })
-        }
-      });
-    };
-
-    recognition.start();
-  };
 
   const renderContent = () => {
     if (isPending && prices.length === 0) {
@@ -163,12 +101,12 @@ export default function MarketPricesPage() {
         );
     }
     
-    if (error && prices.length === 0) {
+    if (prices.length === 0) {
          return (
             <div className="text-center py-10">
                 <ServerCrash className="mx-auto h-12 w-12 text-destructive" />
-                <h3 className="mt-4 text-lg font-medium">Failed to fetch data</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{error}</p>
+                <h3 className="mt-4 text-lg font-medium">No Data Available</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{error || "Could not fetch market prices."}</p>
             </div>
          );
     }
@@ -211,12 +149,12 @@ export default function MarketPricesPage() {
         </div>
       </div>
 
-       {!isOnline && (
+       {(error || !isOnline) && (
         <Alert variant="destructive">
           <Info className="h-4 w-4" />
-          <AlertTitle>You are offline</AlertTitle>
+          <AlertTitle>{isOnline ? "Service Issue" : "You are Offline"}</AlertTitle>
           <AlertDescription>
-            Showing last available data. Prices may be outdated.
+            {error || "Showing last available data. Prices may be outdated."}
           </AlertDescription>
         </Alert>
       )}
@@ -227,3 +165,4 @@ export default function MarketPricesPage() {
     </div>
   );
 }
+

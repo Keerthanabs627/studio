@@ -9,7 +9,7 @@ import type { Reminder } from "../../reminders/actions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { Bell, Calculator, Compass, Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog, Landmark } from "lucide-react";
+import { Bell, Calculator, Compass, Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog, Landmark, Bot } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 const iconMap: { [key: string]: React.ElementType } = {
@@ -36,6 +36,7 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Leaf },
     { href: '/schemes', label: t.sidebar.schemes, icon: Landmark },
     { href: '/guide', label: t.sidebar.guide, icon: Compass },
+    { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
   ];
 
   const CurrentWeatherIcon = initialWeather ? iconMap[initialWeather[0].icon] || Sun : Sun;
@@ -89,5 +90,3 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
     </div>
   );
 }
-
-    

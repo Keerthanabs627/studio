@@ -18,12 +18,12 @@ export const schemes: Scheme[] = [
   {
     id: 2,
     title: "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
-    description: "An insurance service for farmers for their yields.",
+    description: "A comprehensive crop insurance scheme to protect farmers against financial losses due to crop failure from natural calamities like drought, floods, and heavy rain.",
     eligibility: "All farmers including sharecroppers and tenant farmers growing notified crops in notified areas.",
     benefits: [
-      "Comprehensive insurance cover against failure of the crop.",
+      "Comprehensive insurance cover against failure of the crop due to non-preventable natural risks.",
       "Stabilizes the income of farmers to ensure their continuance in farming.",
-      "Low premium rates for farmers."
+      "Low premium rates for farmers, with the government subsidizing the rest."
     ],
     link: "https://pmfby.gov.in/",
   },

@@ -22,11 +22,13 @@ export default async function DashboardPage() {
   });
 
   return (
-    <DashboardClient 
-        t={t} 
-        profile={profile} 
-        initialWeather={weatherResult.data || null}
-        todaysReminders={todaysReminders}
-    />
+    <div className="mt-[265px] mb-[454px]">
+        <DashboardClient 
+            t={t} 
+            profile={profile} 
+            initialWeather={weatherResult.data || null}
+            todaysReminders={todaysReminders}
+        />
+    </div>
   );
 }

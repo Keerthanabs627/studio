@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { getDictionary } from '@/locales/dictionaries';
 import { getLocaleFromCookie } from '@/lib/utils';
 import { I18nProvider } from '@/locales/i18n-provider';
+import { AppShell } from '@/components/layout/app-shell';
 
 export const metadata: Metadata = {
   title: 'AgriPulse',
@@ -36,7 +37,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
           <I18nProvider dictionary={dictionary} locale={locale}>
-            {children}
+            <AppShell>
+              {children}
+            </AppShell>
           </I18nProvider>
         <Toaster />
       </body>

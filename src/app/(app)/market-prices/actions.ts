@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 'use server';
 
@@ -11,6 +12,7 @@ const API_URL = `https://api.data.gov.in/resource/${RESOURCE_ID}`;
 // Helper to get a stable trend value
 const getTrend = (commodity: string): ('up' | 'down' | 'stable') => {
     // Create a simple hash from the commodity name to get a consistent "random" trend
+    if (!commodity) return 'stable';
     const hash = commodity.split('').reduce((acc, char) => char.charCodeAt(0) + ((acc << 5) - acc), 0);
     const trendIndex = Math.abs(hash) % 3;
     return ['stable', 'up', 'down'][trendIndex] as ('up' | 'down' | 'stable');
@@ -28,7 +30,11 @@ const getChange = (trend: 'up' | 'down' | 'stable'): string => {
 
 export async function getMarketPrices(): Promise<{ data: {name: string, price: string, key: string, trend: 'up' | 'down' | 'stable', change: string}[], error?: string }> {
   if (!DATA_GOV_API_KEY) {
-    return { data: [], error: "API key for data.gov.in is not configured." };
+    console.error("API key for data.gov.in is not configured.");
+    return { 
+        data: [], 
+        error: "The market price data service is not configured. Please contact support." 
+    };
   }
   
   try {
@@ -39,7 +45,14 @@ export async function getMarketPrices(): Promise<{ data: {name: string, price: s
     }
     const apiData = await response.json();
 
-    const prices = apiData.records.map((record: any, index: number) => {
+    if (!apiData.records || !Array.isArray(apiData.records)) {
+        console.error("API Error: Invalid data format received", apiData);
+        return { data: [], error: "Received invalid data from the market price service." };
+    }
+
+    const prices = apiData.records
+    .filter((record: any) => record.commodity) // Ensure the record has a commodity name
+    .map((record: any, index: number) => {
         const commodity = record.commodity;
         const trend = getTrend(commodity);
         return {

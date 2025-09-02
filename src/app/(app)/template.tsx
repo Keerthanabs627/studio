@@ -3,31 +3,25 @@
 
 import type { ReactNode } from 'react';
 import { AppShell } from '@/components/layout/app-shell';
-import { usePathname } from 'next/navigation';
 import { I18nProvider } from '@/locales/i18n-provider';
 import type { Dictionary } from '@/locales/dictionaries';
 import { i18n } from '@/locales/config';
 import type { Locale } from '@/locales/config';
-import { useToast } from '@/hooks/use-toast';
-
 import { useState, useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import en from '@/locales/en';
+import hi from '@/locales/hi';
+import kn from '@/locales/kn';
+import ta from '@/locales/ta';
+import te from '@/locales/te';
 
-// Dynamically import dictionaries
-const loadDictionary = (locale: Locale): Promise<any> => {
-  switch (locale) {
-    case 'hi':
-      return import('@/locales/hi').then(m => m.default);
-    case 'kn':
-      return import('@/locales/kn').then(m => m.default);
-    case 'ta':
-      return import('@/locales/ta').then(m => m.default);
-    case 'te':
-      return import('@/locales/te').then(m => m.default);
-    default:
-      return import('@/locales/en').then(m => m.default);
-  }
+const dictionaries: Record<Locale, Dictionary> = {
+  en,
+  hi,
+  kn,
+  ta,
+  te,
 };
-
 
 function getLocaleFromCookie(): Locale {
     if (typeof window === 'undefined') return i18n.defaultLocale;
@@ -41,30 +35,23 @@ function getLocaleFromCookie(): Locale {
 
 
 export default function AppTemplate({ children }: { children: ReactNode }) {
-  const [dictionary, setDictionary] = useState<Dictionary | null>(null);
+  const [dictionary, setDictionary] = useState<Dictionary>(en);
   const [locale, setLocale] = useState<Locale>(i18n.defaultLocale);
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchDictionary = async () => {
-      try {
-        const currentLocale = getLocaleFromCookie();
-        setLocale(currentLocale);
-        const dict = await loadDictionary(currentLocale);
-        setDictionary(dict);
-      } catch (error) {
-        console.error("Failed to load dictionary:", error);
-        toast({
-            variant: "destructive",
-            title: "Error",
-            description: "Could not load language settings. Defaulting to English."
-        })
-        // Fallback to English
-        const dict = await loadDictionary('en');
-        setDictionary(dict);
-      }
-    };
-    fetchDictionary();
+    try {
+      const currentLocale = getLocaleFromCookie();
+      setLocale(currentLocale);
+      setDictionary(dictionaries[currentLocale] || en);
+    } catch (error) {
+      console.error("Failed to load dictionary:", error);
+      toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Could not load language settings. Defaulting to English."
+      })
+    }
   }, [toast]);
   
 

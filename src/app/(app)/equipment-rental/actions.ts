@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 'use server';
 
@@ -12,7 +13,7 @@ export async function getEquipment(): Promise<Equipment[]> {
   return Promise.resolve(equipment);
 }
 
-export async function addEquipment(item: Omit<Equipment, 'id' | 'owner' | 'avatar'>) {
+export async function addEquipment(item: Omit<Equipment, 'id' | 'owner' | 'avatar'>): Promise<Equipment> {
   const profile = await getProfile();
   
   const newEquipment: Equipment = {

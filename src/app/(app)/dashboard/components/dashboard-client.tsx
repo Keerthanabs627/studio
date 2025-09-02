@@ -38,14 +38,6 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
         <div className="lg:col-span-2 space-y-6">
             <Card>
                 <CardHeader>
-                    <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <WeatherForecast weatherData={initialWeather} loading={false} />
-                </CardContent>
-            </Card>
-             <Card>
-                <CardHeader>
                     <CardTitle>Quick Links</CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -59,6 +51,38 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
                         </div>
                     </Link>
                     )})}
+                </CardContent>
+            </Card>
+        </div>
+        <div className="space-y-6">
+            <Card className="bg-secondary/40">
+                <CardHeader className="flex-row items-center gap-4">
+                    <Avatar>
+                        <AvatarImage src="https://picsum.photos/40/40?random=0" alt="Your avatar" data-ai-hint="person" />
+                        <AvatarFallback>{profile?.name?.charAt(0) || 'U'}</AvatarFallback>
+                    </Avatar>
+                     <CardTitle className="m-0">Profile</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">Manage your profile and notification settings.</p>
+                </CardContent>
+                 <CardFooter>
+                    <Button variant="default" className="w-full" asChild>
+                        <Link href="/profile">Go to Profile</Link>
+                    </Button>
+                </CardFooter>
+            </Card>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <WeatherForecast weatherData={initialWeather} loading={false} />
                 </CardContent>
             </Card>
         </div>
@@ -89,23 +113,6 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
                 <CardFooter>
                     <Button variant="outline" className="w-full" asChild>
                         <Link href="/reminders">View All Reminders</Link>
-                    </Button>
-                </CardFooter>
-            </Card>
-            <Card className="bg-secondary/40">
-                <CardHeader className="flex-row items-center gap-4">
-                    <Avatar>
-                        <AvatarImage src="https://picsum.photos/40/40?random=0" alt="Your avatar" data-ai-hint="person" />
-                        <AvatarFallback>{profile?.name?.charAt(0) || 'U'}</AvatarFallback>
-                    </Avatar>
-                     <CardTitle className="m-0">Profile</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">Manage your profile and notification settings.</p>
-                </CardContent>
-                 <CardFooter>
-                    <Button variant="default" className="w-full" asChild>
-                        <Link href="/profile">Go to Profile</Link>
                     </Button>
                 </CardFooter>
             </Card>

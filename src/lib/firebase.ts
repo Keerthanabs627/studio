@@ -24,9 +24,13 @@ const getFCMToken = async () => {
     if (typeof window !== "undefined" && "Notification" in window && "serviceWorker" in navigator) {
         try {
             const messaging = getMessaging(app);
-            // IMPORTANT: Replace this with your actual VAPID key from Firebase Console
+            // IMPORTANT: Replace this with your actual VAPID key from the Firebase Console.
             // Go to Project Settings > Cloud Messaging > Web configuration > Generate key pair
             const vapidKey = "YOUR_VAPID_KEY_HERE"; 
+            if (vapidKey === "YOUR_VAPID_KEY_HERE") {
+                console.error("VAPID key not set. Please set it in src/lib/firebase.ts");
+                return null;
+            }
             const token = await getToken(messaging, { vapidKey });
             return token;
         } catch (error) {

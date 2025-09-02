@@ -16,6 +16,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export function DashboardClient({ profile, t, initialWeather, todaysReminders }: { profile: Profile | null, t: any, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
 
   const quickLinks = [
+    { href: "/guide", icon: Compass, title: t.sidebar.guide, color: "text-orange-400" },
     { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, color: "text-indigo-400" },
     { href: "/fertilizer-calculator", icon: Droplets, title: t.fertilizer_calculator.title, color: "text-yellow-400" },
     { href: "/market-prices", icon: LineChart, title: t.market_prices.title, color: "text-green-400" },
@@ -42,7 +43,7 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
   return (
     <div className="space-y-6">
        <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Hello, {profile?.name || "Farmer"}!</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Hello, community!</h1>
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 

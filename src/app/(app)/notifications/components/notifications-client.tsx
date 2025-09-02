@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useTransition, useEffect } from "react";
 import { Loader2, BellRing } from "lucide-react";
-import { updateNotificationPreferences } from "../../profile/actions";
+import { updateNotificationPreferences, saveFCMToken } from "../../profile/actions";
 import type { Profile } from "../../profile/actions";
 import { Separator } from "@/components/ui/separator";
+import { getFCMToken } from "@/lib/firebase";
 
 export function NotificationsClient({ initialPreferences, t }: { initialPreferences: Profile['notifications'], t: any }) {
     const { toast } = useToast();
@@ -45,7 +46,7 @@ export function NotificationsClient({ initialPreferences, t }: { initialPreferen
     }
 
     const handleEnablePush = async () => {
-        if (!('Notification' in window)) {
+        if (!('Notification' in window) || !('serviceWorker' in navigator)) {
             toast({
                 variant: 'destructive',
                 title: 'Unsupported',
@@ -67,20 +68,45 @@ export function NotificationsClient({ initialPreferences, t }: { initialPreferen
             });
             return;
         }
+        
+        try {
+            const permission = await Notification.requestPermission();
+            setPushStatus(permission);
 
-        const permission = await Notification.requestPermission();
-        setPushStatus(permission);
+            if (permission === 'granted') {
+                 toast({
+                    title: 'Push Notifications Enabled!',
+                    description: 'Attempting to register your device...'
+                });
 
-        if (permission === 'granted') {
+                // Get token and save to DB
+                const token = await getFCMToken();
+                if (token) {
+                    await saveFCMToken(token);
+                     toast({
+                        title: 'Device Registered!',
+                        description: 'You will now receive reminders as push notifications.'
+                    });
+                } else {
+                     toast({
+                        variant: 'destructive',
+                        title: 'Registration Failed',
+                        description: 'Could not get a device token. Please try again.'
+                    });
+                }
+            } else {
+                 toast({
+                    variant: 'destructive',
+                    title: 'Permission Denied',
+                    description: 'You will not receive push notifications.'
+                });
+            }
+        } catch (error) {
+            console.error("Error enabling push notifications:", error);
             toast({
-                title: 'Push Notifications Enabled!',
-                description: 'You will now receive reminders as push notifications.'
-            });
-        } else {
-             toast({
                 variant: 'destructive',
-                title: 'Permission Denied',
-                description: 'You will not receive push notifications.'
+                title: 'Error',
+                description: 'An unexpected error occurred during setup.'
             });
         }
     };

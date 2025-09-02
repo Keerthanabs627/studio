@@ -3,6 +3,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, serverTimestamp, getDocs } from 'firebase/firestore';
 
 export interface Profile {
   name: string;
@@ -76,4 +78,21 @@ export async function updateNotificationPreferences(data: Profile['notifications
     revalidatePath('/profile');
     
     return { data: userProfile };
+}
+
+export async function saveFCMToken(token: string) {
+    if (!token) {
+        return { error: 'Invalid token provided.' };
+    }
+    try {
+        // You might want to check if the token already exists to avoid duplicates
+        await addDoc(collection(db, "fcm_tokens"), {
+            token: token,
+            createdAt: serverTimestamp(),
+        });
+        return { success: true };
+    } catch (error) {
+        console.error("Error saving FCM token:", error);
+        return { error: 'Could not save FCM token.' };
+    }
 }

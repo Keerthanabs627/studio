@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp, getApps } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,13 +17,34 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-let app;
-if (!getApps().length) {
-  app = initializeApp(firebaseConfig);
-} else {
-  app = getApps()[0];
-}
-
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
-export { app, db };
+const getFCMToken = async () => {
+    if (typeof window !== "undefined") {
+        try {
+            const messaging = getMessaging(app);
+            const vapidKey = "YOUR_VAPID_KEY_HERE"; // IMPORTANT: Replace with your actual VAPID key from Firebase Console
+            const token = await getToken(messaging, { vapidKey });
+            return token;
+        } catch (error) {
+            console.error("Error getting FCM token:", error);
+            return null;
+        }
+    }
+    return null;
+}
+
+const onForegroundMessage = () => {
+    if (typeof window !== 'undefined') {
+        const messaging = getMessaging(app);
+        return onMessage(messaging, (payload) => {
+            console.log('Foreground message received. ', payload);
+            // You can show a custom notification/toast here
+        });
+    }
+    return () => {}; // Return an empty unsubscribe function for SSR
+}
+
+
+export { app, db, getFCMToken, onForegroundMessage };

@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 "use client";
 
@@ -46,7 +45,7 @@ export function NotificationsClient({ initialPreferences, t }: { initialPreferen
     }
 
     const handleEnablePush = async () => {
-        if (!('Notification' in window) || !('serviceWorker' in navigator)) {
+        if (!('Notification' in window)) {
             toast({
                 variant: 'destructive',
                 title: 'Unsupported',
@@ -77,9 +76,6 @@ export function NotificationsClient({ initialPreferences, t }: { initialPreferen
                 title: 'Push Notifications Enabled!',
                 description: 'You will now receive reminders as push notifications.'
             });
-            // In a real app, you would send the subscription to your server here
-            // const sub = await navigator.serviceWorker.ready.then(reg => reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: 'YOUR_VAPID_PUBLIC_KEY' }));
-            // await saveSubscription(sub);
         } else {
              toast({
                 variant: 'destructive',

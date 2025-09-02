@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 "use client";
 
@@ -20,6 +19,25 @@ export function RemindersClient({ initialReminders, t }: { initialReminders: Rem
   const [newTime, setNewTime] = useState('');
   const { toast } = useToast();
 
+  const scheduleNotification = (task: string, date: string, time: string) => {
+    if (!('Notification' in window) || Notification.permission !== 'granted') {
+      return;
+    }
+
+    const reminderDateTime = new Date(`${date}T${time}`).getTime();
+    const now = new Date().getTime();
+    const delay = reminderDateTime - now;
+
+    if (delay > 0) {
+      setTimeout(() => {
+        new Notification(t.reminders.title, {
+          body: task,
+          icon: '/icons/icon-192x192.png',
+        });
+      }, delay);
+    }
+  };
+
   const handleAddReminder = () => {
     if (!newTask.trim() || !newDate || !newTime) {
       toast({
@@ -38,6 +56,8 @@ export function RemindersClient({ initialReminders, t }: { initialReminders: Rem
           };
           await addReminder(newReminderData);
           
+          scheduleNotification(newTask, newDate, newTime);
+
           let description = `${t.reminders.toast.added.description_prefix} "${newTask}" ${t.reminders.toast.added.description_suffix} ${newDate}.`;
           if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission !== 'granted') {
             description += " Please enable notifications to receive alerts."
@@ -187,4 +207,3 @@ export function RemindersClient({ initialReminders, t }: { initialReminders: Rem
     </div>
   );
 }
-

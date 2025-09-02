@@ -34,26 +34,26 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card className="col-span-1 md:col-span-2 lg:col-span-3">
-            <CardHeader>
-                <CardTitle>Quick Links</CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-3 md:grid-cols-4 gap-4">
-                {quickLinks.map((card) => {
-                const Icon = card.icon;
-                return (
-                <Link href={card.href} key={card.href} className="block">
-                    <div className="flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200">
-                        <Icon className={cn("h-7 w-7 mb-2", card.color)} />
-                        <p className="text-center text-sm font-medium">{card.title}</p>
-                    </div>
-                </Link>
-                )})}
-            </CardContent>
-        </Card>
-
-        <Card className="lg:col-start-2">
+      <Card>
+          <CardHeader>
+              <CardTitle>Quick Links</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-3 md:grid-cols-4 gap-4">
+              {quickLinks.map((card) => {
+              const Icon = card.icon;
+              return (
+              <Link href={card.href} key={card.href} className="block">
+                  <div className="flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200">
+                      <Icon className={cn("h-7 w-7 mb-2", card.color)} />
+                      <p className="text-center text-sm font-medium">{card.title}</p>
+                  </div>
+              </Link>
+              )})}
+          </CardContent>
+      </Card>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
             <CardHeader>
                 <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
             </CardHeader>

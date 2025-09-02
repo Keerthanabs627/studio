@@ -35,6 +35,10 @@ export async function getJobs(): Promise<Job[]> {
 export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'createdAt'>) {
   const profile = await getProfile();
   
+  if (!profile) {
+      throw new Error("User not authenticated");
+  }
+
   const newJob = {
     posterName: profile.name,
     avatar: "https://picsum.photos/40/40?random=0",

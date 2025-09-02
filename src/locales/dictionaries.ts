@@ -17,6 +17,6 @@ const dictionaries = {
 
 export type Dictionary = typeof en;
 
-export const getDictionary = async (locale: Locale): Promise<Dictionary> => {
+export const getDictionary = (locale: Locale): Dictionary => {
   return dictionaries[locale] ?? dictionaries.en;
 };

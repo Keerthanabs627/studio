@@ -36,8 +36,12 @@ export async function getPosts(): Promise<Post[]> {
   return postsList;
 }
 
-export async function addPost(post: Omit<Post, 'id' | 'likes' | 'comments' | 'time' | 'author' | 'avatar' | 'handle' | 'createdAt'>) {
+export async function addPost({ content, category }: { content: string, category: string }) {
   const profile = await getProfile();
+  
+  if (!profile) {
+    throw new Error("User profile not found.");
+  }
   
   const newPost = {
     author: profile.name,
@@ -46,7 +50,8 @@ export async function addPost(post: Omit<Post, 'id' | 'likes' | 'comments' | 'ti
     likes: 0,
     comments: 0,
     createdAt: serverTimestamp(),
-    ...post,
+    content,
+    category,
   };
 
   await addDoc(collection(db, "posts"), newPost);

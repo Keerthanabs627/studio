@@ -1,15 +1,11 @@
-
 // @ts-nocheck
 "use client";
 
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, ArrowDown, Minus, Mic, Loader2, Info } from "lucide-react";
+import { ArrowUp, ArrowDown, Minus, Info } from "lucide-react";
 import { useI18n } from "@/locales/client";
-import { Button } from '@/components/ui/button';
-import { getVoiceCommandResponse } from './actions';
-import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const cropPriceData = [
@@ -98,10 +94,7 @@ const CACHE_KEY = 'market-prices-cache';
 
 export default function MarketPricesPage() {
   const t = useI18n();
-  const [isListening, setIsListening] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
-  const [isPending, startTransition] = useTransition();
-  const { toast } = useToast();
   
   const [prices, setPrices] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -134,69 +127,6 @@ export default function MarketPricesPage() {
     }
   }, [isOnline]);
 
-  const handleVoiceCommand = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      toast({
-        variant: 'destructive',
-        title: 'Voice recognition not supported',
-        description: 'Your browser does not support the Web Speech API.',
-      });
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = () => {
-      setIsListening(true);
-    };
-
-    recognition.onend = () => {
-      setIsListening(false);
-    };
-
-    recognition.onerror = (event) => {
-      console.error('Speech recognition error', event.error);
-      toast({
-          variant: 'destructive',
-          title: 'Speech recognition error',
-          description: event.error === 'not-allowed' ? 'Microphone access denied.' : 'An error occurred during speech recognition.',
-      })
-      setIsListening(false);
-    };
-
-    recognition.onresult = (event) => {
-      const query = event.results[0][0].transcript;
-      toast({
-          title: 'Heard you say:',
-          description: `"${query}"`,
-      });
-
-      startTransition(async () => {
-        try {
-          const response = await getVoiceCommandResponse({ query });
-          const audio = new Audio(response.audio_response_data_uri);
-          audio.play();
-          toast({
-              title: 'AI Response',
-              description: response.text_response,
-          })
-        } catch (error) {
-          console.error("Error processing voice command:", error);
-          toast({
-              variant: 'destructive',
-              title: 'Error processing command',
-              description: 'Could not get a response from the AI.',
-          })
-        }
-      });
-    };
-
-    recognition.start();
-  };
 
   const cropPrices = prices.map(crop => ({
       ...crop,
@@ -210,10 +140,6 @@ export default function MarketPricesPage() {
             <h1 className="text-3xl font-bold tracking-tight">{t.market_prices.title}</h1>
             <p className="text-muted-foreground">{t.market_prices.description}</p>
         </div>
-         <Button onClick={handleVoiceCommand} size="icon" disabled={isListening || isPending}>
-            {isListening || isPending ? <Loader2 className="animate-spin" /> : <Mic />}
-            <span className="sr-only">Use voice command</span>
-         </Button>
       </div>
 
        {!isOnline && (

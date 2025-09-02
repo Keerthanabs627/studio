@@ -10,3 +10,4 @@ import '@/ai/flows/crop-management-flow.ts';
 import '@/ai/flows/crop-doctor-flow.ts';
 import '@/ai/flows/voice-command-flow.ts';
 import '@/ai/tools/agronomic-tools.ts';
+import '@/ai/tools/navigation-tool.ts';

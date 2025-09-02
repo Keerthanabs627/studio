@@ -13,6 +13,7 @@ import {z} from 'genkit';
 import { getMarketPriceTool } from '../tools/agronomic-tools';
 import wav from 'wav';
 import { googleAI } from '@genkit-ai/googleai';
+import { navigationTool } from '../tools/navigation-tool';
 
 const VoiceCommandInputSchema = z.object({
   query: z.string().describe('The user\'s spoken query.'),
@@ -22,6 +23,7 @@ export type VoiceCommandInput = z.infer<typeof VoiceCommandInputSchema>;
 const VoiceCommandOutputSchema = z.object({
   text_response: z.string().describe('The text version of the answer.'),
   audio_response_data_uri: z.string().describe('A data URI of the spoken response in WAV format.'),
+  navigation_target: z.string().optional().describe("If the user wants to navigate, this is the target URL path (e.g., '/dashboard', '/crop-doctor')."),
 });
 export type VoiceCommandOutput = z.infer<typeof VoiceCommandOutputSchema>;
 
@@ -32,10 +34,14 @@ export async function handleVoiceCommand(input: VoiceCommandInput): Promise<Voic
 const voiceCommandPrompt = ai.definePrompt({
     name: 'voiceCommandPrompt',
     input: { schema: z.object({ query: z.string() }) },
-    tools: [getMarketPriceTool],
-    prompt: `You are a helpful agricultural assistant. The user has asked a question. Use the available tools to answer it.
-    If the user asks for a price, use the getMarketPriceTool.
-    Keep your answer concise and to the point.
+    output: { schema: VoiceCommandOutputSchema },
+    tools: [getMarketPriceTool, navigationTool],
+    prompt: `You are a helpful agricultural assistant. The user has given you a voice command.
+    - If the user wants to navigate to a different page, use the navigationTool.
+    - If the user asks for a price, use the getMarketPriceTool.
+    - For general questions, provide a concise and helpful answer.
+    - Your text_response should be what you want to say to the user.
+    - Only set navigation_target when you use the navigationTool.
     
     User query: {{{query}}}
     `,
@@ -89,18 +95,18 @@ const voiceCommandFlow = ai.defineFlow(
     outputSchema: VoiceCommandOutputSchema,
   },
   async (input) => {
-    const llmResponse = await voiceCommandPrompt(input);
-    const textResponse = llmResponse.text;
+    const { output } = await voiceCommandPrompt(input);
 
-    if (!textResponse) {
+    if (!output?.text_response) {
         throw new Error("Could not get a text response from the model.");
     }
     
-    const audioUri = await textToSpeech(textResponse);
+    const audioUri = await textToSpeech(output.text_response);
 
     return {
-      text_response: textResponse,
+      text_response: output.text_response,
       audio_response_data_uri: audioUri,
+      navigation_target: output.navigation_target,
     };
   }
 );

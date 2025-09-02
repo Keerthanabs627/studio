@@ -4,7 +4,7 @@
 import { useState, useEffect, useTransition } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, ArrowDown, Minus, Info, Loader2 } from "lucide-react";
+import { ArrowUp, ArrowDown, Minus, Info, Loader2, ServerCrash } from "lucide-react";
 import { useI18n } from "@/locales/client";
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { getMarketPrices } from './actions';
@@ -34,13 +34,13 @@ export default function MarketPricesPage() {
   const t = useI18n();
   const [isOnline, setIsOnline] = useState(true);
   const [prices, setPrices] = useState<PriceData[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => {
         setIsOnline(false);
-        // On going offline, if we have data, we're good. If not, try loading from cache.
         if (prices.length === 0 && typeof window !== 'undefined') {
             const cached = localStorage.getItem(CACHE_KEY);
             if (cached) {
@@ -58,13 +58,17 @@ export default function MarketPricesPage() {
 
     startTransition(async () => {
         if (navigator.onLine) {
-            const { data } = await getMarketPrices();
-            if (data && data.length > 0) {
+            const { data, error: apiError } = await getMarketPrices();
+            if (apiError) {
+                setError(apiError);
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (cached) setPrices(JSON.parse(cached));
+            } else if (data && data.length > 0) {
                 setPrices(data);
                 if (typeof window !== 'undefined') {
                     localStorage.setItem(CACHE_KEY, JSON.stringify(data));
                 }
-            } else if (typeof window !== 'undefined') {
+            } else {
                  const cached = localStorage.getItem(CACHE_KEY);
                  if (cached) setPrices(JSON.parse(cached));
             }
@@ -78,33 +82,28 @@ export default function MarketPricesPage() {
         window.removeEventListener('online', handleOnline);
         window.removeEventListener('offline', handleOffline);
     }
-  }, [isOnline]); // Rerun effect when online status changes
+  }, [isOnline]);
 
-  return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-start">
-        <div>
-            <h1 className="text-3xl font-bold tracking-tight">{t.market_prices.title}</h1>
-            <p className="text-muted-foreground">{t.market_prices.description}</p>
-        </div>
-      </div>
-
-       {!isOnline && (
-        <Alert variant="destructive">
-          <Info className="h-4 w-4" />
-          <AlertTitle>You are offline</AlertTitle>
-          <AlertDescription>
-            Showing last available data. Prices may be outdated.
-          </AlertDescription>
-        </Alert>
-      )}
-
-      <div className="border rounded-lg">
-        {isPending && prices.length === 0 ? (
+  const renderContent = () => {
+    if (isPending && prices.length === 0) {
+        return (
             <div className="flex justify-center items-center h-64">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
-        ) : (
+        );
+    }
+    
+    if (error && prices.length === 0) {
+         return (
+            <div className="text-center py-10">
+                <ServerCrash className="mx-auto h-12 w-12 text-destructive" />
+                <h3 className="mt-4 text-lg font-medium">Failed to fetch data</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{error}</p>
+            </div>
+         );
+    }
+
+    return (
         <Table>
           <TableHeader>
             <TableRow>
@@ -130,7 +129,30 @@ export default function MarketPricesPage() {
             )})}
           </TableBody>
         </Table>
-        )}
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-start">
+        <div>
+            <h1 className="text-3xl font-bold tracking-tight">{t.market_prices.title}</h1>
+            <p className="text-muted-foreground">{t.market_prices.description}</p>
+        </div>
+      </div>
+
+       {!isOnline && (
+        <Alert variant="destructive">
+          <Info className="h-4 w-4" />
+          <AlertTitle>You are offline</AlertTitle>
+          <AlertDescription>
+            Showing last available data. Prices may be outdated.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      <div className="border rounded-lg">
+        {renderContent()}
       </div>
     </div>
   );

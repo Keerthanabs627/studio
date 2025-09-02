@@ -133,7 +133,11 @@ export const getMarketPriceTool = ai.defineTool(
   },
   async (input) => {
     try {
-      const { data: prices } = await getMarketPrices();
+      const { data: prices, error } = await getMarketPrices();
+      if (error) {
+          return `Error fetching prices: ${error}`;
+      }
+      
       const commodityLower = input.commodity.toLowerCase();
       const foundPrice = prices.find(p => p.name.toLowerCase().includes(commodityLower));
 

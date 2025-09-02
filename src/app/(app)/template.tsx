@@ -35,7 +35,7 @@ function getLocaleFromCookie(): Locale {
 
 
 export default function AppTemplate({ children }: { children: ReactNode }) {
-  const [dictionary, setDictionary] = useState<Dictionary>(en);
+  const [dictionary, setDictionary] = useState<Dictionary | null>(null);
   const [locale, setLocale] = useState<Locale>(i18n.defaultLocale);
   const { toast } = useToast();
 
@@ -51,6 +51,9 @@ export default function AppTemplate({ children }: { children: ReactNode }) {
           title: "Error",
           description: "Could not load language settings. Defaulting to English."
       })
+      // Fallback to English in case of any error
+      setLocale('en');
+      setDictionary(en);
     }
   }, [toast]);
   

@@ -15,18 +15,14 @@ import { useRouter } from "next/navigation";
 
 export function ProfileClient({ initialProfile, t }: { initialProfile: Profile, t: any }) {
   const router = useRouter();
-  const [profile, setProfile] = useState<Profile>(initialProfile);
+  const [name, setName] = useState(initialProfile.name);
+  const [phone, setPhone] = useState(initialProfile.phone);
   const [isSaving, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setProfile(prev => ({...prev, [id]: value}));
-  };
-
   const handleSaveChanges = () => {
     startTransition(async () => {
-      const result = await updateProfile({ name: profile.name, phone: profile.phone });
+      const result = await updateProfile({ name, phone });
       if (result.error) {
          toast({
             variant: "destructive",
@@ -38,6 +34,12 @@ export function ProfileClient({ initialProfile, t }: { initialProfile: Profile, 
           title: t.profile.toast.title,
           description: t.profile.toast.description,
         });
+        // Optimistically update state, though revalidatePath will handle it
+        if(result.data){
+            setName(result.data.name);
+            setPhone(result.data.phone);
+        }
+        router.refresh();
       }
     });
   };
@@ -57,11 +59,11 @@ export function ProfileClient({ initialProfile, t }: { initialProfile: Profile, 
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">{t.profile.card1.name_label}</Label>
-            <Input id="name" value={profile.name} onChange={handleInputChange} disabled={isSaving} />
+            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} disabled={isSaving} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">{t.profile.card1.phone_label}</Label>
-            <Input id="phone" type="tel" value={profile.phone} onChange={handleInputChange} disabled={isSaving}/>
+            <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={isSaving}/>
           </div>
         </CardContent>
         <CardFooter>

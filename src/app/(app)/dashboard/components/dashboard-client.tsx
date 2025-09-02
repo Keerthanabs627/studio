@@ -10,7 +10,7 @@ import { useI18n } from "@/locales/client";
 import { type Profile } from '../../profile/actions';
 import { cn } from "@/lib/utils";
 import { WeatherForecast } from "./weather-forecast";
-import { type WeatherData } from "../actions";
+import type { WeatherData } from "../actions";
 import type { Reminder } from "../../reminders/actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -34,89 +34,64 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Quick Links</CardTitle>
-                </CardHeader>
-                <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {quickLinks.map((card) => {
-                    const Icon = card.icon;
-                    return (
-                    <Link href={card.href} key={card.href} className="block">
-                        <div className="flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200">
-                            <Icon className={cn("h-7 w-7 mb-2", card.color)} />
-                            <p className="text-center text-sm font-medium">{card.title}</p>
-                        </div>
-                    </Link>
-                    )})}
-                </CardContent>
-            </Card>
-        </div>
-        <div className="space-y-6">
-            <Card className="bg-secondary/40">
-                <CardHeader className="flex-row items-center gap-4">
-                    <Avatar>
-                        <AvatarImage src="https://picsum.photos/40/40?random=0" alt="Your avatar" data-ai-hint="person" />
-                        <AvatarFallback>{profile?.name?.charAt(0) || 'U'}</AvatarFallback>
-                    </Avatar>
-                     <CardTitle className="m-0">Profile</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-muted-foreground">Manage your profile and notification settings.</p>
-                </CardContent>
-                 <CardFooter>
-                    <Button variant="default" className="w-full" asChild>
-                        <Link href="/profile">Go to Profile</Link>
-                    </Button>
-                </CardFooter>
-            </Card>
-        </div>
+      <div className="space-y-6">
+        <Card>
+            <CardHeader>
+                <CardTitle>Quick Links</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {quickLinks.map((card) => {
+                const Icon = card.icon;
+                return (
+                <Link href={card.href} key={card.href} className="block">
+                    <div className="flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200">
+                        <Icon className={cn("h-7 w-7 mb-2", card.color)} />
+                        <p className="text-center text-sm font-medium">{card.title}</p>
+                    </div>
+                </Link>
+                )})}
+            </CardContent>
+        </Card>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-            <Card>
-                <CardHeader>
-                    <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <WeatherForecast weatherData={initialWeather} loading={false} />
-                </CardContent>
-            </Card>
-        </div>
-        <div className="space-y-6">
-             <Card>
-                <CardHeader>
-                    <CardTitle>Today's Reminders</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    {todaysReminders.length > 0 ? (
-                        <ul className="space-y-3">
-                            {todaysReminders.map(reminder => (
-                            <li key={reminder.id} className="flex items-center gap-3">
-                                <Bell className="h-5 w-5 text-primary"/>
-                                <div>
-                                    <p className="font-medium">{reminder.task}</p>
-                                    <p className="text-sm text-muted-foreground">{reminder.time}</p>
-                                </div>
-                            </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <div className="text-center text-muted-foreground py-4">
-                            <p>No reminders for today.</p>
-                        </div>
-                    )}
-                </CardContent>
-                <CardFooter>
-                    <Button variant="outline" className="w-full" asChild>
-                        <Link href="/reminders">View All Reminders</Link>
-                    </Button>
-                </CardFooter>
-            </Card>
-        </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+            <CardHeader>
+                <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <WeatherForecast weatherData={initialWeather} loading={false} />
+            </CardContent>
+        </Card>
+         <Card>
+            <CardHeader>
+                <CardTitle>Today's Reminders</CardTitle>
+            </CardHeader>
+            <CardContent>
+                {todaysReminders.length > 0 ? (
+                    <ul className="space-y-3">
+                        {todaysReminders.map(reminder => (
+                        <li key={reminder.id} className="flex items-center gap-3">
+                            <Bell className="h-5 w-5 text-primary"/>
+                            <div>
+                                <p className="font-medium">{reminder.task}</p>
+                                <p className="text-sm text-muted-foreground">{reminder.time}</p>
+                            </div>
+                        </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <div className="text-center text-muted-foreground py-4">
+                        <p>No reminders for today.</p>
+                    </div>
+                )}
+            </CardContent>
+            <CardFooter>
+                <Button variant="outline" className="w-full" asChild>
+                    <Link href="/reminders">View All Reminders</Link>
+                </Button>
+            </CardFooter>
+        </Card>
       </div>
     </div>
   );

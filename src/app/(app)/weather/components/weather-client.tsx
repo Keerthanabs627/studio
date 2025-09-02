@@ -1,15 +1,15 @@
-
+// @ts-nocheck
 'use client';
 
-import {useState, useTransition} from 'react';
+import {useState, useTransition, useEffect} from 'react';
 import {Card, CardContent, CardHeader, CardTitle, CardFooter} from '@/components/ui/card';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {useToast} from '@/hooks/use-toast';
 import {getWeather, type WeatherData} from '../../dashboard/actions';
-import {WeatherForecast} from '../../dashboard/components/weather-forecast';
 import { Skeleton } from "@/components/ui/skeleton";
-import { Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog } from "lucide-react";
+import { Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog, Info } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const iconMap: { [key: string]: React.ElementType } = {
   Sunny: Sun,
@@ -22,16 +22,10 @@ const iconMap: { [key: string]: React.ElementType } = {
   Fog: CloudFog,
 };
 
-const initialWeatherData = [
-  { day: 'Today', icon: "Sunny", temp: '28°C', condition: 'Sunny', wind: '12 km/h' },
-  { day: 'Tomorrow', icon: "Partly Cloudy", temp: '25°C', condition: 'Partly Cloudy', wind: '15 km/h' },
-  { day: 'Day After', icon: "Light Rain", temp: '22°C', condition: 'Light Rain', wind: '18 km/h' },
-];
+const CACHE_KEY = 'weather-forecast-cache';
 
-function ForecastDisplay({ weatherData, loading }: { weatherData: WeatherData[] | null, loading: boolean }) {
+function ForecastDisplay({ weatherData, loading, isOnline }: { weatherData: WeatherData[] | null, loading: boolean, isOnline: boolean }) {
   
-  const dataToDisplay = weatherData && weatherData.length === 3 ? weatherData : initialWeatherData;
-
   if (loading) {
       return (
           <div className="grid gap-4 grid-cols-3">
@@ -48,9 +42,17 @@ function ForecastDisplay({ weatherData, loading }: { weatherData: WeatherData[] 
       )
   }
 
+  if (!weatherData || weatherData.length !== 3) {
+      return (
+        <div className="text-center py-10 text-muted-foreground">
+           <p>{isOnline ? "Could not fetch weather data." : "No cached weather data available."}</p>
+        </div>
+      )
+  }
+
   return (
     <div className="grid gap-4 grid-cols-3">
-      {dataToDisplay.map(({ day, icon, temp, condition, wind }) => {
+      {weatherData.map(({ day, icon, temp, condition, wind }) => {
         const Icon = iconMap[icon as keyof typeof iconMap] || Sun;
         return (
           <div key={day} className="flex flex-col items-center justify-between gap-1 rounded-lg bg-secondary/30 p-4 text-center h-full">
@@ -72,10 +74,39 @@ function ForecastDisplay({ weatherData, loading }: { weatherData: WeatherData[] 
 export function WeatherClient({ t, initialWeatherData, initialLocation }: { t: any, initialWeatherData: WeatherData[] | null, initialLocation: string }) {
   const [weatherData, setWeatherData] = useState<WeatherData[] | null>(initialWeatherData);
   const [isWeatherPending, startWeatherTransition] = useTransition();
+  const [isOnline, setIsOnline] = useState(true);
 
   const [location, setLocation] = useState(initialLocation);
   const [tempLocation, setTempLocation] = useState(initialLocation);
   const {toast} = useToast();
+
+   useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+     if (typeof navigator !== 'undefined') {
+        setIsOnline(navigator.onLine);
+    }
+
+    // Load from cache on initial mount if offline
+    if (typeof window !== 'undefined' && !navigator.onLine) {
+        const cachedData = localStorage.getItem(CACHE_KEY);
+        if (cachedData) {
+            setWeatherData(JSON.parse(cachedData));
+        }
+    } else if (initialWeatherData) {
+        // If online and have initial data, cache it
+        localStorage.setItem(CACHE_KEY, JSON.stringify(initialWeatherData));
+    }
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [initialWeatherData]);
 
   const fetchWeather = (loc: string) => {
     if (!loc.trim()) {
@@ -87,16 +118,19 @@ export function WeatherClient({ t, initialWeatherData, initialLocation }: { t: a
     }
     
     startWeatherTransition(async () => {
-      setLocation(loc);
       const weatherResult = await getWeather({location: loc});
       if (weatherResult.data) {
         setWeatherData(weatherResult.data);
+        setLocation(loc);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(CACHE_KEY, JSON.stringify(weatherResult.data));
+        }
       } else {
-        setWeatherData(null);
+        // Don't clear data if fetch fails, keep showing cached data
         toast({
           variant: 'destructive',
           title: 'Failed to get weather',
-          description: weatherResult.error || 'Could not fetch weather data.',
+          description: weatherResult.error || 'Could not fetch weather data. Showing last available data.',
         });
       }
     });
@@ -104,6 +138,10 @@ export function WeatherClient({ t, initialWeatherData, initialLocation }: { t: a
 
   const handleLocationSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!isOnline) {
+        toast({ variant: 'destructive', title: 'You are offline', description: 'Cannot fetch new weather data.'})
+        return;
+    }
     fetchWeather(tempLocation);
   };
 
@@ -118,9 +156,19 @@ export function WeatherClient({ t, initialWeatherData, initialLocation }: { t: a
           <CardTitle>3-Day Forecast for {location}</CardTitle>
         </CardHeader>
         <CardContent className="flex-1">
+          {!isOnline && (
+            <Alert variant="destructive" className="mb-4">
+              <Info className="h-4 w-4" />
+              <AlertTitle>You are offline</AlertTitle>
+              <AlertDescription>
+                Showing last available data.
+              </AlertDescription>
+            </Alert>
+          )}
           <ForecastDisplay
             weatherData={weatherData}
             loading={isWeatherPending}
+            isOnline={isOnline}
           />
         </CardContent>
         <CardFooter>
@@ -132,9 +180,9 @@ export function WeatherClient({ t, initialWeatherData, initialLocation }: { t: a
               placeholder={t.dashboard.weather_forecast.placeholder}
               value={tempLocation}
               onChange={e => setTempLocation(e.target.value)}
-              disabled={isWeatherPending}
+              disabled={isWeatherPending || !isOnline}
             />
-            <Button type="submit" disabled={isWeatherPending}>
+            <Button type="submit" disabled={isWeatherPending || !isOnline}>
               {t.dashboard.weather_forecast.button}
             </Button>
           </form>

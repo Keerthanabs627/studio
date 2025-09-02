@@ -14,6 +14,7 @@ import {
   type SoilSuitabilityInput,
 } from '@/ai/flows/soil-suitability-flow';
 import {getWeatherForecast} from '@/ai/flows/weather-flow';
+import { getMarketPrices } from '@/app/(app)/market-prices/actions';
 import {z} from 'zod';
 
 export const weatherTool = ai.defineTool(
@@ -113,6 +114,35 @@ export const cropDoctorTool = ai.defineTool(
       return JSON.stringify(result);
     } catch (e) {
       return `Error diagnosing crop: ${e}`;
+    }
+  }
+);
+
+export const getMarketPriceTool = ai.defineTool(
+  {
+    name: 'getMarketPrice',
+    description: 'Get the current market price for a specific commodity.',
+    input: {
+        schema: z.object({
+            commodity: z.string().describe('The commodity to get the price for, e.g., "tomato", "wheat".'),
+        })
+    },
+    output: {
+        schema: z.any(),
+    },
+  },
+  async (input) => {
+    try {
+      const { data: prices } = await getMarketPrices();
+      const commodityLower = input.commodity.toLowerCase();
+      const foundPrice = prices.find(p => p.name.toLowerCase().includes(commodityLower));
+
+      if (foundPrice) {
+        return `The price of ${foundPrice.name} is ${foundPrice.price}.`;
+      }
+      return `Sorry, I could not find the price for ${input.commodity}.`;
+    } catch (e) {
+      return `Error fetching market prices: ${e}`;
     }
   }
 );

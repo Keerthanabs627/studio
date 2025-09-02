@@ -1,10 +1,15 @@
 // @ts-nocheck
 "use client";
 
+import { useState, useEffect, useTransition } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, ArrowDown, Minus } from "lucide-react";
+import { ArrowUp, ArrowDown, Minus, Mic, Loader2, Info } from "lucide-react";
 import { useI18n } from "@/locales/client";
+import { Button } from '@/components/ui/button';
+import { getVoiceCommandResponse } from './actions';
+import { useToast } from '@/hooks/use-toast';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const cropPriceData = [
     // Grains
@@ -88,20 +93,138 @@ const getTrendProps = (trend: string) => {
     }
 };
 
+const CACHE_KEY = 'market-prices-cache';
 
 export default function MarketPricesPage() {
   const t = useI18n();
-  const cropPrices = cropPriceData.map(crop => ({
+  const [isListening, setIsListening] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
+  const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
+  
+  const [prices, setPrices] = useState(() => {
+    if (typeof window !== 'undefined') {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) return JSON.parse(cached);
+    }
+    return cropPriceData;
+  });
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    if (typeof navigator !== 'undefined') {
+        setIsOnline(navigator.onLine);
+    }
+    
+    // On mount, if online, "fetch" and cache new data
+    if (isOnline) {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(cropPriceData));
+        setPrices(cropPriceData);
+    }
+
+    return () => {
+        window.removeEventListener('online', handleOnline);
+        window.removeEventListener('offline', handleOffline);
+    }
+  }, [isOnline]);
+
+  const handleVoiceCommand = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      toast({
+        variant: 'destructive',
+        title: 'Voice recognition not supported',
+        description: 'Your browser does not support the Web Speech API.',
+      });
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+_Gg_recognition.onerror = (event) => {
+      console.error('Speech recognition error', event.error);
+      toast({
+          variant: 'destructive',
+          title: 'Speech recognition error',
+          description: event.error === 'not-allowed' ? 'Microphone access denied.' : 'An error occurred during speech recognition.',
+      })
+      setIsListening(false);
+    };
+
+    recognition.onresult = (event) => {
+      const query = event.results[0][0].transcript;
+      toast({
+          title: 'Heard you say:',
+          description: `"${query}"`,
+      });
+
+      startTransition(async () => {
+        try {
+          const response = await getVoiceCommandResponse({ query });
+          const audio = new Audio(response.audio_response_data_uri);
+          audio.play();
+          toast({
+              title: 'AI Response',
+              description: response.text_response,
+          })
+        } catch (error) {
+          console.error("Error processing voice command:", error);
+          toast({
+              variant: 'destructive',
+              title: 'Error processing command',
+              description: 'Could not get a response from the AI.',
+          })
+        }
+      });
+    };
+
+    recognition.start();
+  };
+
+  const cropPrices = prices.map(crop => ({
       ...crop,
       name: t.market_prices.crops[crop.key as keyof typeof t.market_prices.crops] || crop.key
   }));
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">{t.market_prices.title}</h1>
-        <p className="text-muted-foreground">{t.market_prices.description}</p>
+      <div className="flex justify-between items-start">
+        <div>
+            <h1 className="text-3xl font-bold tracking-tight">{t.market_prices.title}</h1>
+            <p className="text-muted-foreground">{t.market_prices.description}</p>
+        </div>
+         <Button onClick={handleVoiceCommand} size="icon" disabled={isListening || isPending}>
+            {isListening || isPending ? <Loader2 className="animate-spin" /> : <Mic />}
+            <span className="sr-only">Use voice command</span>
+         </Button>
       </div>
+
+       {!isOnline && (
+        <Alert variant="destructive">
+          <Info className="h-4 w-4" />
+          <AlertTitle>You are offline</AlertTitle>
+          <AlertDescription>
+            Showing last available data. Prices may be outdated.
+          </AlertDescription>
+        </Alert>
+      )}
+
       <div className="border rounded-lg">
         <Table>
           <TableHeader>

@@ -26,9 +26,13 @@ export async function getWeather(input: { location: string }): Promise<{ data?: 
 
   try {
     const output = await getWeatherForecast({ location: validatedInput.data.location });
+     if (!output || !output.forecast) {
+      return { error: 'Failed to retrieve a valid forecast from the AI model.' };
+    }
     return { data: output.forecast };
-  } catch (e) {
+  } catch (e: any) {
     console.error('Weather Flow Error:', e);
-    return { error: 'An unexpected error occurred while fetching weather data. Please try again later.' };
+    const errorMessage = e.message || 'An unexpected error occurred while fetching weather data. Please try again later.';
+    return { error: errorMessage };
   }
 }

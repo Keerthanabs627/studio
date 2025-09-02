@@ -53,6 +53,9 @@ const weatherFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await weatherPrompt(input);
-    return output!;
+     if (!output) {
+      throw new Error("The AI model failed to return weather data.");
+    }
+    return output;
   }
 );

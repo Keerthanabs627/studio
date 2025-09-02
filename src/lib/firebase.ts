@@ -21,10 +21,12 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
 const getFCMToken = async () => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && "Notification" in window && "serviceWorker" in navigator) {
         try {
             const messaging = getMessaging(app);
-            const vapidKey = "YOUR_VAPID_KEY_HERE"; // IMPORTANT: Replace with your actual VAPID key from Firebase Console
+            // IMPORTANT: Replace this with your actual VAPID key from Firebase Console
+            // Go to Project Settings > Cloud Messaging > Web configuration > Generate key pair
+            const vapidKey = "YOUR_VAPID_KEY_HERE"; 
             const token = await getToken(messaging, { vapidKey });
             return token;
         } catch (error) {
@@ -36,7 +38,7 @@ const getFCMToken = async () => {
 }
 
 const onForegroundMessage = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && "messaging" in app) {
         const messaging = getMessaging(app);
         return onMessage(messaging, (payload) => {
             console.log('Foreground message received. ', payload);

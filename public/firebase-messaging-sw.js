@@ -1,8 +1,8 @@
-// Scripts for firebase and firebase messaging
-importScripts("https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js");
+// Scripts for Firebase products are imported from the CDN
+// See: https://firebase.google.com/docs/web/setup#access-firebase
+import { initializeApp } from "firebase/app";
+import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
 
-// Initialize the Firebase app in the service worker by passing in the messagingSenderId.
 const firebaseConfig = {
   "projectId": "agrisolutions-hub-r8znq",
   "appId": "1:867741380271:web:28f71d1e3b8a1bb6bbee5a",
@@ -13,22 +13,18 @@ const firebaseConfig = {
   "messagingSenderId": "867741380271"
 };
 
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
 
-// Retrieve an instance of Firebase Messaging so that it can handle background messages.
-const messaging = firebase.messaging();
+onBackgroundMessage(messaging, (payload) => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
 
-messaging.onBackgroundMessage((payload) => {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
-  // Customize notification here
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: payload.notification.icon || "/icons/icon-192x192.png",
+    icon: '/icons/icon-192x192.png'
   };
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  self.registration.showNotification(notificationTitle,
+    notificationOptions);
 });

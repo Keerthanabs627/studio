@@ -2,9 +2,8 @@
 // @ts-nocheck
 "use client";
 
-import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Stethoscope, Users, Bot, Landmark, Wrench, Compass, LineChart, Droplets, Map, Bell, AlertTriangle } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Stethoscope, Users, Bot, Landmark, Wrench, Compass, LineChart, Droplets, Map, Bell, AlertTriangle, Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog } from "lucide-react";
 import Link from "next/link";
 import { useI18n } from "@/locales/client";
 import { type Profile } from '../../profile/actions';
@@ -27,6 +26,19 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
     { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, color: "text-purple-500" },
   ];
 
+  const iconMap: { [key: string]: React.ElementType } = {
+    Sunny: Sun,
+    "Partly Cloudy": CloudSun,
+    Cloudy: Cloud,
+    "Light Rain": CloudRain,
+    "Heavy Rain": CloudRain,
+    Thunderstorm: Zap,
+    Snow: Snowflake,
+    Fog: CloudFog,
+  };
+
+  const TodayIcon = iconMap[initialWeather?.[0]?.icon as keyof typeof iconMap] || Sun;
+
   return (
     <div className="space-y-6">
        <div className="mb-8">
@@ -43,54 +55,32 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
               const Icon = card.icon;
               return (
               <Link href={card.href} key={card.href} className="block">
-                  <div className="flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200">
+                  <div className="flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200 aspect-square">
                       <Icon className={cn("h-7 w-7 mb-2", card.color)} />
                       <p className="text-center text-sm font-medium">{card.title}</p>
                   </div>
               </Link>
               )})}
+               <Link href="/weather" className="block">
+                  <div className="flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200 aspect-square">
+                      <TodayIcon className={cn("h-7 w-7 mb-2", "text-blue-400")} />
+                      <p className="text-center text-sm font-medium">{t.dashboard.weather_forecast.title}</p>
+                  </div>
+              </Link>
+              <Link href="/reminders" className="block">
+                  <div className="relative flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200 aspect-square">
+                      <Bell className={cn("h-7 w-7 mb-2", "text-orange-400")} />
+                      {todaysReminders.length > 0 && (
+                          <div className="absolute top-2 right-2 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                              {todaysReminders.length}
+                          </div>
+                      )}
+                      <p className="text-center text-sm font-medium">{t.sidebar.reminders}</p>
+                  </div>
+              </Link>
           </CardContent>
       </Card>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-            <CardHeader>
-                <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <WeatherForecast weatherData={initialWeather} loading={false} />
-            </CardContent>
-        </Card>
-         <Card>
-            <CardHeader>
-                <CardTitle>Today's Reminders</CardTitle>
-            </CardHeader>
-            <CardContent>
-                {todaysReminders.length > 0 ? (
-                    <ul className="space-y-3">
-                        {todaysReminders.map(reminder => (
-                        <li key={reminder.id} className="flex items-center gap-3">
-                            <Bell className="h-5 w-5 text-primary"/>
-                            <div>
-                                <p className="font-medium">{reminder.task}</p>
-                                <p className="text-sm text-muted-foreground">{reminder.time}</p>
-                            </div>
-                        </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <div className="text-center text-muted-foreground py-4">
-                        <p>No reminders for today.</p>
-                    </div>
-                )}
-            </CardContent>
-            <CardFooter>
-                <Button variant="outline" className="w-full" asChild>
-                    <Link href="/reminders">View All Reminders</Link>
-                </Button>
-            </CardFooter>
-        </Card>
-      </div>
     </div>
   );
 }

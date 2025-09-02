@@ -2,9 +2,9 @@
 import { DashboardClient } from "./components/dashboard-client";
 import { getDictionary } from '@/locales/dictionaries';
 import { getLocaleFromCookie } from '@/lib/utils';
-import { getProfile, type Profile } from "../profile/actions";
+import { getProfile } from "../profile/actions";
 import { getWeather, type WeatherData } from "./actions";
-import { getReminders, type Reminder } from "../reminders/actions";
+import { getReminders } from "../reminders/actions";
 
 export default async function DashboardPage() {
   const locale = getLocaleFromCookie();
@@ -17,7 +17,8 @@ export default async function DashboardPage() {
   const todaysReminders = reminders.filter(r => {
       const today = new Date();
       const reminderDate = new Date(r.date);
-      return today.toDateString() === reminderDate.toDateString();
+      // Adjust for timezone differences by comparing date strings
+      return today.toISOString().split('T')[0] === reminderDate.toISOString().split('T')[0];
   });
 
   return (

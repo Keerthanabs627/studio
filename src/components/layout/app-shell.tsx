@@ -11,7 +11,7 @@ import { useLocale } from '@/locales/i18n-provider';
 import type { Dictionary } from '@/locales/dictionaries';
 import type { Locale } from '@/locales/config';
 import { useToast } from '@/hooks/use-toast';
-import { getVoiceCommandResponse } from '@/app/(app)/market-prices/actions';
+import { getVoiceCommandResponse } from '@/app/(app)/market-prices/voice-command-actions';
 import { useRouter } from 'next/navigation';
 
 function LanguageSwitcher() {

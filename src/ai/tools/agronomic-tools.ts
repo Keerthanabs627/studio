@@ -1,3 +1,4 @@
+
 'use server';
 
 import {ai} from '@/ai/genkit';
@@ -14,7 +15,7 @@ import {
   type SoilSuitabilityInput,
 } from '@/ai/flows/soil-suitability-flow';
 import {getWeatherForecast} from '@/ai/flows/weather-flow';
-import { getMarketPrices } from '@/app/(app)/market-prices/actions';
+import {getRealTimeMarketPrices} from '@/ai/flows/market-prices-flow';
 import {z} from 'zod';
 
 export const weatherTool = ai.defineTool(
@@ -24,7 +25,9 @@ export const weatherTool = ai.defineTool(
       'Get the 3-day weather forecast for a specified location in India.',
     input: {
       schema: z.object({
-        location: z.string().describe('The city or area to get the weather for.'),
+        location: z
+          .string()
+          .describe('The city or area to get the weather for.'),
       }),
     },
     output: {
@@ -123,23 +126,25 @@ export const getMarketPriceTool = ai.defineTool(
     name: 'getMarketPrice',
     description: 'Get the current market price for a specific commodity.',
     input: {
-        schema: z.object({
-            commodity: z.string().describe('The commodity to get the price for, e.g., "tomato", "wheat".'),
-        })
+      schema: z.object({
+        commodity: z
+          .string()
+          .describe(
+            'The commodity to get the price for, e.g., "tomato", "wheat".'
+          ),
+      }),
     },
     output: {
-        schema: z.any(),
+      schema: z.any(),
     },
   },
-  async (input) => {
+  async input => {
     try {
-      const { data: prices, error } = await getMarketPrices();
-      if (error) {
-          return `Error fetching prices: ${error}`;
-      }
-      
+      const prices = await getRealTimeMarketPrices();
       const commodityLower = input.commodity.toLowerCase();
-      const foundPrice = prices.find(p => p.name.toLowerCase().includes(commodityLower));
+      const foundPrice = prices.prices.find(p =>
+        p.name.toLowerCase().includes(commodityLower)
+      );
 
       if (foundPrice) {
         return `The price of ${foundPrice.name} is ${foundPrice.price}.`;

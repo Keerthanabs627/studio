@@ -13,14 +13,27 @@ import {z} from 'genkit';
 
 const CropPriceSchema = z.object({
   key: z.string().describe("A unique, simple key for the crop, e.g., 'wheat'."),
-  name: z.string().describe("The common name of the commodity, including the unit, e.g., 'Wheat (Quintal)'."),
-  price: z.string().describe("The current market price in Indian Rupees, e.g., '₹2,350'."),
-  trend: z.enum(['up', 'down', 'stable']).describe("The price trend over the last 24 hours."),
+  name: z
+    .string()
+    .describe(
+      "The common name of the commodity, including the unit, e.g., 'Wheat (Quintal)'."
+    ),
+  price: z
+    .string()
+    .describe("The current market price in Indian Rupees, e.g., '₹2,350'."),
+  trend: z
+    .enum(['up', 'down', 'stable'])
+    .describe('The price trend over the last 24 hours.'),
   change: z.string().describe("The percentage change, e.g., '+1.5%'."),
 });
 
 const MarketPricesOutputSchema = z.object({
-  prices: z.array(CropPriceSchema).min(50).describe('A list of at least 50 major agricultural commodities in India with their real-time market prices.'),
+  prices: z
+    .array(CropPriceSchema)
+    .min(50)
+    .describe(
+      'A list of at least 50 major agricultural commodities in India with their real-time market prices.'
+    ),
 });
 export type MarketPricesOutput = z.infer<typeof MarketPricesOutputSchema>;
 

@@ -34,12 +34,12 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="space-y-6">
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Card className="col-span-1 md:col-span-2 lg:col-span-3">
             <CardHeader>
                 <CardTitle>Quick Links</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <CardContent className="grid grid-cols-3 md:grid-cols-4 gap-4">
                 {quickLinks.map((card) => {
                 const Icon = card.icon;
                 return (
@@ -52,10 +52,8 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
                 )})}
             </CardContent>
         </Card>
-      </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+
+        <Card className="lg:col-start-2">
             <CardHeader>
                 <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
             </CardHeader>

@@ -33,6 +33,10 @@ export async function getWeather(input: { location: string }): Promise<{ data?: 
   } catch (e: any) {
     console.error('Weather Flow Error:', e);
     const errorMessage = e.message || 'An unexpected error occurred while fetching weather data. Please try again later.';
+    if (errorMessage.includes('503') || errorMessage.toLowerCase().includes('overloaded')) {
+        return { error: 'The weather service is currently overloaded. Please try again in a few moments.' };
+    }
     return { error: errorMessage };
   }
 }
+

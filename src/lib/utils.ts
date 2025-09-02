@@ -8,13 +8,19 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getLocaleFromCookie(): Locale {
     if (typeof window === 'undefined') {
-        // This will only run on the server. We need to find a way to get cookies on the server.
-        // For now, let's default to English on the server.
-        const { cookies } = require('next/headers');
-        const localeCookie = cookies().get('NEXT_LOCALE')?.value;
-        const locale = localeCookie || i18n.defaultLocale;
-        return i18n.locales.includes(locale as Locale) ? (locale as Locale) : i18n.defaultLocale;
+        // This will only run on the server.
+        try {
+            const { cookies } = require('next/headers');
+            const localeCookie = cookies().get('NEXT_LOCALE')?.value;
+            const locale = localeCookie || i18n.defaultLocale;
+            return i18n.locales.includes(locale as Locale) ? (locale as Locale) : i18n.defaultLocale;
+        } catch (error) {
+            // This will happen during client-side navigation, which is expected.
+            // We'll fall through to the client-side implementation.
+        }
     }
+
+    // Client-side implementation
     const localeCookie = document.cookie
         .split('; ')
         .find(row => row.startsWith('NEXT_LOCALE='))

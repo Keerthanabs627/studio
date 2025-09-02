@@ -1,6 +1,9 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
+import { getDictionary } from '@/locales/dictionaries';
+import { getLocaleFromCookie } from '@/lib/utils';
+import { I18nProvider } from '@/locales/i18n-provider';
 
 export const metadata: Metadata = {
   title: 'AgriPulse',
@@ -8,13 +11,16 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = getLocaleFromCookie();
+  const dictionary = getDictionary(locale);
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -29,7 +35,9 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
       </head>
       <body className="font-body antialiased">
-          {children}
+          <I18nProvider dictionary={dictionary} locale={locale}>
+            {children}
+          </I18nProvider>
         <Toaster />
       </body>
     </html>

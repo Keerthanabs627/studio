@@ -10,25 +10,41 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { WeatherForecast } from "./weather-forecast";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { Bell, Calculator, Compass, Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench } from "lucide-react";
+import { Bell, Calculator, Compass, Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog, Code } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+
+const iconMap: { [key: string]: React.ElementType } = {
+  Sunny: Sun,
+  "Partly Cloudy": CloudSun,
+  Cloudy: Cloud,
+  "Light Rain": CloudRain,
+  "Heavy Rain": CloudRain,
+  Thunderstorm: Zap,
+  Snow: Snowflake,
+  Fog: CloudFog,
+};
+
 
 export function DashboardClient({ profile, t, initialWeather, todaysReminders }: { profile: Profile | null, t: any, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
 
   const quickLinks = [
+    { href: '/fertilizer-calculator', label: t.sidebar.fertilizer_calculator, icon: Droplets },
     { href: '/crop-doctor', label: t.sidebar.crop_doctor, icon: Stethoscope },
     { href: '/soil-suitability', label: t.sidebar.soil_suitability, icon: Map },
     { href: '/market-prices', label: t.sidebar.market_prices, icon: LineChart },
     { href: '/labor-marketplace', label: t.sidebar.labor_marketplace, icon: Wrench },
     { href: '/community', label: t.sidebar.community, icon: Users },
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Leaf },
-    { href: '/fertilizer-calculator', label: t.sidebar.fertilizer_calculator, icon: Droplets },
     { href: '/guide', label: t.sidebar.guide, icon: Compass },
+    { href: '/codes', label: t.sidebar.codes, icon: Code },
   ];
+
+  const CurrentWeatherIcon = initialWeather ? iconMap[initialWeather[0].icon] || Sun : Sun;
 
   return (
     <div className="space-y-6">
        <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Hello, community!</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t.dashboard.welcome}</h1>
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
@@ -41,7 +57,7 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
             {quickLinks.map((link) => {
               const Icon = link.icon;
               return (
-                <Button key={link.href} variant="outline" className="h-24 flex-col gap-2" asChild>
+                <Button key={link.href} variant="outline" className="h-24 flex-col gap-2 p-2" asChild>
                   <Link href={link.href}>
                     <Icon className="h-6 w-6 text-primary" />
                     <span className="text-xs text-center">{link.label}</span>
@@ -49,49 +65,30 @@ export function DashboardClient({ profile, t, initialWeather, todaysReminders }:
                 </Button>
               )
             })}
+             <Button variant="outline" className="h-24 flex-col gap-2 p-2" asChild>
+                <Link href="/weather">
+                    <div className="flex flex-col items-center gap-1">
+                        <CurrentWeatherIcon className="h-6 w-6 text-accent" />
+                        <span className="font-bold text-sm">{initialWeather ? initialWeather[0].temp : 'N/A'}</span>
+                    </div>
+                    <span className="text-xs text-center mt-1">{t.dashboard.weather_forecast.title}</span>
+                </Link>
+            </Button>
+            <Button variant="outline" className="h-24 flex-col gap-2 p-2 relative" asChild>
+                <Link href="/reminders">
+                    {todaysReminders.length > 0 && (
+                        <Badge className="absolute -top-1 -right-1 h-5 w-5 justify-center p-0">{todaysReminders.length}</Badge>
+                    )}
+                    <Bell className="h-6 w-6 text-primary" />
+                    <span className="text-xs text-center">{t.sidebar.reminders}</span>
+                </Link>
+            </Button>
           </div>
         </CardContent>
       </Card>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-            <CardHeader>
-                <CardTitle>Weather Forecast</CardTitle>
-                <CardDescription>3-day forecast for your area</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <WeatherForecast weatherData={initialWeather} loading={false} />
-            </CardContent>
-        </Card>
-        <Card>
-            <CardHeader>
-                <CardTitle>Today's Reminders</CardTitle>
-                <CardDescription>Tasks scheduled for today</CardDescription>
-            </CardHeader>
-            <CardContent>
-                {todaysReminders.length > 0 ? (
-                    <ul className="space-y-3">
-                    {todaysReminders.map(reminder => (
-                        <li key={reminder.id} className="flex items-center gap-3">
-                        <Bell className="h-5 w-5 text-primary"/>
-                        <div>
-                            <p className="font-medium">{reminder.task}</p>
-                            <p className="text-sm text-muted-foreground">{reminder.time}</p>
-                        </div>
-                        </li>
-                    ))}
-                    </ul>
-                ) : (
-                    <p className="text-sm text-muted-foreground text-center pt-8">No reminders for today.</p>
-                )}
-            </CardContent>
-            <CardFooter>
-                <Button variant="outline" className="w-full" asChild>
-                    <Link href="/reminders">View All Reminders</Link>
-                </Button>
-            </CardFooter>
-        </Card>
-      </div>
     </div>
   );
 }
+
+    

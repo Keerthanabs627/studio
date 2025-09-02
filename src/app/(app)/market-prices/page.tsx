@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -157,7 +158,7 @@ export default function MarketPricesPage() {
       setIsListening(false);
     };
 
-_Gg_recognition.onerror = (event) => {
+    recognition.onerror = (event) => {
       console.error('Speech recognition error', event.error);
       toast({
           variant: 'destructive',

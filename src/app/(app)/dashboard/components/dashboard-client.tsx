@@ -2,58 +2,114 @@
 // @ts-nocheck
 "use client";
 
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { Droplets, Stethoscope, LineChart, Map, Tractor, Bell, Users, Bot, Landmark, Wrench, Compass } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Stethoscope, Users, Bot, Landmark, Wrench, Compass, LineChart, Droplets, Map, Bell, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { useI18n } from "@/locales/client";
-import { useState, useEffect, useTransition } from "react";
-import { getProfile, type Profile } from '../../profile/actions';
+import { type Profile } from '../../profile/actions';
 import { cn } from "@/lib/utils";
-import { WeatherIcon } from "@/components/icons/weather-icon";
+import { WeatherForecast } from "./weather-forecast";
+import { type WeatherData } from "../actions";
+import type { Reminder } from "../../reminders/actions";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+export function DashboardClient({ profile, t, initialWeather, todaysReminders }: { profile: Profile | null, t: any, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
 
-export function DashboardClient() {
-  const t = useI18n();
-  const [profile, setProfile] = useState<Profile | null>(null);
-
-  const fetchInitialData = async () => {
-      const fetchedProfile = await getProfile();
-      setProfile(fetchedProfile);
-    };
-
-  useEffect(() => {
-    fetchInitialData();
-  }, []);
-
-
-  const allCards = [
+  const quickLinks = [
     { href: "/crop-doctor", icon: Stethoscope, title: t.sidebar.crop_doctor, color: "text-indigo-400" },
     { href: "/fertilizer-calculator", icon: Droplets, title: t.fertilizer_calculator.title, color: "text-yellow-400" },
     { href: "/market-prices", icon: LineChart, title: t.market_prices.title, color: "text-green-400" },
     { href: "/soil-suitability", icon: Map, title: t.sidebar.soil_suitability, color: "text-purple-400" },
-    { href: "/my-fields", icon: Tractor, title: t.sidebar.my_fields, color: "text-red-400" },
     { href: "/labor-marketplace", icon: Wrench, title: t.sidebar.labor_marketplace, color: "text-cyan-400" },
-    { href: "/reminders", icon: Bell, title: t.sidebar.reminders, color: "text-orange-400" },
+    { href: "/schemes", icon: Landmark, title: t.sidebar.schemes, color: "text-teal-400" },
     { href: "/community", icon: Users, title: t.sidebar.community, color: "text-pink-400" },
     { href: "/chatbot", icon: Bot, title: t.sidebar.ai_chatbot, color: "text-purple-500" },
-    { href: "/weather", icon: WeatherIcon, title: t.dashboard.weather_forecast.title, color: "text-blue-400" },
-    { href: "/schemes", icon: Landmark, title: t.sidebar.schemes, color: "text-teal-400" },
-    { href: "/guide", icon: Compass, title: t.sidebar.guide, color: "text-rose-400" },
   ];
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6">
-        {allCards.map((card, index) => {
-          const Icon = card.icon;
-          return (
-          <Link href={card.href} key={card.href} className="block">
-            <Card className="flex flex-col items-center justify-center p-1 h-20 hover:bg-card/60 transition-colors duration-200">
-                <Icon className={cn("h-6 w-6 mb-1", card.color)} />
-                <p className="text-center text-xs font-medium">{card.title}</p>
+       <div className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight">Hello, {profile?.name || "Farmer"}!</h1>
+        <p className="text-muted-foreground">{t.dashboard.description}</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <WeatherForecast weatherData={initialWeather} loading={false} />
+                </CardContent>
             </Card>
-          </Link>
-        )})}
+             <Card>
+                <CardHeader>
+                    <CardTitle>Quick Links</CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {quickLinks.map((card) => {
+                    const Icon = card.icon;
+                    return (
+                    <Link href={card.href} key={card.href} className="block">
+                        <div className="flex flex-col items-center justify-center text-center p-4 h-full rounded-lg hover:bg-secondary transition-colors duration-200">
+                            <Icon className={cn("h-7 w-7 mb-2", card.color)} />
+                            <p className="text-center text-sm font-medium">{card.title}</p>
+                        </div>
+                    </Link>
+                    )})}
+                </CardContent>
+            </Card>
+        </div>
+        <div className="space-y-6">
+             <Card>
+                <CardHeader>
+                    <CardTitle>Today's Reminders</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {todaysReminders.length > 0 ? (
+                        <ul className="space-y-3">
+                            {todaysReminders.map(reminder => (
+                            <li key={reminder.id} className="flex items-center gap-3">
+                                <Bell className="h-5 w-5 text-primary"/>
+                                <div>
+                                    <p className="font-medium">{reminder.task}</p>
+                                    <p className="text-sm text-muted-foreground">{reminder.time}</p>
+                                </div>
+                            </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className="text-center text-muted-foreground py-4">
+                            <p>No reminders for today.</p>
+                        </div>
+                    )}
+                </CardContent>
+                <CardFooter>
+                    <Button variant="outline" className="w-full" asChild>
+                        <Link href="/reminders">View All Reminders</Link>
+                    </Button>
+                </CardFooter>
+            </Card>
+            <Card className="bg-secondary/40">
+                <CardHeader className="flex-row items-center gap-4">
+                    <Avatar>
+                        <AvatarImage src="https://picsum.photos/40/40?random=0" alt="Your avatar" data-ai-hint="person" />
+                        <AvatarFallback>{profile?.name?.charAt(0) || 'U'}</AvatarFallback>
+                    </Avatar>
+                     <CardTitle className="m-0">Profile</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground">Manage your profile and notification settings.</p>
+                </CardContent>
+                 <CardFooter>
+                    <Button variant="default" className="w-full" asChild>
+                        <Link href="/profile">Go to Profile</Link>
+                    </Button>
+                </CardFooter>
+            </Card>
+        </div>
       </div>
     </div>
   );

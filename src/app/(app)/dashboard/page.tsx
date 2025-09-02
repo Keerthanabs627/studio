@@ -1,20 +1,31 @@
 
-// @ts-nocheck
-'use client';
-
 import { DashboardClient } from "./components/dashboard-client";
-import { useI18n } from "@/locales/client";
+import { getDictionary } from '@/locales/dictionaries';
+import { getLocaleFromCookie } from '@/lib/utils';
+import { getProfile, type Profile } from "../profile/actions";
+import { getWeather, type WeatherData } from "./actions";
+import { getReminders, type Reminder } from "../reminders/actions";
 
+export default async function DashboardPage() {
+  const locale = getLocaleFromCookie();
+  const t = await getDictionary(locale);
 
-export default function DashboardPage() {
-  const t = useI18n();
+  const profile = await getProfile();
+  const weatherResult = await getWeather({ location: 'Belagavi' });
+  const reminders = await getReminders();
+  
+  const todaysReminders = reminders.filter(r => {
+      const today = new Date();
+      const reminderDate = new Date(r.date);
+      return today.toDateString() === reminderDate.toDateString();
+  });
+
   return (
-    <div className="space-y-6">
-       <div className="mt-12 mb-20">
-        <h1 className="text-3xl font-bold tracking-tight">{t.sidebar.dashboard}</h1>
-        <p className="text-muted-foreground">{t.dashboard.description}</p>
-      </div>
-      <DashboardClient />
-    </div>
-  )
+    <DashboardClient 
+        t={t} 
+        profile={profile} 
+        initialWeather={weatherResult.data || null}
+        todaysReminders={todaysReminders}
+    />
+  );
 }

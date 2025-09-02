@@ -2,7 +2,7 @@
 import { WeatherClient } from './components/weather-client';
 import { getDictionary } from '@/locales/dictionaries';
 import { getLocaleFromCookie } from '@/lib/utils';
-import { getWeather, type WeatherData } from '../dashboard/actions';
+import { getWeather } from '../dashboard/actions';
 
 export default async function WeatherPage() {
     const locale = getLocaleFromCookie();

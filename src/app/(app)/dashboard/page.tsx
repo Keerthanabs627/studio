@@ -22,7 +22,7 @@ export default async function DashboardPage() {
   });
 
   return (
-    <div className="mt-[265px] mb-[454px]">
+    <div>
         <DashboardClient 
             t={t} 
             profile={profile} 

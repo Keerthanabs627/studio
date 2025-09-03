@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
-async function getLocale(): Promise<Locale> {
+function getLocale(): Locale {
     const cookieStore = cookies();
     const localeCookie = cookieStore.get('NEXT_LOCALE')?.value;
     const locale = localeCookie || i18n.defaultLocale;
@@ -27,7 +27,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
+  const locale = getLocale();
   const dictionary = await getDictionary(locale);
 
   return (

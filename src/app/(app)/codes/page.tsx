@@ -61,14 +61,8 @@ runConfig:
   },
   {
     path: 'next.config.ts',
-    content: `import type {NextConfig} from 'next';
-
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-});
+    content: `
+import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -96,7 +90,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withPWA(nextConfig);
+export default nextConfig;
 `,
   },
   {
@@ -148,7 +142,6 @@ export default withPWA(nextConfig);
     "genkit": "^1.14.1",
     "lucide-react": "^0.475.0",
     "next": "15.3.3",
-    "next-pwa": "^5.6.0",
     "patch-package": "^8.0.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
@@ -179,12 +172,14 @@ import { config } from 'dotenv';
 config();
 
 import '@/ai/flows/agronomic-ai-chatbot.ts';
-import '@/ai/flows/weather-flow.ts';
 import '@/ai/flows/fertilizer-calculator-flow.ts';
 import '@/ai/flows/soil-suitability-flow.ts';
 import '@/ai/flows/crop-management-flow.ts';
 import '@/ai/flows/crop-doctor-flow.ts';
+import '@/ai/flows/voice-command-flow.ts';
+import '@/ai/flows/weather-flow.ts';
 import '@/ai/tools/agronomic-tools.ts';
+import '@/ai/tools/navigation-tool.ts';
 `,
   },
   {
@@ -682,6 +677,7 @@ import {
   type SoilSuitabilityInput,
 } from '@/ai/flows/soil-suitability-flow';
 import {getWeatherForecast} from '@/ai/flows/weather-flow';
+import { marketData } from '@/app/(app)/market-prices/data';
 import {z} from 'zod';
 
 export const weatherTool = ai.defineTool(
@@ -781,6 +777,40 @@ export const cropDoctorTool = ai.defineTool(
       return JSON.stringify(result);
     } catch (e) {
       return \`Error diagnosing crop: \${e}\`;
+    }
+  }
+);
+
+export const getMarketPriceTool = ai.defineTool(
+  {
+    name: 'getMarketPrice',
+    description: 'Get the current market price for a specific commodity.',
+    input: {
+      schema: z.object({
+        commodity: z
+          .string()
+          .describe(
+            'The commodity to get the price for, e.g., "tomato", "wheat".'
+          ),
+      }),
+    },
+    output: {
+      schema: z.any(),
+    },
+  },
+  async input => {
+    try {
+      const commodityLower = input.commodity.toLowerCase();
+      const foundPrice = marketData.find(p =>
+        p.name.toLowerCase().includes(commodityLower)
+      );
+
+      if (foundPrice) {
+        return \`The price of \${foundPrice.name} is \${foundPrice.price}.\`;
+      }
+      return \`Sorry, I could not find the price for \${input.commodity}.\`;
+    } catch (e) {
+      return \`Error fetching market prices: \${e}\`;
     }
   }
 );

@@ -1,9 +1,9 @@
 
-import { WeatherClient } from './components/weather-client';
-import { getWeather } from '../dashboard/actions';
+'use client';
 
-export default async function WeatherPage() {
-    const initialWeatherResult = await getWeather("Belagavi");
-    
-    return <WeatherClient initialWeatherData={initialWeatherResult.data || null} initialLocation="Belagavi" />;
+import { WeatherClient } from './components/weather-client';
+
+export default function WeatherPage() {
+    // The WeatherClient component now handles all its own data fetching.
+    return <WeatherClient initialWeatherData={null} initialLocation="Belagavi" />;
 }

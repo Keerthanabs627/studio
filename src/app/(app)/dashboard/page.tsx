@@ -1,16 +1,12 @@
 
 import { DashboardClient } from "./components/dashboard-client";
-import { getWeather } from "./actions";
 
-export default async function DashboardPage() {
-    const weatherResult = await getWeather();
-
+export default function DashboardPage() {
+    // This is now a simple, fast-loading server component.
+    // The DashboardClient will handle all the data fetching on the client-side.
     return (
         <div>
-            <DashboardClient
-                profile={null} 
-                initialWeather={weatherResult.data || null}
-            />
+            <DashboardClient profile={null} />
         </div>
     );
 }

@@ -68,7 +68,12 @@ export default function MyFieldsPage() {
         setAdvice(result.data.advice);
       } else {
         console.error(result.error);
-        setAdvice(t.my_fields.advice_error);
+        toast({
+            variant: "destructive",
+            title: "Failed to get advice",
+            description: result.error || t.my_fields.advice_error,
+        });
+        setAdvice(null);
       }
     });
   };

@@ -2,44 +2,49 @@
 "use client";
 
 import { useI18n } from "@/locales/client";
-import { type Profile } from '../../profile/actions';
-import type { WeatherData } from "../actions";
-import type { Reminder } from "../../reminders/actions";
+import type { Profile } from '../../profile/actions';
+import { type WeatherData, getWeather } from "../actions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { Bell, Calculator, Compass, Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog, Landmark, Bot } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud, CloudRain, Zap, CloudFog, Landmark, Compass, Code, Bot } from "lucide-react";
+import { WeatherForecast } from "./weather-forecast";
+import { useToast } from "@/hooks/use-toast";
+import React, { useState, useEffect, useTransition } from "react";
 
-const iconMap: { [key: string]: React.ElementType } = {
-  Sunny: Sun,
-  "Partly Cloudy": CloudSun,
-  Cloudy: Cloud,
-  "Light Rain": CloudRain,
-  "Heavy Rain": CloudRain,
-  Thunderstorm: Zap,
-  Snow: Snowflake,
-  Fog: CloudFog,
-};
-
-
-export function DashboardClient({ profile, initialWeather }: { profile: Profile | null, initialWeather: WeatherData[] | null }) {
+export function DashboardClient({ profile }: { profile: Profile | null }) {
   const t = useI18n();
+  const { toast } = useToast();
+  const [weatherData, setWeatherData] = useState<WeatherData[] | null>(null);
+  const [isWeatherPending, startWeatherTransition] = useTransition();
+
+  useEffect(() => {
+    startWeatherTransition(async () => {
+      const weatherResult = await getWeather();
+      if (weatherResult.data) {
+        setWeatherData(weatherResult.data);
+      }
+      if (weatherResult.error) {
+        toast({
+          variant: "destructive",
+          title: "Could not fetch weather",
+          description: weatherResult.error,
+        });
+      }
+    });
+  }, [toast]);
   
   const quickLinks = [
-    { href: '/fertilizer-calculator', label: t.sidebar.fertilizer_calculator, icon: Droplets },
-    { href: '/crop-doctor', label: t.sidebar.crop_doctor, icon: Stethoscope },
-    { href: '/soil-suitability', label: t.sidebar.soil_suitability, icon: Map },
-    { href: '/market-prices', label: t.sidebar.market_prices, icon: LineChart },
-    { href: '/labor-marketplace', label: t.sidebar.labor_marketplace, icon: Wrench },
-    { href: '/community', label: t.sidebar.community, icon: Users },
-    { href: '/my-fields', label: t.sidebar.my_fields, icon: Leaf },
-    { href: '/schemes', label: t.sidebar.schemes, icon: Landmark },
     { href: '/guide', label: t.sidebar.guide, icon: Compass },
+    { href: '/crop-doctor', label: t.sidebar.crop_doctor, icon: Stethoscope },
+    { href: '/fertilizer-calculator', label: t.sidebar.fertilizer_calculator, icon: Droplets },
+    { href: '/market-prices', label: t.sidebar.market_prices, icon: LineChart },
+    { href: '/soil-suitability', label: t.sidebar.soil_suitability, icon: Map },
+    { href: '/schemes', label: t.sidebar.schemes, icon: Landmark },
+    { href: '/my-fields', label: t.sidebar.my_fields, icon: Leaf },
     { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
+    { href: '/codes', label: t.sidebar.codes, icon: Code },
   ];
-
-  const CurrentWeatherIcon = initialWeather ? iconMap[initialWeather[0].icon] || Sun : Sun;
 
   return (
     <div className="space-y-6">
@@ -48,35 +53,43 @@ export function DashboardClient({ profile, initialWeather }: { profile: Profile 
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Links</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
-            {quickLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <Button key={link.href} variant="outline" className="h-24 flex-col gap-2 p-2" asChild>
-                  <Link href={link.href}>
-                    <Icon className="h-6 w-6 text-primary" />
-                    <span className="text-xs text-center">{link.label}</span>
-                  </Link>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+            <CardHeader>
+                <CardTitle>{t.sidebar.dashboard}</CardTitle>
+                <CardDescription>Quick access to all features.</CardDescription>
+            </CardHeader>
+            <CardContent>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {quickLinks.map((link) => {
+                const Icon = link.icon;
+                return (
+                    <Button key={link.href} variant="outline" className="h-24 flex-col gap-2 p-2" asChild>
+                    <Link href={link.href}>
+                        <Icon className="h-6 w-6 text-primary" />
+                        <span className="text-xs text-center">{link.label}</span>
+                    </Link>
+                    </Button>
+                )
+                })}
+            </div>
+            </CardContent>
+        </Card>
+        <Card>
+            <CardHeader>
+                <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
+                <CardDescription>3-day forecast for Belagavi</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <WeatherForecast weatherData={weatherData} loading={isWeatherPending} />
+            </CardContent>
+            <CardFooter>
+                 <Button variant="outline" size="sm" className="w-full" asChild>
+                    <Link href="/weather">View Full Forecast</Link>
                 </Button>
-              )
-            })}
-             <Button variant="outline" className="h-24 flex-col gap-2 p-2" asChild>
-                <Link href="/weather">
-                    <div className="flex flex-col items-center gap-1">
-                        <CurrentWeatherIcon className="h-6 w-6 text-accent" />
-                        <span className="font-bold text-sm">{initialWeather ? initialWeather[0].temp : 'N/A'}</span>
-                    </div>
-                    <span className="text-xs text-center mt-1">{t.dashboard.weather_forecast.title}</span>
-                </Link>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            </CardFooter>
+        </Card>
+      </div>
       
     </div>
   );

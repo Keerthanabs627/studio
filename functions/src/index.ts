@@ -56,7 +56,7 @@ export const scheduleReminder = onDocumentCreated("reminders/{reminderId}", asyn
     const cloudTask = {
         httpRequest: {
             httpMethod: "POST" as const,
-            url: `https://${LOCATION_ID}-${PROJECT_ID}.cloudfunctions.net/sendReminderNotification`,
+            uri: `https://${LOCATION_ID}-${PROJECT_ID}.cloudfunctions.net/sendReminderNotification`,
              headers: {
                 "Content-Type": "application/json",
             },

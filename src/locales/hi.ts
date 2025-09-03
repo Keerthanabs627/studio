@@ -15,6 +15,7 @@ export default {
     codes: 'कोड',
     profile: 'प्रोफ़ाइल',
     reminders: 'अनुस्मारक',
+    crop_calendar: 'फसल कैलेंडर',
   },
   dashboard: {
     welcome: 'नमस्ते समुदाय',
@@ -378,5 +379,22 @@ export default {
   codes: {
     title: 'एप्लिकेशन कोड',
     description: 'इस एप्लिकेशन में प्रत्येक फ़ाइल के लिए संपूर्ण स्रोत कोड।'
+  },
+  crop_calendar: {
+    title: "{month} के लिए फसल कैलेंडर",
+    subtitle: "{region} के लिए सिफारिशें दिखा रहा है",
+    description: "क्या बोना है, कब कटाई करनी है, और किन कीटों से सावधान रहना है, इस पर समय पर सलाह प्राप्त करें।",
+    button: "कैलेंडर प्राप्त करें",
+    sowing_title: "इस महीने बुवाई",
+    harvesting_title: "इस महीने कटाई",
+    alerts_title: "कीट और रोग अलर्ट",
+    affected_crops: "प्रभावित फसलें",
+    symptoms: "लक्षण",
+    prevention: "रोकथाम",
+    no_data: "इस समय कैलेंडर डेटा लोड नहीं किया जा सका।",
+    toast: {
+      error_title: "कैलेंडर लोड करने में विफल",
+      error_desc: "कैलेंडर डेटा पुनर्प्राप्त नहीं किया जा सका। कृपया पुनः प्रयास करें।"
+    }
   }
 } as const;

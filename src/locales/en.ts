@@ -15,6 +15,7 @@ export default {
     codes: 'Codes',
     profile: 'Profile',
     reminders: 'Reminders',
+    crop_calendar: 'Crop Calendar',
   },
   dashboard: {
     welcome: 'Hello community',
@@ -378,5 +379,22 @@ export default {
   codes: {
     title: 'Application Code',
     description: 'The complete source code for every file in this application.'
+  },
+  crop_calendar: {
+    title: "Crop Calendar for {month}",
+    subtitle: "Showing recommendations for {region}",
+    description: "Get timely advice on what to sow, when to harvest, and what pests to watch out for.",
+    button: "Get Calendar",
+    sowing_title: "Sowing this Month",
+    harvesting_title: "Harvesting this Month",
+    alerts_title: "Pest & Disease Alerts",
+    affected_crops: "Affected Crops",
+    symptoms: "Symptoms",
+    prevention: "Prevention",
+    no_data: "Could not load calendar data at this time.",
+    toast: {
+      error_title: "Failed to load calendar",
+      error_desc: "Could not retrieve calendar data. Please try again."
+    }
   }
 } as const;

@@ -121,7 +121,7 @@ export function WeatherClient({ initialWeatherData, initialLocation }: { initial
     }
     
     startWeatherTransition(async () => {
-      const weatherResult = await getWeather({location: loc});
+      const weatherResult = await getWeather(loc);
       if (weatherResult.data) {
         setWeatherData(weatherResult.data);
         setLocation(loc);

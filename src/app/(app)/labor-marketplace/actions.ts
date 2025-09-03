@@ -1,35 +1,19 @@
+
 // @ts-nocheck
 'use server';
 
-import { db } from '@/lib/firebase';
-import { collection, getDocs, addDoc, serverTimestamp, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 import { getProfile } from '../profile/actions';
+import { jobs as initialJobs, type Job } from './data';
 
-export interface Job {
-  id: string;
-  title: string;
-  description: string;
-  location: string;
-  rate: string;
-  contact: string;
-  posterName: string;
-  avatar: string;
-  createdAt: any;
-}
+export type { Job };
+
+let jobs: Job[] = [...initialJobs];
 
 export async function getJobs(): Promise<Job[]> {
-  const jobsCollection = collection(db, 'labor_jobs');
-  const q = query(jobsCollection, orderBy('createdAt', 'desc'));
-  const jobSnapshot = await getDocs(q);
-  const jobsList = jobSnapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-          id: doc.id,
-          ...data,
-      } as Job
-  });
-  return jobsList;
+  // In a real app, you'd fetch this from a database.
+  // For this prototype, we use an in-memory array.
+  return Promise.resolve(jobs);
 }
 
 export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'createdAt'>) {
@@ -39,19 +23,22 @@ export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'cr
       throw new Error("User not authenticated");
   }
 
-  const newJob = {
+  const newJob: Job = {
+    id: new Date().toISOString(),
     posterName: profile.name,
     avatar: "https://picsum.photos/40/40?random=0",
-    createdAt: serverTimestamp(),
+    createdAt: new Date(),
     ...job,
   };
 
-  await addDoc(collection(db, "labor_jobs"), newJob);
-  
+  jobs.unshift(newJob);
   revalidatePath('/labor-marketplace');
+  return Promise.resolve(newJob);
 }
 
+
 export async function deleteJob(id: string) {
-    await deleteDoc(doc(db, "labor_jobs", id));
+    jobs = jobs.filter(job => job.id !== id);
     revalidatePath('/labor-marketplace');
+    return Promise.resolve();
 }

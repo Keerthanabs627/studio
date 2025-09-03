@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -11,8 +12,9 @@ import { Loader2, Phone, Briefcase, Trash2 } from "lucide-react";
 import { addJob, deleteJob, type Job } from "../actions";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import type { Profile } from "../../profile/actions";
 
-export function LaborMarketplaceClient({ initialJobs, t }: { initialJobs: Job[], t: any }) {
+export function LaborMarketplaceClient({ initialJobs, t, profile }: { initialJobs: Job[], t: any, profile: Profile | null }) {
   const [jobs, setJobs] = useState<Job[]>(initialJobs);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
@@ -36,20 +38,14 @@ export function LaborMarketplaceClient({ initialJobs, t }: { initialJobs: Job[],
 
     startTransition(async () => {
         try {
-            await addJob({
+            const newJobData = {
                 title,
                 description,
                 location,
                 rate,
                 contact,
-            });
-            // Refetch is handled by revalidatePath, but we can optimistically update
-            const newJob = {
-                id: Date.now().toString(),
-                title, description, location, rate, contact, 
-                posterName: 'You', 
-                avatar: "https://picsum.photos/40/40?random=0"
             };
+            const newJob = await addJob(newJobData);
             setJobs(prev => [newJob, ...prev]);
 
             setTitle("");
@@ -74,8 +70,8 @@ export function LaborMarketplaceClient({ initialJobs, t }: { initialJobs: Job[],
   const handleDeleteJob = (id: string) => {
     startTransition(async () => {
         try {
-            setJobs(prev => prev.filter(job => job.id !== id));
             await deleteJob(id);
+            setJobs(prev => prev.filter(job => job.id !== id));
             toast({
                 title: "Job Deleted",
                 description: "The job listing has been removed.",
@@ -167,7 +163,7 @@ export function LaborMarketplaceClient({ initialJobs, t }: { initialJobs: Job[],
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button className="w-full" onClick={handlePostJob} disabled={isPending}>
+                    <Button className="w-full" onClick={handlePostJob} disabled={isPending || !profile}>
                         {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         <Briefcase className="mr-2 h-4 w-4" />
                         {t.labor_marketplace.post_card.button}

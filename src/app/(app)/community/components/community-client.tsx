@@ -30,25 +30,12 @@ export function CommunityClient({ initialPosts, profile, t }: { initialPosts: Po
 
     startTransition(async () => {
         try {
-            await addPost({
+            const newPost = await addPost({
                 content: newPostContent,
                 category: category,
             });
-            setNewPostContent("");
-            // Optimistically add post to UI
-            const newPost: Post = {
-                id: new Date().toISOString(),
-                author: profile.name,
-                avatar: "https://picsum.photos/40/40?random=0",
-                handle: `@${profile.name.toLowerCase().replace(/\s/g, '_')}`,
-                time: t.community.just_now,
-                content: newPostContent,
-                category: category,
-                likes: 0,
-                comments: 0,
-                createdAt: new Date(),
-            };
             setPosts(prev => [newPost, ...prev]);
+            setNewPostContent("");
 
             toast({
                 title: "Post Successful",
@@ -64,6 +51,28 @@ export function CommunityClient({ initialPosts, profile, t }: { initialPosts: Po
         }
     });
   };
+
+  const formatTime = (date: Date) => {
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+    
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " minutes ago";
+    
+    return "Just now";
+  }
 
 
   return (
@@ -93,10 +102,10 @@ export function CommunityClient({ initialPosts, profile, t }: { initialPosts: Po
                 placeholder={t.community.post_placeholder}
                 value={newPostContent}
                 onChange={(e) => setNewPostContent(e.target.value)}
-                disabled={isPending}
+                disabled={isPending || !profile}
               />
               <div className="flex justify-end">
-                <Button onClick={handlePost} disabled={isPending || !newPostContent.trim()}>
+                <Button onClick={handlePost} disabled={isPending || !newPostContent.trim() || !profile}>
                     {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {t.community.post_button}
                 </Button>
@@ -116,7 +125,7 @@ export function CommunityClient({ initialPosts, profile, t }: { initialPosts: Po
               </Avatar>
               <div>
                 <p className="font-semibold">{post.author}</p>
-                <p className="text-sm text-muted-foreground">{post.handle} · {post.time}</p>
+                <p className="text-sm text-muted-foreground">{post.handle} · {formatTime(new Date(post.createdAt))}</p>
               </div>
             </CardHeader>
             <CardContent>

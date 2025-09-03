@@ -2,17 +2,19 @@
 // @ts-nocheck
 "use client";
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Bell, Plus, Trash2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { addReminder, deleteReminder, type Reminder } from '../actions';
+import { type Reminder } from '../actions';
+
+const REMINDERS_STORAGE_KEY = 'agripulse-reminders';
 
 export function RemindersClient({ initialReminders, t }: { initialReminders: Reminder[], t: any }) {
-  const [reminders, setReminders] = useState<Reminder[]>(initialReminders);
+  const [reminders, setReminders] = useState<Reminder[]>([]);
   const [isPending, startTransition] = useTransition();
 
   const [newTask, setNewTask] = useState('');
@@ -20,24 +22,30 @@ export function RemindersClient({ initialReminders, t }: { initialReminders: Rem
   const [newTime, setNewTime] = useState('');
   const { toast } = useToast();
 
-  const scheduleNotification = (task: string, date: string, time: string) => {
-    if (!('Notification' in window) || Notification.permission !== 'granted') {
-      return;
+  useEffect(() => {
+    // Load reminders from local storage on component mount
+    try {
+      const storedReminders = localStorage.getItem(REMINDERS_STORAGE_KEY);
+      if (storedReminders) {
+        setReminders(JSON.parse(storedReminders));
+      } else {
+        setReminders(initialReminders); // Load initial data if nothing in storage
+      }
+    } catch (error) {
+        // If local storage is unavailable or fails, use initial data
+        setReminders(initialReminders);
     }
+  }, [initialReminders]);
 
-    const reminderDateTime = new Date(`${date}T${time}`).getTime();
-    const now = new Date().getTime();
-    const delay = reminderDateTime - now;
 
-    if (delay > 0) {
-      setTimeout(() => {
-        new Notification(t.reminders.title, {
-          body: task,
-          icon: '/icons/icon-192x192.png',
-        });
-      }, delay);
-    }
+  const updateStorage = (updatedReminders: Reminder[]) => {
+      try {
+        localStorage.setItem(REMINDERS_STORAGE_KEY, JSON.stringify(updatedReminders));
+      } catch (error) {
+        console.warn("Could not save reminders to local storage.", error);
+      }
   };
+
 
   const handleAddReminder = () => {
     if (!newTask.trim() || !newDate || !newTime) {
@@ -48,57 +56,39 @@ export function RemindersClient({ initialReminders, t }: { initialReminders: Rem
       });
       return;
     }
-    startTransition(async () => {
-      try {
-          const newReminderData = {
+    
+    startTransition(() => {
+        const newReminder: Reminder = {
+            id: new Date().toISOString(),
             task: newTask,
             date: newDate,
             time: newTime,
-          };
-          await addReminder(newReminderData);
-          
-          scheduleNotification(newTask, newDate, newTime);
+            createdAt: new Date(),
+        };
 
-          let description = `${t.reminders.toast.added.description_prefix} "${newTask}" ${t.reminders.toast.added.description_suffix} ${newDate}.`;
-          if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission !== 'granted') {
-            description += " Please enable notifications to receive alerts."
-          }
+        const updatedReminders = [newReminder, ...reminders].sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        setReminders(updatedReminders);
+        updateStorage(updatedReminders);
 
-          toast({
-            title: t.reminders.toast.added.title,
-            description: description,
-          });
-
-          // Optimistically update UI
-          const newReminder = { ...newReminderData, id: Date.now().toString(), createdAt: new Date() };
-          setReminders(prev => [newReminder, ...prev].sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
-
-          setNewTask('');
-          setNewDate('');
-          setNewTime('');
-      } catch (error) {
         toast({
-            variant: 'destructive',
-            title: "Failed to add reminder",
-        })
-      }
+            title: t.reminders.toast.added.title,
+            description: `${t.reminders.toast.added.description_prefix} "${newTask}" ${t.reminders.toast.added.description_suffix} ${newDate}.`,
+        });
+
+        setNewTask('');
+        setNewDate('');
+        setNewTime('');
     });
   };
 
   const handleDeleteReminder = (id: string) => {
-     startTransition(async () => {
-        try {
-            setReminders(prev => prev.filter(r => r.id !== id));
-            await deleteReminder(id);
-            toast({
-                title: t.reminders.toast.removed.title,
-            });
-        } catch (error) {
-            toast({
-                variant: 'destructive',
-                title: "Failed to remove reminder",
-            })
-        }
+     startTransition(() => {
+        const updatedReminders = reminders.filter(r => r.id !== id);
+        setReminders(updatedReminders);
+        updateStorage(updatedReminders);
+        toast({
+            title: t.reminders.toast.removed.title,
+        });
      });
   };
 
@@ -155,6 +145,7 @@ export function RemindersClient({ initialReminders, t }: { initialReminders: Rem
                     value={newDate}
                     onChange={(e) => setNewDate(e.target.value)}
                     disabled={isPending}
+                    min={new Date().toISOString().split("T")[0]}
                 />
                 </div>
                 <div className="space-y-2">

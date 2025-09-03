@@ -15,7 +15,6 @@ import {
   cropDoctorTool,
   fertilizerCalculatorTool,
   soilSuitabilityTool,
-  weatherTool,
 } from '../tools/agronomic-tools';
 import { generate } from 'genkit';
 
@@ -53,7 +52,6 @@ const prompt = ai.definePrompt({
     input: { schema: GeneralAIChatbotInputSchema },
     output: { schema: GeneralAIChatbotOutputSchema },
     tools: [
-        weatherTool,
         soilSuitabilityTool,
         fertilizerCalculatorTool,
         cropDoctorTool,

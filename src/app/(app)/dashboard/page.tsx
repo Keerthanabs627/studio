@@ -3,7 +3,7 @@ import { DashboardClient } from "./components/dashboard-client";
 import { getDictionary } from '@/locales/dictionaries';
 import { getLocaleFromCookie } from '@/lib/utils';
 import { getProfile } from "../profile/actions";
-import { getWeather, type WeatherData } from "./actions";
+import { getWeather } from "./actions";
 import { getReminders } from "../reminders/actions";
 
 export default async function DashboardPage() {
@@ -11,7 +11,7 @@ export default async function DashboardPage() {
   const t = await getDictionary(locale);
 
   const profile = await getProfile();
-  const weatherResult = await getWeather({ location: 'Belagavi' });
+  const weatherResult = await getWeather();
   const reminders = await getReminders();
   
   const todaysReminders = reminders.filter(r => {

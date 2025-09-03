@@ -46,7 +46,6 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Leaf },
     { href: '/weather', label: t.dashboard.weather_forecast.title, icon: WeatherIcon },
     { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
-    { href: '/codes', label: t.sidebar.codes, icon: Code },
   ];
 
   return (

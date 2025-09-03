@@ -1,44 +1,60 @@
-
 // @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
 import { getProfile } from '../profile/actions';
-import { jobs as initialJobs, type Job } from './data';
+import { type Job } from './data';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp } from "firebase/firestore";
 
-export type { Job };
-
-let jobs: Job[] = [...initialJobs];
 
 export async function getJobs(): Promise<Job[]> {
-  // In a real app, you'd fetch this from a database.
-  // For this prototype, we use an in-memory array.
-  return Promise.resolve(jobs);
+  const jobsCollection = collection(db, 'jobs');
+  const q = query(jobsCollection, orderBy('createdAt', 'desc'));
+  const jobsSnapshot = await getDocs(q);
+  
+  const jobs: Job[] = jobsSnapshot.docs.map(doc => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data,
+      createdAt: data.createdAt?.toDate() || new Date(),
+    }
+  });
+
+  return jobs;
 }
 
 export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'createdAt'>): Promise<Job> {
   const profile = await getProfile();
   
-  if (!profile) {
-      throw new Error("User not authenticated");
+  if (!profile || !profile.name) {
+      throw new Error("User not authenticated or name is missing");
   }
 
-  const newJob: Job = {
-    id: new Date().toISOString(),
+  const newJob = {
+    posterName: profile.name,
+    avatar: "https://picsum.photos/40/40?random=0",
+    createdAt: serverTimestamp(),
+    ...job,
+  };
+  
+  const docRef = await addDoc(collection(db, "jobs"), newJob);
+
+  revalidatePath('/labor-marketplace');
+  
+  return {
+    id: docRef.id,
+    ...job,
     posterName: profile.name,
     avatar: "https://picsum.photos/40/40?random=0",
     createdAt: new Date(),
-    ...job,
   };
-
-  jobs.unshift(newJob);
-  revalidatePath('/labor-marketplace');
-  return Promise.resolve(newJob);
 }
 
 
 export async function deleteJob(id: string) {
-    jobs = jobs.filter(job => job.id !== id);
+    await deleteDoc(doc(db, "jobs", id));
     revalidatePath('/labor-marketplace');
     return Promise.resolve();
 }

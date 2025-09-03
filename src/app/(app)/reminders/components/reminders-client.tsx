@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 "use client";
 
@@ -9,14 +8,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Bell, Plus, Trash2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { type Reminder } from '../actions';
+import { type Reminder, addReminder, deleteReminder, getReminders } from '../actions';
 import { useI18n } from '@/locales/client';
 
-const REMINDERS_STORAGE_KEY = 'agripulse-reminders';
 
 export function RemindersClient({ initialReminders }: { initialReminders: Reminder[] }) {
   const t = useI18n();
-  const [reminders, setReminders] = useState<Reminder[]>([]);
+  const [reminders, setReminders] = useState<Reminder[]>(initialReminders);
   const [isPending, startTransition] = useTransition();
 
   const [newTask, setNewTask] = useState('');
@@ -25,29 +23,9 @@ export function RemindersClient({ initialReminders }: { initialReminders: Remind
   const { toast } = useToast();
 
   useEffect(() => {
-    // Load reminders from local storage on component mount
-    try {
-      const storedReminders = localStorage.getItem(REMINDERS_STORAGE_KEY);
-      if (storedReminders) {
-        setReminders(JSON.parse(storedReminders));
-      } else {
-        setReminders(initialReminders); // Load initial data if nothing in storage
-      }
-    } catch (error) {
-        // If local storage is unavailable or fails, use initial data
-        setReminders(initialReminders);
-    }
-  }, [initialReminders]);
-
-
-  const updateStorage = (updatedReminders: Reminder[]) => {
-      try {
-        localStorage.setItem(REMINDERS_STORAGE_KEY, JSON.stringify(updatedReminders));
-      } catch (error) {
-        console.warn("Could not save reminders to local storage.", error);
-      }
-  };
-
+    // This effect can be used to re-fetch or sync reminders if needed
+    // For now, we rely on the server actions to revalidate the path
+  }, []);
 
   const handleAddReminder = () => {
     if (!newTask.trim() || !newDate || !newTime) {
@@ -59,23 +37,21 @@ export function RemindersClient({ initialReminders }: { initialReminders: Remind
       return;
     }
     
-    startTransition(() => {
-        const newReminder: Reminder = {
-            id: new Date().toISOString(),
+    startTransition(async () => {
+        const newReminder = {
             task: newTask,
             date: newDate,
             time: newTime,
-            createdAt: new Date(),
         };
-
-        const updatedReminders = [newReminder, ...reminders].sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        setReminders(updatedReminders);
-        updateStorage(updatedReminders);
-
+        const result = await addReminder(newReminder);
+        
         toast({
             title: t.reminders.toast.added.title,
             description: `${t.reminders.toast.added.description_prefix} "${newTask}" ${t.reminders.toast.added.description_suffix} ${newDate}.`,
         });
+
+        const updatedReminders = await getReminders();
+        setReminders(updatedReminders);
 
         setNewTask('');
         setNewDate('');
@@ -84,10 +60,10 @@ export function RemindersClient({ initialReminders }: { initialReminders: Remind
   };
 
   const handleDeleteReminder = (id: string) => {
-     startTransition(() => {
-        const updatedReminders = reminders.filter(r => r.id !== id);
+     startTransition(async () => {
+        await deleteReminder(id);
+        const updatedReminders = await getReminders();
         setReminders(updatedReminders);
-        updateStorage(updatedReminders);
         toast({
             title: t.reminders.toast.removed.title,
         });

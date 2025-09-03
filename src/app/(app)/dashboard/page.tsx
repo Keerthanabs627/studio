@@ -1,39 +1,51 @@
+// @ts-nocheck
+'use client';
 
 import { DashboardClient } from "./components/dashboard-client";
 import { getProfile } from "../profile/actions";
 import { getWeather } from "./actions";
 import { getReminders } from "../reminders/actions";
 import { getDictionary } from "@/locales/dictionaries";
-import { cookies } from "next/headers";
-import { i18n, type Locale } from "@/locales/config";
+import { useI18n } from "@/locales/client";
+import { useState, useEffect } from "react";
+import type { Profile } from "../profile/actions";
+import type { WeatherData } from "./actions";
+import type { Reminder } from "../reminders/actions";
+import { Dictionary } from "@/locales/dictionaries";
 
-async function getLocale(): Promise<Locale> {
-    const cookieStore = cookies();
-    const localeCookie = cookieStore.get('NEXT_LOCALE')?.value;
-    const locale = localeCookie || i18n.defaultLocale;
-    return i18n.locales.includes(locale as Locale) ? (locale as Locale) : i18n.defaultLocale;
-}
 
-export default async function DashboardPage() {
-  const profile = await getProfile();
-  const weatherResult = await getWeather();
-  const reminders = await getReminders();
-  const locale = await getLocale();
-  const t = await getDictionary(locale);
-  
-  const todaysReminders = reminders.filter(r => {
-      const today = new Date();
-      const reminderDate = new Date(r.date);
-      // Adjust for timezone differences by comparing date strings
-      return today.toISOString().split('T')[0] === reminderDate.toISOString().split('T')[0];
-  });
+export default function DashboardPage() {
+  const t = useI18n();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [weatherData, setWeatherData] = useState<WeatherData[] | null>(null);
+  const [todaysReminders, setTodaysReminders] = useState<Reminder[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+        const profileData = await getProfile();
+        setProfile(profileData);
+
+        const weatherResult = await getWeather();
+        setWeatherData(weatherResult.data || null);
+
+        const allReminders = await getReminders();
+        const today = new Date();
+        const filteredReminders = allReminders.filter(r => {
+            if (!r.date) return false;
+            const reminderDate = new Date(r.date);
+            return today.toISOString().split('T')[0] === reminderDate.toISOString().split('T')[0];
+        });
+        setTodaysReminders(filteredReminders);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div>
         <DashboardClient
             t={t}
             profile={profile} 
-            initialWeather={weatherResult.data || null}
+            initialWeather={weatherData}
             todaysReminders={todaysReminders}
         />
     </div>

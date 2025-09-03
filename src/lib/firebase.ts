@@ -42,14 +42,11 @@ const getFCMToken = async () => {
 }
 
 const onForegroundMessage = () => {
-    if (typeof window !== 'undefined' && "messaging" in app) {
-        const messaging = getMessaging(app);
-        return onMessage(messaging, (payload) => {
-            console.log('Foreground message received. ', payload);
-            // You can show a custom notification/toast here
-        });
-    }
-    return () => {}; // Return an empty unsubscribe function for SSR
+    const messaging = getMessaging(app);
+    return onMessage(messaging, (payload) => {
+        console.log('Foreground message received. ', payload);
+        // You can show a custom notification/toast here
+    });
 }
 
 

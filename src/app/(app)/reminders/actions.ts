@@ -1,8 +1,9 @@
-
 // @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { db } from '@/lib/firebase';
+import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp } from 'firebase/firestore';
 
 export interface Reminder {
   id: string;
@@ -12,47 +13,39 @@ export interface Reminder {
   createdAt: any;
 }
 
-// In a real app, this would be a database call.
-// For this prototype, we're simulating it with an in-memory array.
-// This data will be managed on the client-side component.
-let reminders: Reminder[] = [
-    {
-        id: "1",
-        task: "Check irrigation pump",
-        date: new Date().toISOString().split('T')[0],
-        time: "08:00",
-        createdAt: new Date()
-    },
-    {
-        id: "2",
-        task: "Buy new batch of seeds",
-        date: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0],
-        time: "14:00",
-        createdAt: new Date(new Date().setDate(new Date().getDate() - 1))
-    }
-];
-
 export async function getReminders(): Promise<Reminder[]> {
-  // This function is now just for initial data for the prototype.
-  // The client will manage its own state.
-  return Promise.resolve(reminders);
+  const remindersCollection = collection(db, 'reminders');
+  const q = query(remindersCollection, orderBy('createdAt', 'desc'));
+  const remindersSnapshot = await getDocs(q);
+  
+  const reminders: Reminder[] = remindersSnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt?.toDate() || new Date(),
+      }
+  });
+
+  return reminders;
 }
 
-// The following functions are not used in the new client-side implementation
-// but are kept here to show what a server-based implementation would look like.
 export async function addReminder(reminder: Omit<Reminder, 'id' | 'createdAt'>) {
     const newReminder = {
         ...reminder,
-        id: new Date().toISOString(),
+        createdAt: serverTimestamp(),
+    };
+    const docRef = await addDoc(collection(db, "reminders"), newReminder);
+    revalidatePath('/reminders');
+    return {
+        ...newReminder,
+        id: docRef.id,
         createdAt: new Date(),
     };
-    reminders.push(newReminder);
-    revalidatePath('/reminders');
-    return Promise.resolve(newReminder);
 }
 
 export async function deleteReminder(id: string) {
-    reminders = reminders.filter(r => r.id !== id);
+    await deleteDoc(doc(db, "reminders", id));
     revalidatePath('/reminders');
     return Promise.resolve();
 }

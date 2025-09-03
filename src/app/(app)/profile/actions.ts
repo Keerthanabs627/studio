@@ -4,7 +4,7 @@
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { db } from '@/lib/firebase';
-import { collection, addDoc, serverTimestamp, getDocs } from 'firebase/firestore';
+import { collection, addDoc, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 export interface Profile {
   name: string;
@@ -15,20 +15,25 @@ export interface Profile {
   };
 }
 
-// This is a temporary in-memory "database" for the prototype.
-// In a real application, this would be a database like Firestore and tied to a user session.
-let userProfile: Profile = {
-  name: "",
-  phone: "",
-  notifications: {
-    sms: true,
-    whatsapp: false,
-  }
-};
+const PROFILE_ID = "shared_profile"; // Using a fixed ID for the single shared profile
 
 export async function getProfile(): Promise<Profile> {
-  // In a real app, you'd fetch this from a database for the logged-in user.
-  return Promise.resolve(userProfile);
+  const profileDocRef = doc(db, 'profiles', PROFILE_ID);
+  const profileSnap = await getDoc(profileDocRef);
+
+  if (profileSnap.exists()) {
+    return profileSnap.data() as Profile;
+  } else {
+    // Return a default empty profile if it doesn't exist
+    return {
+      name: "",
+      phone: "",
+      notifications: {
+        sms: true,
+        whatsapp: false,
+      }
+    };
+  }
 }
 
 const profileSchema = z.object({
@@ -46,15 +51,19 @@ export async function updateProfile(data: Pick<Profile, 'name' | 'phone'>) {
     };
   }
   
-  userProfile = {
-      ...userProfile,
+  const currentProfile = await getProfile();
+  const updatedProfile = {
+      ...currentProfile,
       name: validatedFields.data.name,
       phone: validatedFields.data.phone
   };
 
+  const profileDocRef = doc(db, 'profiles', PROFILE_ID);
+  await setDoc(profileDocRef, updatedProfile, { merge: true });
+
   revalidatePath('/profile');
   
-  return { data: userProfile };
+  return { data: updatedProfile };
 }
 
 
@@ -72,12 +81,14 @@ export async function updateNotificationPreferences(data: Profile['notifications
         };
     }
 
-    userProfile.notifications = validatedFields.data;
+    const profileDocRef = doc(db, 'profiles', PROFILE_ID);
+    await setDoc(profileDocRef, { notifications: validatedFields.data }, { merge: true });
     
     revalidatePath('/notifications');
     revalidatePath('/profile');
     
-    return { data: userProfile };
+    const updatedProfile = await getProfile();
+    return { data: updatedProfile };
 }
 
 export async function saveFCMToken(token: string) {
@@ -85,18 +96,12 @@ export async function saveFCMToken(token: string) {
         return { error: 'Invalid token provided.' };
     }
     try {
-        // You might want to check if the token already exists to avoid duplicates
-        const existingTokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
-        const isTokenExists = existingTokensSnapshot.docs.some(doc => doc.data().token === token);
-
-        if (!isTokenExists) {
-            await addDoc(collection(db, "fcm_tokens"), {
-                token: token,
-                createdAt: serverTimestamp(),
-            });
-             return { success: true, message: 'Token saved successfully.' };
-        }
-        return { success: true, message: 'Token already exists.' };
+        const tokenDocRef = doc(db, "fcm_tokens", token);
+        await setDoc(tokenDocRef, {
+            token: token,
+            createdAt: serverTimestamp(),
+        });
+        return { success: true, message: 'Token saved successfully.' };
 
     } catch (error) {
         console.error("Error saving FCM token:", error);

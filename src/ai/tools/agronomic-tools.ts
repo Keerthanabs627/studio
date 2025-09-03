@@ -14,10 +14,33 @@ import {
   getSoilSuitability,
   type SoilSuitabilityInput,
 } from '@/ai/flows/soil-suitability-flow';
-import {getWeather} from '@/app/(app)/dashboard/actions';
+import {getWeatherForecast} from '@/ai/flows/weather-flow';
 import { marketData } from '@/app/(app)/market-prices/data';
 import {z} from 'zod';
 
+export const weatherTool = ai.defineTool(
+  {
+    name: 'getWeather',
+    description:
+      'Get the 3-day weather forecast for a specified location in India.',
+    input: {
+      schema: z.object({
+        location: z.string().describe('The city or area to get the weather for.'),
+      }),
+    },
+    output: {
+      schema: z.any(),
+    },
+  },
+  async input => {
+    try {
+      const forecast = await getWeatherForecast({location: input.location});
+      return JSON.stringify(forecast);
+    } catch (e) {
+      return `Error fetching weather: ${e}`;
+    }
+  }
+);
 
 export const soilSuitabilityTool = ai.defineTool(
   {

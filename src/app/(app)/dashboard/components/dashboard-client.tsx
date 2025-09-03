@@ -65,7 +65,7 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
             <CardDescription>Quick access to all features.</CardDescription>
         </CardHeader>
         <CardContent>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {quickLinks.map((link) => {
             const Icon = link.icon;
             return (

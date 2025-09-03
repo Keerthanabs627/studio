@@ -25,7 +25,10 @@ export function SchemesClient({ schemes, t }: { schemes: Scheme[], t: Dictionary
             {schemes.map((scheme) => (
               <AccordionItem value={`item-${scheme.id}`} key={scheme.id}>
                 <AccordionTrigger className="p-6 text-lg font-semibold hover:no-underline">
-                  {scheme.title}
+                    <Link href={scheme.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline">
+                        {scheme.title}
+                        <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                    </Link>
                 </AccordionTrigger>
                 <AccordionContent className="p-6 pt-0">
                   <div className="space-y-4">
@@ -47,14 +50,6 @@ export function SchemesClient({ schemes, t }: { schemes: Scheme[], t: Dictionary
                         ))}
                       </ul>
                     </div>
-
-                    <Button asChild>
-                      <Link href={scheme.link} target="_blank" rel="noopener noreferrer">
-                         {t.schemes.official_site}
-                        <ExternalLink className="ml-2 h-4 w-4" />
-                      </Link>
-                    </Button>
-
                   </div>
                 </AccordionContent>
               </AccordionItem>

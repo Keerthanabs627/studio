@@ -22,6 +22,7 @@ export function SidebarNav() {
     { href: '/schemes', label: t.sidebar.schemes, icon: Landmark },
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Tractor },
     { href: '/weather', label: t.dashboard.weather_forecast.title, icon: WeatherIcon },
+    { href: '/reminders', label: t.sidebar.reminders, icon: Bell },
     { href: '/community', label: t.sidebar.community, icon: MessageCircle },
     { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
     { href: '/profile', label: t.sidebar.profile, icon: User },

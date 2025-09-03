@@ -14,6 +14,7 @@ export default {
     guide: 'Guide',
     codes: 'Codes',
     profile: 'Profile',
+    reminders: 'Reminders',
   },
   dashboard: {
     welcome: 'Hello community',
@@ -47,16 +48,6 @@ export default {
       title: 'My Fields',
       description: 'Manage your fields and track crops.',
       button: 'Manage Fields',
-    },
-    reminders: {
-      title: 'Reminders',
-      description: 'Set and manage your farming reminders.',
-      button: 'Set Reminders',
-    },
-    sms_reminders: {
-      title: 'SMS Reminders',
-      description: 'Manage your SMS reminder preferences.',
-      button: 'Manage SMS',
     },
     community_hub: {
       title: 'Community Hub',

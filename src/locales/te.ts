@@ -14,6 +14,7 @@ export default {
     guide: 'గైడ్',
     codes: 'కోడ్‌లు',
     profile: 'ప్రొఫైల్',
+    reminders: 'రిమైండర్‌లు',
   },
   dashboard: {
     welcome: 'నమస్కారం సంఘం',
@@ -47,16 +48,6 @@ export default {
       title: 'నా పొలాలు',
       description: 'మీ పొలాలను నిర్వహించండి మరియు పంటలను ట్రాక్ చేయండి.',
       button: 'పొలాలను నిర్వహించండి',
-    },
-    reminders: {
-      title: 'రిమైండర్‌లు',
-      description: 'మీ వ్యవసాయ రిమైండర్‌లను సెట్ చేయండి మరియు నిర్వహించండి.',
-      button: 'రిమైండర్‌లను సెట్ చేయండి',
-    },
-    sms_reminders: {
-      title: 'SMS రిమైండర్‌లు',
-      description: 'మీ SMS రిమైండర్ ప్రాధాన్యతలను నిర్వహించండి.',
-      button: 'SMS నిర్వహించండి',
     },
     community_hub: {
       title: 'సంఘ కేంద్రం',

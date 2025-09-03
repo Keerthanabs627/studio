@@ -14,6 +14,7 @@ export default {
     guide: 'गाइड',
     codes: 'कोड',
     profile: 'प्रोफ़ाइल',
+    reminders: 'अनुस्मारक',
   },
   dashboard: {
     welcome: 'नमस्ते समुदाय',
@@ -47,16 +48,6 @@ export default {
       title: 'मेरे खेत',
       description: 'अपने खेतों का प्रबंधन करें और फसलों पर नज़र रखें।',
       button: 'खेतों का प्रबंधन करें',
-    },
-    reminders: {
-      title: 'अनुस्मारक',
-      description: 'अपने खेती के अनुस्मारक सेट और प्रबंधित करें।',
-      button: 'अनुस्मारक सेट करें',
-    },
-    sms_reminders: {
-      title: 'SMS अनुस्मारक',
-      description: 'अपनी SMS अनुस्मारक प्राथमिकताएँ प्रबंधित करें।',
-      button: 'SMS प्रबंधित करें',
     },
     community_hub: {
       title: 'सामुदायिक केंद्र',

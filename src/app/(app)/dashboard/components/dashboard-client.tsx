@@ -7,7 +7,7 @@ import { type WeatherData, getWeather } from "../actions";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import { Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud, CloudRain, Zap, CloudFog, Landmark, Compass, Code, Bot, MessageCircle } from "lucide-react";
+import { Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud, CloudRain, Zap, CloudFog, Landmark, Compass, Code, Bot, MessageCircle, Bell } from "lucide-react";
 import { WeatherForecast } from "./weather-forecast";
 import { useToast } from "@/hooks/use-toast";
 import React, { useState, useEffect, useTransition } from "react";
@@ -46,8 +46,9 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
     { href: '/schemes', label: t.sidebar.schemes, icon: Landmark },
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Leaf },
     { href: '/weather', label: t.dashboard.weather_forecast.title, icon: WeatherIcon },
-    { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
     { href: '/community', label: t.sidebar.community, icon: MessageCircle },
+    { href: '/reminders', label: t.sidebar.reminders, icon: Bell },
+    { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
     { href: '/guide', label: t.sidebar.guide, icon: Compass },
   ];
 

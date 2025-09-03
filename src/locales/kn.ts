@@ -14,6 +14,7 @@ export default {
     guide: 'ಮಾರ್ಗದರ್ಶಿ',
     codes: 'ಕೋಡ್‌ಗಳು',
     profile: 'ಪ್ರೊಫೈಲ್',
+    reminders: 'ಜ್ಞಾಪನೆಗಳು',
   },
   dashboard: {
     welcome: 'ನಮಸ್ಕಾರ ಸಮುದಾಯ',
@@ -47,16 +48,6 @@ export default {
       title: 'ನನ್ನ ಹೊಲಗಳು',
       description: 'ನಿಮ್ಮ ಹೊಲಗಳನ್ನು ನಿರ್ವಹಿಸಿ ಮತ್ತು ಬೆಳೆಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ.',
       button: 'ಹೊಲಗಳನ್ನು ನಿರ್ವಹಿಸಿ',
-    },
-    reminders: {
-      title: 'ಜ್ಞಾಪನೆಗಳು',
-      description: 'ನಿಮ್ಮ ಕೃಷಿ ಜ್ಞಾಪನೆಗಳನ್ನು ಹೊಂದಿಸಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ.',
-      button: 'ಜ್ಞಾಪನೆಗಳನ್ನು ಹೊಂದಿಸಿ',
-    },
-    sms_reminders: {
-      title: 'SMS ಜ್ಞಾಪನೆಗಳು',
-      description: 'ನಿಮ್ಮ SMS ಜ್ಞಾಪನೆ ಆದ್ಯತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ.',
-      button: 'SMS ನಿರ್ವಹಿಸಿ',
     },
     community_hub: {
       title: 'ಸಮುದಾಯ ಕೇಂದ್ರ',
@@ -340,7 +331,7 @@ export default {
   labor_marketplace: {
     title: "ಕಾರ್ಮಿಕ ಮಾರುಕಟ್ಟೆ",
     description: "ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ಕೃಷಿ ಉದ್ಯೋಗಾವಕಾಶಗಳನ್ನು ಹುಡುಕಿ ಅಥವಾ ಪೋಸ್ಟ್ ಮಾಡಿ.",
-    available_title: "ಲಭ್ಯವಿರುವ ಉದ್ಯೋಗಗಳು",
+    available_title: "ಲಭ్యವಿರುವ ಉದ್ಯೋಗಗಳು",
     listed_by: "ಪಟ್ಟಿ ಮಾಡಿದವರು",
     location: "ಸ್ಥಳ",
     post_card: {

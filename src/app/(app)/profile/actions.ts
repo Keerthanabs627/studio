@@ -18,8 +18,8 @@ export interface Profile {
 // This is a temporary in-memory "database" for the prototype.
 // In a real application, this would be a database like Firestore and tied to a user session.
 let userProfile: Profile = {
-  name: "Vijay Kumar",
-  phone: "+91 98765 43210",
+  name: "",
+  phone: "",
   notifications: {
     sms: true,
     whatsapp: false,
@@ -86,11 +86,18 @@ export async function saveFCMToken(token: string) {
     }
     try {
         // You might want to check if the token already exists to avoid duplicates
-        await addDoc(collection(db, "fcm_tokens"), {
-            token: token,
-            createdAt: serverTimestamp(),
-        });
-        return { success: true };
+        const existingTokensSnapshot = await getDocs(collection(db, "fcm_tokens"));
+        const isTokenExists = existingTokensSnapshot.docs.some(doc => doc.data().token === token);
+
+        if (!isTokenExists) {
+            await addDoc(collection(db, "fcm_tokens"), {
+                token: token,
+                createdAt: serverTimestamp(),
+            });
+             return { success: true, message: 'Token saved successfully.' };
+        }
+        return { success: true, message: 'Token already exists.' };
+
     } catch (error) {
         console.error("Error saving FCM token:", error);
         return { error: 'Could not save FCM token.' };

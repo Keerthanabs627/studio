@@ -12,10 +12,9 @@ import { Loader2, Phone } from "lucide-react";
 import { getEquipment, addEquipment, type Equipment } from "../actions";
 import { useToast } from "@/hooks/use-toast";
 import type { Profile } from "../../profile/actions";
-import { useI18n } from "@/locales/client";
+import type { Dictionary } from "@/locales/dictionaries";
 
-export function EquipmentRentalClient({ initialEquipment, profile }: { initialEquipment: Equipment[], profile: Profile | null }) {
-  const t = useI18n();
+export function EquipmentRentalClient({ initialEquipment, profile, t }: { initialEquipment: Equipment[], profile: Profile | null, t: Dictionary }) {
   const [equipment, setEquipment] = useState<Equipment[]>(initialEquipment);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();

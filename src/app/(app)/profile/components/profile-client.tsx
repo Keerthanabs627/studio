@@ -13,13 +13,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useI18n } from '@/locales/client';
 import { useToast } from '@/hooks/use-toast';
 import { updateProfile, type Profile } from '../actions';
 import { Loader2 } from 'lucide-react';
+import type { Dictionary } from '@/locales/dictionaries';
 
-export function ProfileClient({ initialProfile }: { initialProfile: Profile }) {
-  const t = useI18n();
+export function ProfileClient({ initialProfile, t }: { initialProfile: Profile, t: Dictionary }) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 

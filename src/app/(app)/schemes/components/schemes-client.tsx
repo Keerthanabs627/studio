@@ -8,10 +8,9 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink, CheckCircle } from 'lucide-react';
 import type { Scheme } from '../actions';
 import Link from 'next/link';
-import { useI18n } from "@/locales/client";
+import type { Dictionary } from '@/locales/dictionaries';
 
-export function SchemesClient({ schemes }: { schemes: Scheme[] }) {
-  const t = useI18n();
+export function SchemesClient({ schemes, t }: { schemes: Scheme[], t: Dictionary }) {
   
   return (
     <div className="space-y-6">

@@ -11,12 +11,11 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { ThumbsUp, MessageSquare, Loader2, Tag } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useI18n } from '@/locales/client';
 import { addPost, type Post } from '../actions';
+import type { Dictionary } from '@/locales/dictionaries';
 
 
-export function CommunityClient({ initialPosts }: { initialPosts: Post[] }) {
-  const t = useI18n();
+export function CommunityClient({ initialPosts, t }: { initialPosts: Post[], t: Dictionary }) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [posts, setPosts] = useState<Post[]>(initialPosts);

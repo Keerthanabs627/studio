@@ -4,7 +4,6 @@
 
 import { equipment, type Equipment } from './data';
 import { revalidatePath } from 'next/cache';
-import { getProfile } from '../profile/actions';
 
 export type { Equipment };
 
@@ -14,11 +13,9 @@ export async function getEquipment(): Promise<Equipment[]> {
 }
 
 export async function addEquipment(item: Omit<Equipment, 'id' | 'owner' | 'avatar'>): Promise<Equipment> {
-  const profile = await getProfile();
-  
   const newEquipment: Equipment = {
     id: equipment.length + 1,
-    owner: profile.name,
+    owner: "Guest User",
     avatar: "https://picsum.photos/40/40?random=0",
     ...item,
   };

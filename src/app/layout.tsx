@@ -12,13 +12,13 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = getLocaleFromCookie();
-  const dictionary = getDictionary(locale);
+  const locale = await getLocaleFromCookie();
+  const dictionary = await getDictionary(locale);
 
   return (
     <html lang={locale} suppressHydrationWarning>

@@ -7,7 +7,7 @@ import { getWeather, type WeatherData } from "./actions";
 import { getReminders } from "../reminders/actions";
 
 export default async function DashboardPage() {
-  const locale = getLocaleFromCookie();
+  const locale = await getLocaleFromCookie();
   const t = await getDictionary(locale);
 
   const profile = await getProfile();

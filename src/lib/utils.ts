@@ -1,3 +1,4 @@
+
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { i18n, type Locale } from "@/locales/config"
@@ -6,21 +7,22 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getLocaleFromCookie(): Locale {
+export async function getLocaleFromCookie(): Promise<Locale> {
     if (typeof window === 'undefined') {
-        // This will only run on the server.
+        // Server-side
         try {
-            const { cookies } = require('next/headers');
-            const localeCookie = cookies().get('NEXT_LOCALE')?.value;
+            const { cookies } = await import('next/headers');
+            const cookieStore = cookies();
+            const localeCookie = cookieStore.get('NEXT_LOCALE')?.value;
             const locale = localeCookie || i18n.defaultLocale;
             return i18n.locales.includes(locale as Locale) ? (locale as Locale) : i18n.defaultLocale;
         } catch (error) {
-            // This will happen during client-side navigation, which is expected.
-            // We'll fall through to the client-side implementation.
+            // This can happen during build time when headers are not available.
+            return i18n.defaultLocale;
         }
     }
 
-    // Client-side implementation
+    // Client-side
     const localeCookie = document.cookie
         .split('; ')
         .find(row => row.startsWith('NEXT_LOCALE='))

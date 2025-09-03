@@ -5,7 +5,7 @@ import { getDictionary } from '@/locales/dictionaries';
 import { getLocaleFromCookie } from '@/lib/utils';
 
 export default async function NotificationsPage() {
-    const locale = getLocaleFromCookie();
+    const locale = await getLocaleFromCookie();
     const t = await getDictionary(locale);
     const profile = await getProfile();
 

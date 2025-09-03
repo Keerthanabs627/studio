@@ -6,7 +6,7 @@ import { getLocaleFromCookie } from '@/lib/utils';
 
 export default async function LaborMarketplacePage() {
     const jobs = await getJobs();
-    const locale = getLocaleFromCookie();
+    const locale = await getLocaleFromCookie();
     const t = await getDictionary(locale);
 
     return <LaborMarketplaceClient initialJobs={jobs} t={t} />;

@@ -6,7 +6,7 @@ import { getLocaleFromCookie } from '@/lib/utils';
 import { getProfile } from "../profile/actions";
 
 export default async function EquipmentRentalPage() {
-    const locale = getLocaleFromCookie();
+    const locale = await getLocaleFromCookie();
     const t = await getDictionary(locale);
     const equipment = await getEquipment();
     const profile = await getProfile();

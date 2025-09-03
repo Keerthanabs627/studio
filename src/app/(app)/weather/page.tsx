@@ -1,11 +1,10 @@
-// @ts-nocheck
 import { WeatherClient } from './components/weather-client';
 import { getDictionary } from '@/locales/dictionaries';
 import { getLocaleFromCookie } from '@/lib/utils';
 import { getWeather } from '../dashboard/actions';
 
 export default async function WeatherPage() {
-    const locale = getLocaleFromCookie();
+    const locale = await getLocaleFromCookie();
     const t = await getDictionary(locale);
     
     // This fetch is for the initial server-side render.

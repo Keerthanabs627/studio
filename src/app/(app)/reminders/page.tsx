@@ -7,7 +7,7 @@ import { getLocaleFromCookie } from '@/lib/utils';
 
 export default async function RemindersPage() {
     const reminders = await getReminders();
-    const locale = getLocaleFromCookie();
+    const locale = await getLocaleFromCookie();
     const t = await getDictionary(locale);
 
     return <RemindersClient initialReminders={reminders} t={t} />;

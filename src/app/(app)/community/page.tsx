@@ -7,7 +7,7 @@ import { getLocaleFromCookie } from "@/lib/utils";
 
 
 export default async function CommunityPage() {
-    const locale = getLocaleFromCookie();
+    const locale = await getLocaleFromCookie();
     const t = await getDictionary(locale);
 
     const posts = await getPosts();

@@ -1,6 +1,6 @@
 
-import { getPosts, type Post } from "./actions";
-import { getProfile, type Profile } from "../profile/actions";
+import { getPosts } from "./actions";
+import { getProfile } from "../profile/actions";
 import { CommunityClient } from "./components/community-client";
 import { getDictionary } from "@/locales/dictionaries";
 import { getLocaleFromCookie } from "@/lib/utils";

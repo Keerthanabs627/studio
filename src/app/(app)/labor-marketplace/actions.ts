@@ -16,7 +16,7 @@ export async function getJobs(): Promise<Job[]> {
   return Promise.resolve(jobs);
 }
 
-export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'createdAt'>) {
+export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'createdAt'>): Promise<Job> {
   const profile = await getProfile();
   
   if (!profile) {

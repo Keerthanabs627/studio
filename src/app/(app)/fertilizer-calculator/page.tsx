@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getFertilizerRecommendation } from "./actions";
 import type { FertilizerRecommendation } from "./actions";
-import { Loader2, Zap, AlertTriangle, Leaf } from "lucide-react";
+import { Loader2, Zap, AlertTriangle, Leaf, CheckCircle2 } from "lucide-react";
 import { useI18n } from "@/locales/client";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -93,8 +93,29 @@ export default function SmartYieldOptimizerPage() {
                             <Loader2 className="w-8 h-8 animate-spin text-primary" />
                          </div>
                     ) : results ? (
-                        <div>
-                             <div className="mb-4">
+                        <div className="space-y-6">
+                            {results.summary && (
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>{t.fertilizer_calculator.card2.summary_title}</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-2 text-sm">
+                                        <p><strong>For {area} acre(s) of {crop}:</strong></p>
+                                        <p>Required fertilizer: NPK ≈ {results.summary.required_fertilizer_kg} kg</p>
+                                        <p>Fertilizer cost: {results.summary.fertilizer_cost}</p>
+                                        <p>Expected crop value: {results.summary.expected_crop_value}</p>
+                                        <p className="font-bold">Total profit: {results.summary.total_profit}</p>
+                                        {results.summary.is_safe && (
+                                            <div className="flex items-center gap-2 text-green-500 pt-2">
+                                                <CheckCircle2 className="h-4 w-4"/>
+                                                <span>{results.summary.safety_message}</span>
+                                            </div>
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            )}
+
+                             <div>
                                 <h2 className="text-2xl font-bold">{t.fertilizer_calculator.card2.title}</h2>
                                 <p className="text-muted-foreground">{`${t.fertilizer_calculator.card2.description_results_prefix} ${crop}`}</p>
                             </div>

@@ -167,6 +167,7 @@ export default {
     },
     card2: {
       title: 'आपकी स्मार्ट यील्ड योजना',
+      summary_title: 'आवश्यकता सारांश',
       description_initial: 'आपकी पूर्ण-मौसम उर्वरक योजना यहाँ दिखाई देगी।',
       description_results_prefix: 'के लिए एक पूर्ण-मौसम योजना',
       initial_text: 'अपनी योजना बनाने के लिए फसल और क्षेत्र दर्ज करें।',

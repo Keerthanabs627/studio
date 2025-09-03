@@ -167,6 +167,7 @@ export default {
     },
     card2: {
       title: 'ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್ ಇಳುವರಿ ಯೋಜನೆ',
+      summary_title: 'ಅವಶ್ಯಕತೆ ಸಾರಾಂಶ',
       description_initial: 'ನಿಮ್ಮ ಪೂರ್ಣ-ಸೀಸన్ ಗೊಬ್ಬರ ಯೋಜನೆ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.',
       description_results_prefix: 'ಗಾಗಿ ಪೂರ್ಣ-ಸೀಸನ್ ಯೋಜನೆ',
       initial_text: 'ನಿಮ್ಮ ಯೋಜನೆಯನ್ನು ರಚಿಸಲು ಬೆಳೆ ಮತ್ತು ಪ್ರದೇಶವನ್ನು ನಮೂದಿಸಿ.',

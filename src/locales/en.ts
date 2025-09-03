@@ -167,6 +167,7 @@ export default {
     },
     card2: {
       title: 'Your Smart Yield Plan',
+      summary_title: 'Requirement Summary',
       description_initial: 'Your full-season fertilization plan will appear here.',
       description_results_prefix: 'A full-season plan for',
       initial_text: 'Enter crop and area to generate your plan.',

@@ -1,5 +1,4 @@
 
-// @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
@@ -25,7 +24,7 @@ export async function getReminders(): Promise<Reminder[]> {
           id: doc.id,
           ...data,
           createdAt: data.createdAt?.toDate() || new Date(),
-      }
+      } as Reminder
   });
 
   return reminders;
@@ -42,7 +41,7 @@ export async function addReminder(reminder: Omit<Reminder, 'id' | 'createdAt'>) 
         ...newReminder,
         id: docRef.id,
         createdAt: new Date(),
-    };
+    } as Reminder;
 }
 
 export async function deleteReminder(id: string) {

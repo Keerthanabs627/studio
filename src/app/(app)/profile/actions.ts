@@ -1,11 +1,10 @@
 
-// @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { adminDb } from '@/lib/firebase';
-import { collection, addDoc, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 export interface Profile {
   name: string;

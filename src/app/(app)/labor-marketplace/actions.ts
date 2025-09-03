@@ -1,5 +1,4 @@
 
-// @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
@@ -20,7 +19,7 @@ export async function getJobs(): Promise<Job[]> {
       id: doc.id,
       ...data,
       createdAt: data.createdAt?.toDate() || new Date(),
-    }
+    } as Job
   });
 
   return jobs;
@@ -50,7 +49,7 @@ export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'cr
     posterName: profile.name,
     avatar: "https://picsum.photos/40/40?random=0",
     createdAt: new Date(),
-  };
+  } as Job;
 }
 
 

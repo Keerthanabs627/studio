@@ -1,5 +1,4 @@
 
-// @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
@@ -19,7 +18,7 @@ export async function getPosts(): Promise<Post[]> {
           id: doc.id,
           ...data,
           createdAt: data.createdAt?.toDate() || new Date(),
-      }
+      } as Post
   });
 
   return posts;
@@ -52,5 +51,5 @@ export async function addPost({ content, category }: { content: string, category
     ...newPost,
     id: docRef.id,
     createdAt: new Date(), // Return a date object for the client
-  };
+  } as Post;
 }

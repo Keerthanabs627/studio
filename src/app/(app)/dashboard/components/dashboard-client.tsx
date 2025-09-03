@@ -23,7 +23,7 @@ const iconMap: { [key: string]: React.ElementType } = {
 };
 
 
-export function DashboardClient({ profile, initialWeather, todaysReminders }: { profile: Profile | null, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
+export function DashboardClient({ profile, initialWeather }: { profile: Profile | null, initialWeather: WeatherData[] | null }) {
   const t = useI18n();
   
   const quickLinks = [
@@ -72,15 +72,6 @@ export function DashboardClient({ profile, initialWeather, todaysReminders }: { 
                         <span className="font-bold text-sm">{initialWeather ? initialWeather[0].temp : 'N/A'}</span>
                     </div>
                     <span className="text-xs text-center mt-1">{t.dashboard.weather_forecast.title}</span>
-                </Link>
-            </Button>
-            <Button variant="outline" className="h-24 flex-col gap-2 p-2 relative" asChild>
-                <Link href="/reminders">
-                    {todaysReminders.length > 0 && (
-                        <Badge className="absolute -top-1 -right-1 h-5 w-5 justify-center p-0">{todaysReminders.length}</Badge>
-                    )}
-                    <Bell className="h-6 w-6 text-primary" />
-                    <span className="text-xs text-center">{t.sidebar.reminders}</span>
                 </Link>
             </Button>
           </div>

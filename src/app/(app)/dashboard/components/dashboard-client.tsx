@@ -11,16 +11,18 @@ import { Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud,
 import { WeatherForecast } from "./weather-forecast";
 import { useToast } from "@/hooks/use-toast";
 import React, { useState, useEffect, useTransition } from "react";
+import { WeatherIcon } from "@/components/icons/weather-icon";
 
 export function DashboardClient({ profile }: { profile: Profile | null }) {
   const t = useI18n();
   const { toast } = useToast();
   const [weatherData, setWeatherData] = useState<WeatherData[] | null>(null);
   const [isWeatherPending, startWeatherTransition] = useTransition();
+  const [location, setLocation] = useState("Belagavi");
 
   useEffect(() => {
     startWeatherTransition(async () => {
-      const weatherResult = await getWeather();
+      const weatherResult = await getWeather(location);
       if (weatherResult.data) {
         setWeatherData(weatherResult.data);
       }
@@ -32,7 +34,7 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
         });
       }
     });
-  }, [toast]);
+  }, [toast, location]);
   
   const quickLinks = [
     { href: '/guide', label: t.sidebar.guide, icon: Compass },
@@ -42,6 +44,7 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
     { href: '/soil-suitability', label: t.sidebar.soil_suitability, icon: Map },
     { href: '/schemes', label: t.sidebar.schemes, icon: Landmark },
     { href: '/my-fields', label: t.sidebar.my_fields, icon: Leaf },
+    { href: '/weather', label: t.dashboard.weather_forecast.title, icon: WeatherIcon },
     { href: '/chatbot', label: t.sidebar.ai_chatbot, icon: Bot },
     { href: '/codes', label: t.sidebar.codes, icon: Code },
   ];
@@ -60,7 +63,7 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
                 <CardDescription>Quick access to all features.</CardDescription>
             </CardHeader>
             <CardContent>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
                 {quickLinks.map((link) => {
                 const Icon = link.icon;
                 return (
@@ -78,7 +81,7 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
         <Card>
             <CardHeader>
                 <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
-                <CardDescription>3-day forecast for Belagavi</CardDescription>
+                <CardDescription>3-day forecast for {location}</CardDescription>
             </CardHeader>
             <CardContent>
                 <WeatherForecast weatherData={weatherData} loading={isWeatherPending} />

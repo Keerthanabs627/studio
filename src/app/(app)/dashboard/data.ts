@@ -1,3 +1,4 @@
+
 export const weatherData = [
   { day: 'Today', icon: "Partly Cloudy", temp: '31°C', condition: 'A mix of sun and clouds.', wind: '14 km/h' },
   { day: 'Tomorrow', icon: "Light Rain", temp: '28°C', condition: 'Light showers expected in the afternoon.', wind: '18 km/h' },
@@ -65,34 +66,4 @@ export const weatherScenarios = [
     { day: 'Tomorrow', icon: "Light Rain", temp: '29°C', condition: 'Morning showers.', wind: '19 km/h' },
     { day: 'Day After', icon: "Partly Cloudy", temp: '31°C', condition: 'Mix of sun and clouds.', wind: '16 km/h' },
   ],
-  // Scenario 11
-  [
-    { day: 'Today', icon: "Cloudy", temp: '28°C', condition: 'Cool and overcast.', wind: '14 km/h' },
-    { day: 'Tomorrow', icon: "Light Rain", temp: '27°C', condition: 'Expect light drizzle.', wind: '18 km/h' },
-    { day: 'Day After', icon: "Light Rain", temp: '27°C', condition: 'More light showers.', wind: '17 km/h' },
-  ],
-  // Scenario 12
-  [
-    { day: 'Today', icon: "Sunny", temp: '35°C', condition: 'Scorching heat.', wind: '10 km/h' },
-    { day: 'Tomorrow', icon: "Sunny", temp: '36°C', condition: 'Heatwave continues.', wind: '9 km/h' },
-    { day: 'Day After', icon: "Partly Cloudy", temp: '34°C', condition: 'Slight relief from heat.', wind: '12 km/h' },
-  ],
-  // Scenario 13
-  [
-    { day: 'Today', icon: "Partly Cloudy", temp: '29°C', condition: 'A pleasant, cloudy day.', wind: '11 km/h' },
-    { day: 'Tomorrow', icon: "Partly Cloudy", temp: '30°C', condition: 'Similar conditions.', wind: '13 km/h' },
-    { day: 'Day After', icon: "Light Rain", temp: '28°C', condition: 'Possibility of evening showers.', wind: '15 km/h' },
-  ],
-  // Scenario 14
-  [
-    { day: 'Today', icon: "Windy", temp: '30°C', condition: 'Strong winds expected.', wind: '35 km/h' },
-    { day: 'Tomorrow', icon: "Windy", temp: '29°C', condition: 'Winds continue, partly cloudy.', wind: '33 km/h' },
-    { day: 'Day After', icon: "Partly Cloudy", temp: '30°C', condition: 'Winds are calming down.', wind: '20 km/h' },
-  ],
-  // Scenario 15
-  [
-    { day: 'Today', icon: "Fog", temp: '24°C', condition: 'Dense fog until noon.', wind: '8 km/h' },
-    { day: 'Tomorrow', icon: "Fog", temp: '25°C', condition: 'Morning fog, then overcast.', wind: '10 km/h' },
-    { day: 'Day After', icon: "Cloudy", temp: '27°C', condition: 'No fog, but staying cloudy.', wind: '12 km/h' },
-  ]
 ];

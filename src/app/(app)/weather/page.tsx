@@ -2,8 +2,9 @@
 'use client';
 
 import { WeatherClient } from './components/weather-client';
+import { weatherScenarios } from '../dashboard/data';
 
 export default function WeatherPage() {
-    // The WeatherClient component now handles all its own data fetching.
-    return <WeatherClient initialWeatherData={null} initialLocation="Belagavi" />;
+    const initialWeatherData = weatherScenarios[0];
+    return <WeatherClient initialWeatherData={initialWeatherData} initialLocation="Search location" />;
 }

@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const withPWA = require('next-pwa')({
@@ -34,4 +35,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withPWA(nextConfig);
+const isProduction = process.env.NODE_ENV === 'production';
+
+export default isProduction ? withPWA(nextConfig) : nextConfig;

@@ -188,7 +188,7 @@ export default function MyFieldsPage() {
             <CardTitle>{t.my_fields.card2.title}</CardTitle>
             <CardDescription>
               {advice
-                ? t.my_fields.card2.description_results
+                ? t.my_fields.card2.description_results.replace('{crop}', fieldData.crop)
                 : t.my_fields.card2.description_initial}
             </CardDescription>
           </CardHeader>

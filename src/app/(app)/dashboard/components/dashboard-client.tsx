@@ -18,22 +18,24 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
   const { toast } = useToast();
   const [weatherData, setWeatherData] = useState<WeatherData[] | null>(null);
   const [isWeatherPending, startWeatherTransition] = useTransition();
-  const [location, setLocation] = useState("Belagavi");
+  const [location, setLocation] = useState("Search location");
 
   useEffect(() => {
-    startWeatherTransition(async () => {
-      const weatherResult = await getWeather(location);
-      if (weatherResult.data) {
-        setWeatherData(weatherResult.data);
-      }
-      if (weatherResult.error) {
-        toast({
-          variant: "destructive",
-          title: "Could not fetch weather",
-          description: weatherResult.error,
+    if (location.toLowerCase() !== "search location" && location.trim() !== "") {
+        startWeatherTransition(async () => {
+        const weatherResult = await getWeather(location);
+        if (weatherResult.data) {
+            setWeatherData(weatherResult.data);
+        }
+        if (weatherResult.error) {
+            toast({
+            variant: "destructive",
+            title: "Could not fetch weather",
+            description: weatherResult.error,
+            });
+        }
         });
-      }
-    });
+    }
   }, [toast, location]);
   
   const quickLinks = [
@@ -55,43 +57,27 @@ export function DashboardClient({ profile }: { profile: Profile | null }) {
         <p className="text-muted-foreground">{t.dashboard.description}</p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-            <CardHeader>
-                <CardTitle>{t.sidebar.dashboard}</CardTitle>
-                <CardDescription>Quick access to all features.</CardDescription>
-            </CardHeader>
-            <CardContent>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
-                {quickLinks.map((link) => {
-                const Icon = link.icon;
-                return (
-                    <Button key={link.href} variant="outline" className="h-24 flex-col gap-2 p-2" asChild>
-                    <Link href={link.href}>
-                        <Icon className="h-6 w-6 text-primary" />
-                        <span className="text-xs text-center">{link.label}</span>
-                    </Link>
-                    </Button>
-                )
-                })}
-            </div>
-            </CardContent>
-        </Card>
-        <Card>
-            <CardHeader>
-                <CardTitle>{t.dashboard.weather_forecast.title}</CardTitle>
-                <CardDescription>3-day forecast for {location}</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <WeatherForecast weatherData={weatherData} loading={isWeatherPending} />
-            </CardContent>
-            <CardFooter>
-                 <Button variant="outline" size="sm" className="w-full" asChild>
-                    <Link href="/weather">View Full Forecast</Link>
+      <Card>
+        <CardHeader>
+            <CardTitle>{t.sidebar.dashboard}</CardTitle>
+            <CardDescription>Quick access to all features.</CardDescription>
+        </CardHeader>
+        <CardContent>
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
+            {quickLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+                <Button key={link.href} variant="outline" className="h-24 flex-col gap-2 p-2" asChild>
+                <Link href={link.href}>
+                    <Icon className="h-6 w-6 text-primary" />
+                    <span className="text-xs text-center">{link.label}</span>
+                </Link>
                 </Button>
-            </CardFooter>
-        </Card>
-      </div>
+            )
+            })}
+        </div>
+        </CardContent>
+      </Card>
       
     </div>
   );

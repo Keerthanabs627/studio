@@ -205,7 +205,7 @@ export default {
     card2: {
       title: 'प्रबंधन सलाह',
       description_initial: 'आपके खेत के डेटा के आधार पर सलाह यहां दिखाई देगी।',
-      description_results: 'यहां आपकी व्यक्तिगत सलाह है:',
+      description_results: 'यहां आपकी व्यक्तिगत सलाह {crop} के लिए है:',
       initial_text: 'प्रबंधन सलाह प्राप्त करने के लिए अपने खेत का विवरण दर्ज करें।',
     },
     toast: {

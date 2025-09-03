@@ -205,7 +205,7 @@ export default {
     card2: {
       title: 'Management Advice',
       description_initial: 'Advice based on your field data will appear here.',
-      description_results: 'Here is your personalized advice:',
+      description_results: 'Here is your personalized advice for {crop}:',
       initial_text: 'Enter your field details to get management advice.',
     },
     toast: {

@@ -204,7 +204,7 @@ export default {
     card2: {
       title: 'ನಿರ್ವಹಣಾ ಸಲಹೆ',
       description_initial: 'ನಿಮ್ಮ ಕ್ಷೇತ್ರ ಡೇಟಾದ ಆಧಾರದ ಮೇಲೆ ಸಲಹೆ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.',
-      description_results: 'ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಸಲಹೆ ಇಲ್ಲಿದೆ:',
+      description_results: 'ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಸಲಹೆ ಇಲ್ಲಿದೆ {crop} ಗಾಗಿ:',
       initial_text: 'ನಿರ್ವಹಣಾ ಸಲಹೆ ಪಡೆಯಲು ನಿಮ್ಮ ಕ್ಷೇತ್ರ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ.',
     },
     toast: {

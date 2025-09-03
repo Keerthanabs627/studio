@@ -205,7 +205,7 @@ export default {
     card2: {
       title: 'నిర్వహణ సలహా',
       description_initial: 'మీ క్షేత్ర డేటా ఆధారంగా సలహా ఇక్కడ కనిపిస్తుంది.',
-      description_results: 'ఇక్కడ మీ వ్యక్తిగతీకరించిన సలహా:',
+      description_results: 'ఇక్కడ మీ వ్యక్తిగతీకరించిన సలహా {crop} కోసం:',
       initial_text: 'నిర్వహణ సలహా పొందడానికి మీ క్షేత్ర వివరాలను నమోదు చేయండి.',
     },
     toast: {

@@ -14,20 +14,14 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
-function getLocale(): Locale {
-    const cookieStore = cookies();
-    const localeCookie = cookieStore.get('NEXT_LOCALE')?.value;
-    const locale = localeCookie || i18n.defaultLocale;
-    return i18n.locales.includes(locale as Locale) ? (locale as Locale) : i18n.defaultLocale;
-}
-
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = getLocale();
+  const cookieStore = cookies();
+  const localeCookie = cookieStore.get('NEXT_LOCALE')?.value;
+  const locale = i18n.locales.includes(localeCookie as Locale) ? (localeCookie as Locale) : i18n.defaultLocale;
   const dictionary = await getDictionary(locale);
 
   return (

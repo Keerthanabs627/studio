@@ -24,7 +24,8 @@ const iconMap: { [key: string]: React.ElementType } = {
 };
 
 
-export function DashboardClient({ profile, t, initialWeather, todaysReminders }: { profile: Profile | null, t: any, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
+export function DashboardClient({ profile, initialWeather, todaysReminders }: { profile: Profile | null, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
+  const t = useI18n();
 
   const quickLinks = [
     { href: '/fertilizer-calculator', label: t.sidebar.fertilizer_calculator, icon: Droplets },

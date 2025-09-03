@@ -13,8 +13,10 @@ import { addJob, deleteJob, type Job } from "../actions";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import type { Profile } from "../../profile/actions";
+import { useI18n } from "@/locales/client";
 
-export function LaborMarketplaceClient({ initialJobs, t, profile }: { initialJobs: Job[], t: any, profile: Profile | null }) {
+export function LaborMarketplaceClient({ initialJobs, profile }: { initialJobs: Job[], profile: Profile | null }) {
+  const t = useI18n();
   const [jobs, setJobs] = useState<Job[]>(initialJobs);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();

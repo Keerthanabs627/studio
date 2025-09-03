@@ -12,8 +12,10 @@ import { useToast } from "@/hooks/use-toast";
 import { updateProfile } from "../actions";
 import type { Profile } from "../actions";
 import { useRouter } from "next/navigation";
+import { useI18n } from "@/locales/client";
 
-export function ProfileClient({ initialProfile, t }: { initialProfile: Profile, t: any }) {
+export function ProfileClient({ initialProfile }: { initialProfile: Profile }) {
+  const t = useI18n();
   const router = useRouter();
   const [name, setName] = useState(initialProfile.name);
   const [phone, setPhone] = useState(initialProfile.phone);

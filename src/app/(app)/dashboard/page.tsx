@@ -1,15 +1,10 @@
 
 import { DashboardClient } from "./components/dashboard-client";
-import { getDictionary } from '@/locales/dictionaries';
-import { getLocaleFromCookie } from '@/lib/utils';
 import { getProfile } from "../profile/actions";
 import { getWeather } from "./actions";
 import { getReminders } from "../reminders/actions";
 
 export default async function DashboardPage() {
-  const locale = await getLocaleFromCookie();
-  const t = await getDictionary(locale);
-
   const profile = await getProfile();
   const weatherResult = await getWeather();
   const reminders = await getReminders();
@@ -24,7 +19,6 @@ export default async function DashboardPage() {
   return (
     <div>
         <DashboardClient 
-            t={t} 
             profile={profile} 
             initialWeather={weatherResult.data || null}
             todaysReminders={todaysReminders}

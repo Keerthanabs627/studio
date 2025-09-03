@@ -6,9 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export async function getLocaleFromCookie(): Promise<Locale> {
-    // This is a client-side only function now.
-    // The server-side logic is in layout.tsx.
+export function getLocaleFromCookie(): Locale {
     if (typeof document === 'undefined') {
         return i18n.defaultLocale;
     }

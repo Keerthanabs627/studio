@@ -16,8 +16,10 @@ import { type Post } from "../data";
 import { type Profile } from "../../profile/actions";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/locales/client";
 
-export function CommunityClient({ initialPosts, profile, t }: { initialPosts: Post[], profile: Profile | null, t: any }) {
+export function CommunityClient({ initialPosts, profile }: { initialPosts: Post[], profile: Profile | null }) {
+  const t = useI18n();
   const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [newPostContent, setNewPostContent] = useState("");
   const [category, setCategory] = useState("Crop");

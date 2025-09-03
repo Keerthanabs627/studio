@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 "use client";
 
@@ -12,8 +13,10 @@ import { updateNotificationPreferences, saveFCMToken } from "../../profile/actio
 import type { Profile } from "../../profile/actions";
 import { Separator } from "@/components/ui/separator";
 import { getFCMToken } from "@/lib/firebase";
+import { useI18n } from "@/locales/client";
 
-export function NotificationsClient({ initialPreferences, t }: { initialPreferences: Profile['notifications'], t: any }) {
+export function NotificationsClient({ initialPreferences }: { initialPreferences: Profile['notifications'] }) {
+    const t = useI18n();
     const { toast } = useToast();
     const [preferences, setPreferences] = useState(initialPreferences);
     const [isSaving, startTransition] = useTransition();

@@ -10,10 +10,12 @@ import { Label } from '@/components/ui/label';
 import { Bell, Plus, Trash2, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { type Reminder } from '../actions';
+import { useI18n } from '@/locales/client';
 
 const REMINDERS_STORAGE_KEY = 'agripulse-reminders';
 
-export function RemindersClient({ initialReminders, t }: { initialReminders: Reminder[], t: any }) {
+export function RemindersClient({ initialReminders }: { initialReminders: Reminder[] }) {
+  const t = useI18n();
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [isPending, startTransition] = useTransition();
 

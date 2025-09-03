@@ -1,3 +1,4 @@
+
 // @ts-nocheck
 'use client';
 
@@ -10,6 +11,7 @@ import {getWeather, type WeatherData} from '../../dashboard/actions';
 import { Skeleton } from "@/components/ui/skeleton";
 import { Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog, Info } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useI18n } from '@/locales/client';
 
 const iconMap: { [key: string]: React.ElementType } = {
   Sunny: Sun,
@@ -71,7 +73,8 @@ function ForecastDisplay({ weatherData, loading, isOnline }: { weatherData: Weat
   );
 }
 
-export function WeatherClient({ t, initialWeatherData, initialLocation }: { t: any, initialWeatherData: WeatherData[] | null, initialLocation: string }) {
+export function WeatherClient({ initialWeatherData, initialLocation }: { initialWeatherData: WeatherData[] | null, initialLocation: string }) {
+  const t = useI18n();
   const [weatherData, setWeatherData] = useState<WeatherData[] | null>(initialWeatherData);
   const [isWeatherPending, startWeatherTransition] = useTransition();
   const [isOnline, setIsOnline] = useState(true);

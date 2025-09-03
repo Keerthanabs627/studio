@@ -2,32 +2,25 @@
 'use server';
 
 import {
-  getRealTimeMarketPrices,
-  MarketPricesOutput,
-} from '@/ai/flows/market-prices-flow';
-import {
   getVoiceCommandResponse,
   type VoiceCommandInput,
   type VoiceCommandOutput,
 } from './voice-command-actions';
-import { getMarketPrices as getMarketPricesFromTool } from '@/ai/tools/agronomic-tools';
+import { marketData } from './data';
+
+export type PriceData = (typeof marketData)[0];
 
 
 export async function getMarketPrices(): Promise<{
-  data: {
-    name: string;
-    price: string;
-    key: string;
-    trend: 'up' | 'down' | 'stable';
-    change: string;
-  }[];
+  data: PriceData[];
   error?: string;
 }> {
   try {
-    const marketData = await getRealTimeMarketPrices();
-    return {data: marketData.prices};
+    // In a real app, this could fetch from an API.
+    // For this prototype, we're returning mock data.
+    return { data: marketData };
   } catch (error) {
-    console.error('Error fetching real-time market prices:', error);
+    console.error('Error fetching market prices:', error);
     return {
       data: [],
       error: 'An unexpected error occurred while fetching market prices.',

@@ -11,14 +11,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { getMarketPrices, getVoiceCommandResponseHandler } from './actions';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import type { PriceData } from './actions';
 
-type PriceData = {
-  key: string;
-  name: string;
-  price: string;
-  trend: 'up' | 'down' | 'stable';
-  change: string;
-};
 
 const getTrendProps = (trend: string) => {
     switch (trend) {
@@ -165,4 +159,3 @@ export default function MarketPricesPage() {
     </div>
   );
 }
-

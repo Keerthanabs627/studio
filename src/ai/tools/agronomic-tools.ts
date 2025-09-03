@@ -15,7 +15,7 @@ import {
   type SoilSuitabilityInput,
 } from '@/ai/flows/soil-suitability-flow';
 import {getWeatherForecast} from '@/ai/flows/weather-flow';
-import {getRealTimeMarketPrices} from '@/ai/flows/market-prices-flow';
+import { getMarketPrices } from '@/app/(app)/market-prices/actions';
 import {z} from 'zod';
 
 export const weatherTool = ai.defineTool(
@@ -140,9 +140,9 @@ export const getMarketPriceTool = ai.defineTool(
   },
   async input => {
     try {
-      const prices = await getRealTimeMarketPrices();
+      const { data: prices } = await getMarketPrices();
       const commodityLower = input.commodity.toLowerCase();
-      const foundPrice = prices.prices.find(p =>
+      const foundPrice = prices.find(p =>
         p.name.toLowerCase().includes(commodityLower)
       );
 

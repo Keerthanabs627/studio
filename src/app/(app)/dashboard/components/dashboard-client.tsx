@@ -1,5 +1,4 @@
 
-// @ts-nocheck
 "use client";
 
 import { useI18n } from "@/locales/client";
@@ -11,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import { Bell, Calculator, Compass, Droplets, Leaf, LineChart, Map, Stethoscope, Users, Wrench, Sun, Cloud, CloudRain, Wind, Snowflake, CloudSun, Zap, CloudFog, Landmark, Bot } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Dictionary } from "@/locales/dictionaries";
 
 const iconMap: { [key: string]: React.ElementType } = {
   Sunny: Sun,
@@ -25,8 +23,9 @@ const iconMap: { [key: string]: React.ElementType } = {
 };
 
 
-export function DashboardClient({ t, profile, initialWeather, todaysReminders }: { t: Dictionary, profile: Profile | null, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
-
+export function DashboardClient({ profile, initialWeather, todaysReminders }: { profile: Profile | null, initialWeather: WeatherData[] | null, todaysReminders: Reminder[] }) {
+  const t = useI18n();
+  
   const quickLinks = [
     { href: '/fertilizer-calculator', label: t.sidebar.fertilizer_calculator, icon: Droplets },
     { href: '/crop-doctor', label: t.sidebar.crop_doctor, icon: Stethoscope },

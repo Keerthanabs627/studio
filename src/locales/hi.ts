@@ -13,6 +13,7 @@ export default {
     ai_chatbot: 'AI चैटबॉट',
     guide: 'गाइड',
     codes: 'कोड',
+    profile: 'प्रोफ़ाइल',
   },
   dashboard: {
     welcome: 'नमस्ते समुदाय',
@@ -216,7 +217,7 @@ export default {
     }
   },
   profile: {
-    title: 'हमारी प्रोफ़ाइल',
+    title: 'प्रोफ़ाइल',
     description: 'अपनी खाता सेटिंग्स और व्यक्तिगत जानकारी प्रबंधित करें।',
     card1: {
       title: 'व्यक्तिगत जानकारी',
@@ -224,12 +225,6 @@ export default {
       name_label: 'पूरा नाम',
       phone_label: 'फ़ोन नंबर',
       button: 'बदलाव सहेजें',
-    },
-    card2: {
-      title: 'सूचनाएं',
-      description: 'ऐप से सूचनाएं कैसे प्राप्त करें, इसे प्रबंधित करें।',
-      manage_title: 'सूचना सेटिंग्स प्रबंधित करें',
-      manage_description: 'अपनी SMS और WhatsApp प्राथमिकताएँ सेट करने के लिए यहाँ क्लिक करें।',
     },
     toast: {
       title: 'प्रोफ़ाइल अपडेट किया गया',

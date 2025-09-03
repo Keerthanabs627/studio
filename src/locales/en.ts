@@ -13,6 +13,7 @@ export default {
     ai_chatbot: 'AI Chatbot',
     guide: 'Guide',
     codes: 'Codes',
+    profile: 'Profile',
   },
   dashboard: {
     welcome: 'Hello community',
@@ -216,7 +217,7 @@ export default {
     }
   },
   profile: {
-    title: 'Our Profile',
+    title: 'Profile',
     description: 'Manage your account settings and personal information.',
     card1: {
       title: 'Personal Information',
@@ -224,12 +225,6 @@ export default {
       name_label: 'Full Name',
       phone_label: 'Phone Number',
       button: 'Save Changes',
-    },
-    card2: {
-      title: 'Notifications',
-      description: 'Manage how you receive notifications from the app.',
-      manage_title: 'Manage Notification Settings',
-      manage_description: 'Click here to set your SMS and WhatsApp preferences.',
     },
     toast: {
       title: 'Profile Updated',

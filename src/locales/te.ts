@@ -13,6 +13,7 @@ export default {
     ai_chatbot: 'AI చాట్‌బాట్',
     guide: 'గైడ్',
     codes: 'కోడ్‌లు',
+    profile: 'ప్రొఫైల్',
   },
   dashboard: {
     welcome: 'నమస్కారం సంఘం',
@@ -216,7 +217,7 @@ export default {
     }
   },
   profile: {
-    title: 'మా ప్రొఫైల్',
+    title: 'ప్రొఫైల్',
     description: 'మీ ఖాతా సెట్టింగ్‌లు మరియు వ్యక్తిగత సమాచారాన్ని నిర్వహించండి.',
     card1: {
       title: 'వ్యక్తిగత సమాచారం',
@@ -224,12 +225,6 @@ export default {
       name_label: 'పూర్తి పేరు',
       phone_label: 'ఫోను నంబరు',
       button: 'మార్పులను భద్రపరచండి',
-    },
-    card2: {
-      title: 'నోటిఫికేషన్‌లు',
-      description: 'యాప్ నుండి నోటిఫికేషన్‌లను ఎలా స్వీకరించాలో నిర్వహించండి.',
-      manage_title: 'నోటిఫికేషన్ సెట్టింగ్‌లను నిర్వహించండి',
-      manage_description: 'మీ SMS మరియు WhatsApp ప్రాధాన్యతలను సెట్ చేయడానికి ఇక్కడ క్లిక్ చేయండి.',
     },
     toast: {
       title: 'ప్రొఫైల్ నవీకరించబడింది',

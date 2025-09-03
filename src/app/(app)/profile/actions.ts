@@ -18,7 +18,7 @@ export interface Profile {
 // This is a temporary in-memory "database" for the prototype.
 // In a real application, this would be a database like Firestore and tied to a user session.
 let userProfile: Profile = {
-  name: "Rakesh Sharma",
+  name: "Vijay Kumar",
   phone: "+91 98765 43210",
   notifications: {
     sms: true,

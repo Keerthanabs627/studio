@@ -8,20 +8,15 @@ const fertilizerSchema = z.object({
   area: z.number().min(0.1, 'Area must be greater than 0.'),
 });
 
-const StagePlanSchema = z.object({
-  stage: z.string(),
-  recommendation: z.string(),
-  reasoning: z.string(),
-  estimated_cost: z.string(),
+const FertilizerOutputSchema = z.object({
+  required_fertilizer_kg: z.number(),
+  fertilizer_cost: z.number(),
+  expected_crop_value: z.number(),
+  total_profit: z.number(),
+  status_message: z.string(),
 });
 
-export type FertilizerRecommendation = {
-  plan: z.infer<typeof StagePlanSchema>[];
-  waste_savings_alert: {
-    notice: string;
-    savings_estimate: string;
-  };
-};
+export type FertilizerRecommendation = z.infer<typeof FertilizerOutputSchema>;
 
 export async function getFertilizerRecommendation(input: { cropName: string, area: number }): Promise<{ data?: FertilizerRecommendation; error?: string }> {
   const validatedInput = fertilizerSchema.safeParse(input);

@@ -17,23 +17,12 @@ const FertilizerInputSchema = z.object({
 });
 export type FertilizerInput = z.infer<typeof FertilizerInputSchema>;
 
-const StagePlanSchema = z.object({
-  stage: z.string().describe('The growth stage (e.g., "Planting", "Vegetative").'),
-  recommendation: z.string().describe('The specific fertilizer recommendation for this stage.'),
-  reasoning: z.string().describe('A brief explanation for why this recommendation is made.'),
-  estimated_cost: z
-    .string()
-    .describe(
-      'An estimated cost for this stage in Indian Rupees (e.g., "₹800 - ₹1000 per acre").'
-    ),
-});
-
 const FertilizerOutputSchema = z.object({
-  plan: z.array(StagePlanSchema).describe('A multi-stage fertilization plan for the crop.'),
-  waste_savings_alert: z.object({
-    notice: z.string().describe('A specific, actionable notice about how to avoid common fertilizer waste for this crop.'),
-    savings_estimate: z.string().describe('An estimated cost saving in Indian Rupees (e.g., "₹1200 per acre").'),
-  }),
+  required_fertilizer_kg: z.number().describe('The total required NPK fertilizer in kg for the area.'),
+  fertilizer_cost: z.number().describe('The estimated cost of the fertilizer in Indian Rupees (INR).'),
+  expected_crop_value: z.number().describe('The estimated total value of the crop yield in Indian Rupees (INR).'),
+  total_profit: z.number().describe('The estimated total profit (crop value - fertilizer cost) in Indian Rupees (INR).'),
+  status_message: z.string().describe('A status message about the plan, e.g., "Planned fertilizer within safe range."'),
 });
 export type FertilizerOutput = z.infer<typeof FertilizerOutputSchema>;
 
@@ -45,16 +34,21 @@ const fertilizerCalculatorPrompt = ai.definePrompt({
   name: 'fertilizerCalculatorPrompt',
   input: {schema: FertilizerInputSchema},
   output: {schema: FertilizerOutputSchema},
-  prompt: `You are an agricultural expert creating a "Smart Yield Plan" for an Indian farmer. Your goal is to maximize yield while minimizing fertilizer waste.
+  prompt: `You are an agricultural expert creating a "Smart Yield Plan" for an Indian farmer. Your goal is to provide a clear and concise requirement check.
   
-  Based on the crop name, create a realistic, multi-stage fertilization plan. Assume average soil conditions for that crop in India. The plan should have 2-3 key growth stages. For each stage, provide a recommendation, reasoning, AND an estimated cost in Indian Rupees (INR).
+  Based on the crop name and area, provide the following estimates in Indian Rupees (INR):
+  1.  **Required Fertilizer (kg)**: Calculate the total NPK fertilizer needed.
+  2.  **Fertilizer Cost**: Estimate the cost of the required fertilizer.
+  3.  **Expected Crop Value**: Estimate the market value of the crop yield from the given area.
+  4.  **Total Profit**: Calculate the expected profit.
+  5.  **Status Message**: Provide a brief status message, like "Planned fertilizer within safe range."
 
-  CRUCIALLY, you must also provide a "Waste Savings Alert". This alert must identify a common fertilizer over-application practice for the given crop and advise the farmer on how to avoid it, including a specific estimated cost saving in Indian Rupees (INR).
+  Use realistic, current data for Indian agricultural conditions.
 
   Crop: {{{cropName}}}
   Area: {{{area}}} acres
 
-  Generate the structured plan and the waste savings alert.
+  Generate the structured output with numerical values for costs, value, and profit.
   `,
 });
 

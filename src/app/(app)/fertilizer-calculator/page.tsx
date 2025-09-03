@@ -7,12 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getFertilizerRecommendation } from "./actions";
 import type { FertilizerRecommendation } from "./actions";
-import { Loader2, Zap, AlertTriangle, IndianRupee } from "lucide-react";
+import { Loader2, Zap, CheckCircle2 } from "lucide-react";
 import { useI18n } from "@/locales/client";
-import { Separator } from "@/components/ui/separator";
 
 const crops = [
     "Rice", "Wheat", "Maize", "Barley", "Oats", "Sorghum", "Millet", "Rye",
@@ -48,6 +46,15 @@ export default function SmartYieldOptimizerPage() {
             }
         });
     };
+    
+    const formatCurrency = (value: number) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(value);
+    }
 
     return (
         <div className="space-y-6">
@@ -101,30 +108,18 @@ export default function SmartYieldOptimizerPage() {
                                 <Loader2 className="w-8 h-8 animate-spin text-primary" />
                              </div>
                         ) : results ? (
-                            <div className="space-y-4">
-                                <div className="space-y-4">
-                                  {results.plan.map((p, index) => (
-                                    <div key={index} className="p-4 rounded-lg bg-background/50 border">
-                                        <div className="flex justify-between items-center mb-2">
-                                            <h4 className="font-semibold text-md">{t.fertilizer_calculator.card2.stage} {index + 1}: {p.stage}</h4>
-                                            <div className="flex items-center gap-1 text-sm font-semibold text-primary">
-                                                <IndianRupee className="h-4 w-4" />
-                                                <span>{p.estimated_cost}</span>
-                                            </div>
-                                        </div>
-                                      <p className="text-sm font-medium">{p.recommendation}</p>
-                                      <p className="text-xs text-muted-foreground mt-1">{p.reasoning}</p>
-                                    </div>
-                                  ))}
+                            <div className="space-y-3 text-lg">
+                                <p><span className="font-semibold">For {area} acre(s) of {crop}:</span></p>
+                                <ul className="space-y-2 pl-2 text-base">
+                                    <li><strong>Required fertilizer:</strong> NPK ≈ {results.required_fertilizer_kg} kg</li>
+                                    <li><strong>Fertilizer cost:</strong> {formatCurrency(results.fertilizer_cost)}</li>
+                                    <li><strong>Expected crop value:</strong> {formatCurrency(results.expected_crop_value)}</li>
+                                    <li className="font-bold text-primary"><strong>Total profit:</strong> {formatCurrency(results.total_profit)}</li>
+                                </ul>
+                                <div className="flex items-center gap-2 pt-2 text-base text-green-400">
+                                    <CheckCircle2 className="h-5 w-5"/>
+                                    <p>{results.status_message}</p>
                                 </div>
-                                <Alert className="border-yellow-500/50 text-yellow-foreground bg-yellow-500/10">
-                                    <AlertTriangle className="h-4 w-4 !text-yellow-500" />
-                                    <AlertTitle className="text-yellow-400">{t.fertilizer_calculator.card2.waste_alert_title}</AlertTitle>
-                                    <AlertDescription>
-                                        <p>{results.waste_savings_alert.notice}</p>
-                                        <p className="font-semibold mt-2">{t.fertilizer_calculator.card2.savings_estimate_label} {results.waste_savings_alert.savings_estimate}</p>
-                                    </AlertDescription>
-                                </Alert>
                             </div>
                         ) : (
                             <div className="text-center text-muted-foreground pt-10 flex flex-col items-center">

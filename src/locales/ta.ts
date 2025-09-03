@@ -123,7 +123,7 @@ export default {
       grapes: 'திராட்சை (கிலோ)',
       guava: 'கொய்யா (கிலோ)',
       papaya: 'பப்பாளி (கிலோ)',
-      pomegranate: 'மாதுளை (கிலோ)',
+      pomegranate: 'மாதுளை (கILO)',
       lemon: 'எலுமிச்சை (கிலோ)',
       coriander: 'கொத்தமல்லி (கிலோ)',
       cumin: 'சீரகம் (கிலோ)',

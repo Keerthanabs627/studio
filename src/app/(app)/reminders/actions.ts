@@ -1,8 +1,9 @@
+
 // @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { db } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp } from 'firebase/firestore';
 
 export interface Reminder {
@@ -14,7 +15,7 @@ export interface Reminder {
 }
 
 export async function getReminders(): Promise<Reminder[]> {
-  const remindersCollection = collection(db, 'reminders');
+  const remindersCollection = collection(adminDb, 'reminders');
   const q = query(remindersCollection, orderBy('createdAt', 'desc'));
   const remindersSnapshot = await getDocs(q);
   
@@ -35,7 +36,7 @@ export async function addReminder(reminder: Omit<Reminder, 'id' | 'createdAt'>) 
         ...reminder,
         createdAt: serverTimestamp(),
     };
-    const docRef = await addDoc(collection(db, "reminders"), newReminder);
+    const docRef = await addDoc(collection(adminDb, "reminders"), newReminder);
     revalidatePath('/reminders');
     return {
         ...newReminder,
@@ -45,7 +46,7 @@ export async function addReminder(reminder: Omit<Reminder, 'id' | 'createdAt'>) 
 }
 
 export async function deleteReminder(id: string) {
-    await deleteDoc(doc(db, "reminders", id));
+    await deleteDoc(doc(adminDb, "reminders", id));
     revalidatePath('/reminders');
     return Promise.resolve();
 }

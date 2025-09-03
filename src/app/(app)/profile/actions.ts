@@ -1,9 +1,10 @@
+
 // @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { db } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebase';
 import { collection, addDoc, doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 export interface Profile {
@@ -18,7 +19,7 @@ export interface Profile {
 const PROFILE_ID = "shared_profile"; // Using a fixed ID for the single shared profile
 
 export async function getProfile(): Promise<Profile> {
-  const profileDocRef = doc(db, 'profiles', PROFILE_ID);
+  const profileDocRef = doc(adminDb, 'profiles', PROFILE_ID);
   const profileSnap = await getDoc(profileDocRef);
 
   if (profileSnap.exists()) {
@@ -58,7 +59,7 @@ export async function updateProfile(data: Pick<Profile, 'name' | 'phone'>) {
       phone: validatedFields.data.phone
   };
 
-  const profileDocRef = doc(db, 'profiles', PROFILE_ID);
+  const profileDocRef = doc(adminDb, 'profiles', PROFILE_ID);
   await setDoc(profileDocRef, updatedProfile, { merge: true });
 
   revalidatePath('/profile');
@@ -81,7 +82,7 @@ export async function updateNotificationPreferences(data: Profile['notifications
         };
     }
 
-    const profileDocRef = doc(db, 'profiles', PROFILE_ID);
+    const profileDocRef = doc(adminDb, 'profiles', PROFILE_ID);
     await setDoc(profileDocRef, { notifications: validatedFields.data }, { merge: true });
     
     revalidatePath('/notifications');
@@ -96,7 +97,7 @@ export async function saveFCMToken(token: string) {
         return { error: 'Invalid token provided.' };
     }
     try {
-        const tokenDocRef = doc(db, "fcm_tokens", token);
+        const tokenDocRef = doc(adminDb, "fcm_tokens", token);
         await setDoc(tokenDocRef, {
             token: token,
             createdAt: serverTimestamp(),

@@ -1,15 +1,16 @@
+
 // @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
 import { getProfile } from '../profile/actions';
 import { type Job } from './data';
-import { db } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp } from "firebase/firestore";
 
 
 export async function getJobs(): Promise<Job[]> {
-  const jobsCollection = collection(db, 'jobs');
+  const jobsCollection = collection(adminDb, 'jobs');
   const q = query(jobsCollection, orderBy('createdAt', 'desc'));
   const jobsSnapshot = await getDocs(q);
   
@@ -39,7 +40,7 @@ export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'cr
     ...job,
   };
   
-  const docRef = await addDoc(collection(db, "jobs"), newJob);
+  const docRef = await addDoc(collection(adminDb, "jobs"), newJob);
 
   revalidatePath('/labor-marketplace');
   
@@ -54,7 +55,7 @@ export async function addJob(job: Omit<Job, 'id' | 'posterName' | 'avatar' | 'cr
 
 
 export async function deleteJob(id: string) {
-    await deleteDoc(doc(db, "jobs", id));
+    await deleteDoc(doc(adminDb, "jobs", id));
     revalidatePath('/labor-marketplace');
     return Promise.resolve();
 }

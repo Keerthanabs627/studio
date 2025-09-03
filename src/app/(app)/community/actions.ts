@@ -1,14 +1,15 @@
+
 // @ts-nocheck
 'use server';
 
 import { revalidatePath } from 'next/cache';
 import { getProfile } from '../profile/actions';
 import { type Post } from './data';
-import { db } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebase';
 import { collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "firebase/firestore";
 
 export async function getPosts(): Promise<Post[]> {
-  const postsCollection = collection(db, 'posts');
+  const postsCollection = collection(adminDb, 'posts');
   const q = query(postsCollection, orderBy('createdAt', 'desc'));
   const postsSnapshot = await getDocs(q);
   
@@ -42,7 +43,7 @@ export async function addPost({ content, category }: { content: string, category
     category,
   };
 
-  const postsCollection = collection(db, 'posts');
+  const postsCollection = collection(adminDb, 'posts');
   const docRef = await addDoc(postsCollection, newPost);
   
   revalidatePath('/community');

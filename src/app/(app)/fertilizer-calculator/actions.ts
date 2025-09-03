@@ -1,6 +1,6 @@
 "use server";
 
-import { getFertilizerRecommendation as getFertilizerRecommendationFlow } from "@/ai/flows/fertilizer-calculator-flow";
+import { getFertilizerRecommendation as getFertilizerRecommendationFlow, FertilizerOutput } from "@/ai/flows/fertilizer-calculator-flow";
 import { z } from 'zod';
 
 const fertilizerSchema = z.object({
@@ -8,15 +8,7 @@ const fertilizerSchema = z.object({
   area: z.number().min(0.1, 'Area must be greater than 0.'),
 });
 
-const FertilizerOutputSchema = z.object({
-  required_fertilizer_kg: z.number(),
-  fertilizer_cost: z.number(),
-  expected_crop_value: z.number(),
-  total_profit: z.number(),
-  status_message: z.string(),
-});
-
-export type FertilizerRecommendation = z.infer<typeof FertilizerOutputSchema>;
+export type FertilizerRecommendation = FertilizerOutput;
 
 export async function getFertilizerRecommendation(input: { cropName: string, area: number }): Promise<{ data?: FertilizerRecommendation; error?: string }> {
   const validatedInput = fertilizerSchema.safeParse(input);

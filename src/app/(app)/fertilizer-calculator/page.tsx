@@ -9,8 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { getFertilizerRecommendation } from "./actions";
 import type { FertilizerRecommendation } from "./actions";
-import { Loader2, Zap, CheckCircle2 } from "lucide-react";
+import { Loader2, Zap, AlertTriangle, Leaf } from "lucide-react";
 import { useI18n } from "@/locales/client";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const crops = [
     "Rice", "Wheat", "Maize", "Barley", "Oats", "Sorghum", "Millet", "Rye",
@@ -47,23 +48,14 @@ export default function SmartYieldOptimizerPage() {
         });
     };
     
-    const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR',
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }).format(value);
-    }
-
     return (
         <div className="space-y-6">
             <div>
                 <h1 className="text-3xl font-bold tracking-tight">{t.fertilizer_calculator.title}</h1>
                 <p className="text-muted-foreground">{t.fertilizer_calculator.description}</p>
             </div>
-            <div className="grid gap-8 md:grid-cols-2">
-                <Card>
+            <div className="grid gap-8 md:grid-cols-3">
+                <Card className="md:col-span-1">
                     <CardHeader>
                         <CardTitle>{t.fertilizer_calculator.card1.title}</CardTitle>
                         <CardDescription>{t.fertilizer_calculator.card1.description}</CardDescription>
@@ -88,47 +80,59 @@ export default function SmartYieldOptimizerPage() {
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button onClick={handleCalculate} disabled={isPending || !crop || !area}>
+                        <Button onClick={handleCalculate} disabled={isPending || !crop || !area} className="w-full">
                             {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Zap className="mr-2 h-4 w-4" />}
                             {t.fertilizer_calculator.card1.button}
                         </Button>
                     </CardFooter>
                 </Card>
 
-                <Card className="bg-secondary/30">
-                    <CardHeader>
-                        <CardTitle>{t.fertilizer_calculator.card2.title}</CardTitle>
-                        <CardDescription>
-                            {results ? `${t.fertilizer_calculator.card2.description_results_prefix} ${crop}` : t.fertilizer_calculator.card2.description_initial}
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        {isPending ? (
-                             <div className="flex items-center justify-center h-full min-h-[200px]">
-                                <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                             </div>
-                        ) : results ? (
-                            <div className="space-y-3 text-lg">
-                                <p><span className="font-semibold">For {area} acre(s) of {crop}:</span></p>
-                                <ul className="space-y-2 pl-2 text-base">
-                                    <li><strong>Required fertilizer:</strong> NPK ≈ {results.required_fertilizer_kg} kg</li>
-                                    <li><strong>Fertilizer cost:</strong> {formatCurrency(results.fertilizer_cost)}</li>
-                                    <li><strong>Expected crop value:</strong> {formatCurrency(results.expected_crop_value)}</li>
-                                    <li className="font-bold text-primary"><strong>Total profit:</strong> {formatCurrency(results.total_profit)}</li>
-                                </ul>
-                                <div className="flex items-center gap-2 pt-2 text-base text-green-400">
-                                    <CheckCircle2 className="h-5 w-5"/>
-                                    <p>{results.status_message}</p>
-                                </div>
+                <div className="md:col-span-2 space-y-6">
+                     {isPending ? (
+                         <div className="flex items-center justify-center h-full min-h-[300px] bg-card rounded-lg border">
+                            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                         </div>
+                    ) : results ? (
+                        <div>
+                             <div className="mb-4">
+                                <h2 className="text-2xl font-bold">{t.fertilizer_calculator.card2.title}</h2>
+                                <p className="text-muted-foreground">{`${t.fertilizer_calculator.card2.description_results_prefix} ${crop}`}</p>
                             </div>
-                        ) : (
-                            <div className="text-center text-muted-foreground pt-10 flex flex-col items-center">
-                                <Zap className="w-12 h-12 text-muted-foreground/50 mb-4" />
-                                {t.fertilizer_calculator.card2.initial_text}
+                            <div className="space-y-4">
+                                {results.plan.map((stage, index) => (
+                                    <Card key={index}>
+                                        <CardHeader>
+                                            <div className="flex justify-between items-start">
+                                                <CardTitle className="text-lg">{stage.stage}</CardTitle>
+                                                <div className="text-right font-semibold text-primary">{stage.estimated_cost}</div>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <p className="font-semibold mb-2">{stage.recommendation}</p>
+                                            <p className="text-sm text-muted-foreground">{stage.reasoning}</p>
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                                {results.waste_savings_alert && (
+                                    <Alert>
+                                        <AlertTriangle className="h-4 w-4" />
+                                        <AlertTitle className="font-bold">{t.fertilizer_calculator.card2.waste_alert_title}</AlertTitle>
+                                        <AlertDescription>
+                                            {results.waste_savings_alert.notice}
+                                            <span className="block font-semibold mt-2">{t.fertilizer_calculator.card2.savings_estimate_label} {results.waste_savings_alert.savings_estimate}</span>
+                                        </AlertDescription>
+                                    </Alert>
+                                )}
                             </div>
-                        )}
-                    </CardContent>
-                </Card>
+                        </div>
+                    ) : (
+                        <div className="text-center text-muted-foreground h-full flex flex-col justify-center items-center bg-card rounded-lg border min-h-[300px]">
+                            <Leaf className="w-12 h-12 text-muted-foreground/50 mb-4" />
+                            <p className="font-semibold">{t.fertilizer_calculator.card2.description_initial}</p>
+                            <p className="text-sm">{t.fertilizer_calculator.card2.initial_text}</p>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -75,26 +75,6 @@ export function ProfileClient({ initialProfile }: { initialProfile: Profile }) {
           </Button>
         </CardFooter>
       </Card>
-      <Card>
-        <CardHeader>
-            <CardTitle>{t.profile.card2.title}</CardTitle>
-            <CardDescription>{t.profile.card2.description}</CardDescription>
-        </CardHeader>
-        <CardContent>
-           <button
-             onClick={() => router.push('/notifications')}
-             className="w-full flex items-center justify-between p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-colors"
-           >
-                <div className="flex items-center gap-3 text-left">
-                    <Bell className="h-5 w-5 text-primary"/>
-                    <div>
-                        <p className="font-medium">{t.profile.card2.manage_title}</p>
-                        <p className="text-sm text-muted-foreground">{t.profile.card2.manage_description}</p>
-                    </div>
-                </div>
-           </button>
-        </CardContent>
-      </Card>
     </div>
   );
 }

@@ -4,7 +4,7 @@
 import { revalidatePath } from 'next/cache';
 import { getProfile } from '../profile/actions';
 import { type Post } from './data';
-import { adminDb } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebase/admin';
 import { collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "firebase/firestore";
 
 export async function getPosts(): Promise<Post[]> {

@@ -12,7 +12,7 @@ import { Loader2, BellRing } from "lucide-react";
 import { updateNotificationPreferences, saveFCMToken } from "../../profile/actions";
 import type { Profile } from "../../profile/actions";
 import { Separator } from "@/components/ui/separator";
-import { getFCMToken } from "@/lib/firebase";
+import { getFCMToken } from "@/lib/firebase/client";
 import { useI18n } from "@/locales/client";
 
 export function NotificationsClient({ initialPreferences }: { initialPreferences: Profile['notifications'] }) {

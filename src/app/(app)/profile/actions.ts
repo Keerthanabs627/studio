@@ -3,16 +3,12 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { adminDb } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebase/admin';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 export interface Profile {
   name: string;
   phone: string;
-  notifications: {
-    sms: boolean;
-    whatsapp: boolean;
-  };
 }
 
 const PROFILE_ID = "shared_profile"; // Using a fixed ID for the single shared profile
@@ -28,10 +24,6 @@ export async function getProfile(): Promise<Profile> {
     return {
       name: "",
       phone: "",
-      notifications: {
-        sms: true,
-        whatsapp: false,
-      }
     };
   }
 }
@@ -64,47 +56,4 @@ export async function updateProfile(data: Pick<Profile, 'name' | 'phone'>) {
   revalidatePath('/profile');
   
   return { data: updatedProfile };
-}
-
-
-const notificationSchema = z.object({
-    sms: z.boolean(),
-    whatsapp: z.boolean(),
-});
-
-export async function updateNotificationPreferences(data: Profile['notifications']) {
-    const validatedFields = notificationSchema.safeParse(data);
-
-    if (!validatedFields.success) {
-        return {
-            error: validatedFields.error.flatten().fieldErrors,
-        };
-    }
-
-    const profileDocRef = doc(adminDb, 'profiles', PROFILE_ID);
-    await setDoc(profileDocRef, { notifications: validatedFields.data }, { merge: true });
-    
-    revalidatePath('/notifications');
-    revalidatePath('/profile');
-    
-    const updatedProfile = await getProfile();
-    return { data: updatedProfile };
-}
-
-export async function saveFCMToken(token: string) {
-    if (!token) {
-        return { error: 'Invalid token provided.' };
-    }
-    try {
-        const tokenDocRef = doc(adminDb, "fcm_tokens", token);
-        await setDoc(tokenDocRef, {
-            token: token,
-            createdAt: serverTimestamp(),
-        });
-        return { success: true, message: 'Token saved successfully.' };
-
-    } catch (error) {
-        console.error("Error saving FCM token:", error);
-        return { error: 'Could not save FCM token.' };
-    }
 }

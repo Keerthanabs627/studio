@@ -2,7 +2,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { adminDb } from '@/lib/firebase';
+import { adminDb } from '@/lib/firebase/admin';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp } from 'firebase/firestore';
 
 export interface Reminder {

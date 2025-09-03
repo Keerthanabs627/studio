@@ -7,26 +7,19 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export async function getLocaleFromCookie(): Promise<Locale> {
+export function getLocaleFromCookie(): Locale {
+    // This function now only runs on the client-side.
+    // The server-side logic has been moved to the RootLayout.
     if (typeof window === 'undefined') {
-        // Server-side
-        try {
-            const { cookies } = await import('next/headers');
-            const cookieStore = cookies();
-            const localeCookie = cookieStore.get('NEXT_LOCALE')?.value;
-            const locale = localeCookie || i18n.defaultLocale;
-            return i18n.locales.includes(locale as Locale) ? (locale as Locale) : i18n.defaultLocale;
-        } catch (error) {
-            // This can happen during build time when headers are not available.
-            return i18n.defaultLocale;
-        }
+        return i18n.defaultLocale;
     }
-
-    // Client-side
+    
     const localeCookie = document.cookie
         .split('; ')
         .find(row => row.startsWith('NEXT_LOCALE='))
         ?.split('=')[1];
+    
     const locale = localeCookie || i18n.defaultLocale;
+    
     return i18n.locales.includes(locale as Locale) ? (locale as Locale) : i18n.defaultLocale;
 }

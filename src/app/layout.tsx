@@ -2,7 +2,8 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { getDictionary } from '@/locales/dictionaries';
-import { getLocaleFromCookie } from '@/lib/utils';
+import { i18n, type Locale } from '@/locales/config';
+import { cookies } from 'next/headers';
 import { I18nProvider } from '@/locales/i18n-provider';
 import { AppShell } from '@/components/layout/app-shell';
 
@@ -12,12 +13,20 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
 };
 
+async function getLocale(): Promise<Locale> {
+    const cookieStore = cookies();
+    const localeCookie = cookieStore.get('NEXT_LOCALE')?.value;
+    const locale = localeCookie || i18n.defaultLocale;
+    return i18n.locales.includes(locale as Locale) ? (locale as Locale) : i18n.defaultLocale;
+}
+
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocaleFromCookie();
+  const locale = await getLocale();
   const dictionary = await getDictionary(locale);
 
   return (
